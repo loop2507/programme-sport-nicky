@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Programme sport</title>
+  <title>Training Program</title>
   <style>
     :root {
       color-scheme: light;
@@ -498,8 +498,8 @@
 <body>
   <div class="app">
     <header class="top">
-      <strong>Programme sport</strong>
-      <span>Semaines 2026, séances simples, progression lisible</span>
+      <strong>Training Program</strong>
+      <span>2026 weeks, simple sessions, clear progress</span>
     </header>
 
     <main>
@@ -510,8 +510,8 @@
 
   <nav class="bottom-nav" aria-label="Navigation">
     <div class="bottom-nav-inner">
-      <button class="nav-btn active" type="button" data-tab="session">Séance</button>
-      <button class="nav-btn" type="button" data-tab="progress">Progression</button>
+      <button class="nav-btn active" type="button" data-tab="session">Session</button>
+      <button class="nav-btn" type="button" data-tab="progress">Progress</button>
     </div>
   </nav>
 
@@ -525,95 +525,139 @@
         id: "upperA",
         type: "strength",
         icon: "🏋️‍♀️🏃",
-        name: "Haut du corps A + course qualitative",
-        duration: "55 à 60 min + 25 à 30 min course",
-        focus: "Dos, épaules, bras, abdos anti-rotation",
-        note: "La course qualitative se fait après la musculation.",
+        name: "Upper Body A + Quality Run",
+        duration: "55 to 60 min + 25 to 30 min run",
+        focus: "Back, shoulders, arms, abs",
+        note: "The quality run is done after strength training.",
         exercises: [
-          exercise("latPulldown", "Lat pulldown", 3, "25 kg", 8, "8 à 12"),
-          exercise("seatedRow", "Seated row", 3, "20 kg", 8, "8 à 12"),
-          exercise("chestPress", "Chest press machine", 3, "à calibrer", 8, "8 à 12"),
-          exercise("shoulderPress", "Shoulder press machine", 3, "7,5 kg", 8, "8 à 12"),
-          exercise("facePull", "Seated face pull", 3, "17,5 kg", 12, "12 à 15"),
-          exercise("cableCurls", "Cable curls", 3, "7,5 kg", 10, "10 à 15"),
-          exercise("cableCrunch", "Cable crunch", 3, "à calibrer", 10, "10 à 15")
+          exercise("latPulldown", "Lat pulldown", 3, "25", 8, "8 to 12"),
+          exercise("seatedRow", "Seated row", 3, "20", 8, "8 to 12"),
+          exercise("chestPress", "Chest press machine", 3, "", 8, "8 to 12"),
+          exercise("shoulderPress", "Shoulder press machine", 3, "7,5", 8, "8 to 12"),
+          exercise("facePull", "Seated face pull", 3, "17,5", 12, "12 to 15"),
+          exercise("cableCurls", "Cable curls", 3, "7,5", 10, "10 to 15"),
+          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15")
         ]
       },
       {
         id: "lowerA",
         type: "strength",
         icon: "🏋️‍♀️",
-        name: "Bas du corps A",
-        duration: "60 à 70 min",
-        focus: "Fessiers et quadriceps",
-        note: "Séance prioritaire pour la recomposition.",
+        name: "Lower Body A",
+        duration: "60 to 70 min",
+        focus: "Glutes and quads",
+        note: "Priority session for body recomposition.",
         exercises: [
-          exercise("hipThrustA", "Machine or barbell hip thrust", 4, "à calibrer", 8, "8 à 12"),
-          exercise("legPress", "Leg press", 3, "à calibrer", 8, "8 à 12"),
-          exercise("bulgarianSplitSquat", "Bulgarian split squat or lunges", 3, "à calibrer", 8, "8 à 10 par jambe"),
-          exercise("legExtension", "Leg extension", 3, "à calibrer", 10, "10 à 15"),
-          exercise("abductionA", "Abduction machine", 3, "à calibrer", 15, "15 à 20"),
-          exercise("calves", "Calf raises", 3, "à calibrer", 10, "10 à 15"),
-          exercise("cableCrunch", "Cable crunch", 3, "à calibrer", 10, "10 à 15")
+          exercise("hipThrustA", "Machine or barbell hip thrust", 4, "", 8, "8 to 12"),
+          exercise("legPress", "Leg press", 3, "", 8, "8 to 12"),
+          exercise("bulgarianSplitSquat", "Bulgarian split squat or lunges", 3, "", 8, "8 to 10 per leg"),
+          exercise("legExtension", "Leg extension", 3, "", 10, "10 to 15"),
+          exercise("abductionA", "Abduction machine", 3, "", 15, "15 to 20"),
+          exercise("calves", "Calf raises", 3, "", 10, "10 to 15"),
+          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15")
         ]
       },
       {
         id: "upperB",
         type: "strength",
         icon: "🏋️‍♀️🏃",
-        name: "Haut du corps B + course facile",
-        duration: "55 à 60 min + 25 à 30 min course",
-        focus: "Épaules, dos, pectoraux, triceps, abdos",
-        note: "La course facile reste en aisance respiratoire après la musculation.",
+        name: "Upper Body B + Easy Run",
+        duration: "55 to 60 min + 25 to 30 min run",
+        focus: "Shoulders, back, chest, triceps, abs",
+        note: "The easy run stays conversational and is done after strength training.",
         exercises: [
-          exercise("shoulderPress", "Shoulder press machine", 3, "7,5 kg", 8, "8 à 12"),
-          exercise("inclineChestPress", "Chest press or incline press machine", 3, "à calibrer", 8, "8 à 12"),
-          exercise("latPulldown", "Lat pulldown", 3, "25 kg", 10, "10 à 12"),
-          exercise("seatedRow", "Seated row", 3, "20 kg", 10, "10 à 12"),
-          exercise("lateralRaise", "Lateral raises", 3, "à calibrer", 12, "12 à 20"),
-          exercise("tricepsPulley", "Cable triceps pushdown", 3, "à calibrer", 10, "10 à 15"),
-          exercise("cableCrunch", "Cable crunch", 3, "à calibrer", 10, "10 à 15")
+          exercise("shoulderPress", "Shoulder press machine", 3, "7,5", 8, "8 to 12"),
+          exercise("inclineChestPress", "Chest press or incline press machine", 3, "", 8, "8 to 12"),
+          exercise("latPulldown", "Lat pulldown", 3, "25", 10, "10 to 12"),
+          exercise("seatedRow", "Seated row", 3, "20", 10, "10 to 12"),
+          exercise("lateralRaise", "Lateral raises", 3, "", 12, "12 to 20"),
+          exercise("tricepsPulley", "Cable triceps pushdown", 3, "", 10, "10 to 15"),
+          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15")
         ]
       },
       {
         id: "lowerB",
         type: "strength",
         icon: "🏋️‍♀️",
-        name: "Bas du corps B",
-        duration: "60 à 70 min",
-        focus: "Fessiers, ischios et chaîne postérieure",
-        note: "Séance prioritaire, progression graduelle.",
+        name: "Lower Body B",
+        duration: "60 to 70 min",
+        focus: "Glutes, hamstrings, posterior chain",
+        note: "Priority session with gradual progression.",
         exercises: [
-          exercise("romanianDeadlift", "Dumbbell Romanian deadlift", 3, "à calibrer", 8, "8 à 10"),
-          exercise("hipThrustB", "Hip thrust or glute bridge", 3, "à calibrer", 10, "10 à 12"),
-          exercise("legCurl", "Leg curl", 3, "à calibrer", 10, "10 à 15"),
-          exercise("cableKickback", "Cable kickback", 3, "à calibrer", 12, "12 à 15 par jambe"),
-          exercise("backExtension", "Back extension", 3, "à calibrer", 10, "10 à 15"),
-          exercise("abductionB", "Abduction machine", 3, "à calibrer", 15, "15 à 20"),
-          exercise("cableCrunch", "Cable crunch", 3, "à calibrer", 10, "10 à 15")
+          exercise("romanianDeadlift", "Dumbbell Romanian deadlift", 3, "", 8, "8 to 10"),
+          exercise("hipThrustB", "Hip thrust or glute bridge", 3, "", 10, "10 to 12"),
+          exercise("legCurl", "Leg curl", 3, "", 10, "10 to 15"),
+          exercise("cableKickback", "Cable kickback", 3, "", 12, "12 to 15 per leg"),
+          exercise("backExtension", "Back extension", 3, "", 10, "10 to 15"),
+          exercise("abductionB", "Abduction machine", 3, "", 15, "15 to 20"),
+          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15")
         ]
       },
       {
         id: "swim50",
         type: "activity",
         icon: "🏊",
-        name: "Natation",
+        name: "Swimming",
         duration: "50 min",
-        focus: "Technique, respiration, endurance douce",
-        note: "Note simplement la durée, la distance estimée et le ressenti.",
+        focus: "Technique, breathing, easy endurance",
+        note: "Simply log duration, estimated distance, and effort.",
         defaults: { duration: "50", distance: "", effort: "" }
       },
       {
         id: "bike30",
         type: "activity",
         icon: "🚴",
-        name: "Vélo",
+        name: "Cycling",
         duration: "30 min",
-        focus: "Cardio facile à modéré",
-        note: "Séance courte : garde une intensité compatible avec la récupération.",
+        focus: "Easy to moderate cardio",
+        note: "Short session: keep the intensity recovery-friendly.",
         defaults: { duration: "30", distance: "", effort: "" }
       }
     ];
+
+    const EXERCISE_MUSCLES = {
+      latPulldown: { back: 1 },
+      seatedRow: { back: 1 },
+      chestPress: { chest: 1, shoulders: 0.25, arms: 0.25 },
+      inclineChestPress: { chest: 1, shoulders: 0.25, arms: 0.25 },
+      shoulderPress: { shoulders: 1, arms: 0.25 },
+      facePull: { back: 0.5, shoulders: 0.5 },
+      cableCurls: { arms: 1 },
+      cableCrunch: { abs: 1 },
+      hipThrustA: { glutes: 1, hamstrings: 0.5 },
+      hipThrustB: { glutes: 1, hamstrings: 0.5 },
+      legPress: { quads: 1, glutes: 0.5 },
+      bulgarianSplitSquat: { glutes: 0.75, quads: 0.75 },
+      legExtension: { quads: 1 },
+      abductionA: { glutes: 1 },
+      abductionB: { glutes: 1 },
+      calves: { calves: 1 },
+      romanianDeadlift: { hamstrings: 1, glutes: 0.75 },
+      legCurl: { hamstrings: 1 },
+      cableKickback: { glutes: 1 },
+      backExtension: { hamstrings: 0.5, glutes: 0.5, back: 0.25 },
+      lateralRaise: { shoulders: 1 },
+      tricepsPulley: { arms: 1 }
+    };
+
+    const MUSCLE_TARGETS = [
+      { id: "glutes", label: "Glutes", min: 10, max: 20 },
+      { id: "quads", label: "Quads", min: 8, max: 16 },
+      { id: "hamstrings", label: "Hamstrings", min: 8, max: 16 },
+      { id: "back", label: "Back", min: 10, max: 18 },
+      { id: "abs", label: "Abs", min: 6, max: 12 },
+      { id: "shoulders", label: "Shoulders", min: 6, max: 14 },
+      { id: "chest", label: "Chest", min: 6, max: 12 },
+      { id: "arms", label: "Arms", min: 4, max: 12 },
+      { id: "calves", label: "Calves", min: 4, max: 10 }
+    ];
+
+    const LOAD_STEP_RULES = {
+      lower: 2.5,
+      upper: 1.25,
+      isolation: 1,
+      bodyweight: 0
+    };
 
     function exercise(id, name, sets, defaultWeight, defaultReps, repRange) {
       return { id, name, sets, defaultWeight, defaultReps, repRange };
@@ -664,7 +708,7 @@
     }
 
     function formatShortDate(date) {
-      return date.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" });
+      return date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" });
     }
 
     function generateWeeks() {
@@ -681,8 +725,8 @@
           index,
           start,
           end,
-          label: `Semaine ${index}`,
-          range: `${formatShortDate(start)} au ${formatShortDate(end)}`
+          label: `Week ${index}`,
+          range: `${formatShortDate(start)} to ${formatShortDate(end)}`
         });
         current = addDays(current, 7);
         index += 1;
@@ -702,6 +746,20 @@
 
     function getSession(sessionId) {
       return SESSIONS.find(session => session.id === sessionId);
+    }
+
+    function getExerciseDisplayName(item) {
+      const exercise = SESSIONS.flatMap(session => session.exercises || []).find(entry => entry.id === item.id);
+      return exercise?.name || item.name;
+    }
+
+    function getSessionDisplayName(record) {
+      return getSession(record.sessionId)?.name || record.sessionName || "Session";
+    }
+
+    function getWeekDisplayLabel(record) {
+      const week = weeks.find(entry => entry.id === record.weekId);
+      return week ? `${week.label} · ${week.range}` : "Unassigned";
     }
 
     function hydrateCompletionFromHistory() {
@@ -739,6 +797,37 @@
       };
     }
 
+    function getVolumeWeekId() {
+      return data.selectedWeekId || getCurrentProgramWeek()?.id || data.history[0]?.weekId || weeks[0]?.id || "";
+    }
+
+    function getWeeklyMuscleVolume(weekId) {
+      const totals = Object.fromEntries(MUSCLE_TARGETS.map(muscle => [muscle.id, 0]));
+      const records = data.history.filter(record => record.weekId === weekId);
+      const savedSessionIds = new Set(records.map(record => record.sessionId));
+      const addExerciseSets = item => {
+        const muscles = EXERCISE_MUSCLES[item.id] || {};
+        Object.entries(muscles).forEach(([muscleId, share]) => {
+          totals[muscleId] = (totals[muscleId] || 0) + Number(item.sets || 0) * share;
+        });
+      };
+
+      records.forEach(record => (record.exercises || []).forEach(addExerciseSets));
+      SESSIONS
+        .filter(session => session.type === "strength" && isSessionDone(weekId, session.id) && !savedSessionIds.has(session.id))
+        .forEach(session => session.exercises.forEach(addExerciseSets));
+
+      return MUSCLE_TARGETS.map(target => {
+        const sets = Number((totals[target.id] || 0).toFixed(1));
+        return {
+          ...target,
+          sets,
+          percent: Math.min(100, Math.round((sets / target.max) * 100)),
+          status: sets < target.min ? "Low" : sets <= target.max ? "Productive" : "High"
+        };
+      });
+    }
+
     function today() {
       return toIsoDate(new Date());
     }
@@ -754,17 +843,17 @@
     }
 
     function openExportEmail(payload, filename) {
-      const subject = `Export donnees sport - ${today()}`;
+      const subject = `Training data export - ${today()}`;
       const shortPayload = payload.length <= 1400;
       const body = [
-        "Bonjour,",
+        "Hello,",
         "",
-        "Voici mon export de donnees sport.",
+        "Here is my training data export.",
         shortPayload
-          ? `Donnees JSON :\n\n${payload}`
-          : `Le fichier ${filename} vient d'etre telecharge. Il faut l'ajouter en piece jointe a cet email.`,
+          ? `JSON data:\n\n${payload}`
+          : `The file ${filename} has just been downloaded. Please attach it to this email.`,
         "",
-        "Note : l'application conserve les donnees localement dans le navigateur."
+        "Note: the app stores data locally in the browser."
       ].join("\n");
 
       window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -772,7 +861,7 @@
 
     function exportDataByEmail() {
       const payload = JSON.stringify(data, null, 2);
-      const filename = `progression-sport-${today()}.json`;
+      const filename = `training-progress-${today()}.json`;
       downloadJson(payload, filename);
       window.setTimeout(() => openExportEmail(payload, filename), 150);
     }
@@ -796,18 +885,133 @@
       return Number.isFinite(parsed) ? parsed : 0;
     }
 
+    function formatDecimalComma(value) {
+      if (!Number.isFinite(value)) return "";
+      return Number(value.toFixed(2)).toString().replace(".", ",");
+    }
+
+    function normalizeWeightInput(value) {
+      const raw = String(value ?? "").replace(".", ",").replace(/[^\d,]/g, "");
+      const parts = raw.split(",");
+      if (parts.length <= 1) return parts[0] || "";
+      return `${parts[0]},${parts.slice(1).join("")}`;
+    }
+
+    function displayLoadWithUnit(value, emptyText = "-") {
+      const normalized = normalizeWeightInput(value);
+      return normalized ? `${normalized} kg` : emptyText;
+    }
+
     function numericValue(value) {
       const parsed = Number(String(value ?? "").replace(",", ".").match(/\d+(\.\d+)?/)?.[0] || 0);
       return Number.isFinite(parsed) ? parsed : 0;
     }
 
+    function parseRepRange(repRange) {
+      const values = String(repRange || "").match(/\d+(\.\d+)?/g)?.map(Number) || [];
+      return { min: values[0] || 8, max: values[1] || values[0] || 12 };
+    }
+
+    function getExerciseLogs(exerciseId) {
+      return [...data.history]
+        .reverse()
+        .flatMap(record => (record.exercises || [])
+          .filter(item => item.id === exerciseId)
+          .map(item => ({ ...item, date: record.date, weekId: record.weekId })))
+        .filter(item => numericWeight(item.weight) > 0 && numericValue(item.reps) > 0);
+    }
+
+    function estimateOneRepMax(weight, reps) {
+      return weight * (1 + reps / 30);
+    }
+
+    function classifyExerciseForLoad(exerciseId) {
+      if (["hipThrustA", "hipThrustB", "legPress", "bulgarianSplitSquat", "romanianDeadlift"].includes(exerciseId)) return "lower";
+      if (["latPulldown", "seatedRow", "chestPress", "shoulderPress", "inclineChestPress"].includes(exerciseId)) return "upper";
+      if (["deadBug", "sidePlank"].includes(exerciseId)) return "bodyweight";
+      return "isolation";
+    }
+
+    function roundToLoadStep(value, step) {
+      if (!step || !Number.isFinite(value)) return value;
+      return Math.max(step, Math.round(value / step) * step);
+    }
+
+    function formatLoad(value) {
+      if (!Number.isFinite(value) || value <= 0) return "";
+      return formatDecimalComma(value);
+    }
+
+    function suggestNextLoad(exercise) {
+      const logs = getExerciseLogs(exercise.id);
+      const defaultWeight = exercise.defaultWeight;
+      const range = parseRepRange(exercise.repRange);
+      const step = LOAD_STEP_RULES[classifyExerciseForLoad(exercise.id)] ?? 1.25;
+
+      if (!logs.length) {
+        return {
+          weight: defaultWeight,
+          title: "Start here",
+          detail: defaultWeight
+            ? `No previous data yet. Use ${displayLoadWithUnit(defaultWeight)}, aim for ${exercise.repRange}, and save the session.`
+            : `No previous data yet. Enter a load in kg, aim for ${exercise.repRange}, and save the session.`
+        };
+      }
+
+      const last = logs[logs.length - 1];
+      const lastWeight = numericWeight(last.weight);
+      const lastReps = numericValue(last.reps);
+      const e1rm = estimateOneRepMax(lastWeight, lastReps);
+      const recent = logs.slice(-3);
+      const recentE1rm = recent.map(item => estimateOneRepMax(numericWeight(item.weight), numericValue(item.reps)));
+      const trend = recentE1rm.length >= 2 ? recentE1rm[recentE1rm.length - 1] - recentE1rm[0] : 0;
+
+      if (!lastWeight || !lastReps) {
+        return {
+          weight: defaultWeight,
+          title: "Calibrate",
+          detail: defaultWeight
+            ? `Previous data is incomplete. Use ${displayLoadWithUnit(defaultWeight)} and save weight + reps.`
+            : "Previous data is incomplete. Enter a load in kg and save weight + reps."
+        };
+      }
+
+      if (lastReps >= range.max) {
+        const targetE1rm = e1rm * (trend >= 0 ? 1.015 : 1.005);
+        const predictedForLowRange = targetE1rm / (1 + range.min / 30);
+        const next = roundToLoadStep(Math.max(lastWeight + step, predictedForLowRange), step);
+        return {
+          weight: formatLoad(next),
+          title: "Increase load",
+          detail: `Last time: ${displayLoadWithUnit(last.weight)} x ${last.reps}. You reached the top of the range, so try ${displayLoadWithUnit(formatLoad(next))} and rebuild from ${range.min} reps.`
+        };
+      }
+
+      if (lastReps < range.min) {
+        const reduced = roundToLoadStep(lastWeight * 0.95, step);
+        return {
+          weight: formatLoad(reduced || lastWeight),
+          title: "Reduce slightly",
+          detail: `Last time: ${displayLoadWithUnit(last.weight)} x ${last.reps}. This is below the range, so use about ${displayLoadWithUnit(formatLoad(reduced || lastWeight))} or keep the same load if technique felt easy.`
+        };
+      }
+
+      return {
+        weight: formatLoad(lastWeight),
+        title: "Keep load",
+        detail: `Last time: ${displayLoadWithUnit(last.weight)} x ${last.reps}. Keep ${displayLoadWithUnit(formatLoad(lastWeight))} and add reps before increasing.`
+      };
+    }
+
     function entryFor(exercise) {
       if (!data.currentEntries[exercise.id]) {
+        const suggestion = suggestNextLoad(exercise);
         data.currentEntries[exercise.id] = {
-          weight: exercise.defaultWeight,
+          weight: normalizeWeightInput(suggestion.weight || exercise.defaultWeight),
           reps: String(exercise.defaultReps)
         };
       }
+      data.currentEntries[exercise.id].weight = normalizeWeightInput(data.currentEntries[exercise.id].weight);
       return data.currentEntries[exercise.id];
     }
 
@@ -863,7 +1067,7 @@
             name: item.name,
             sets: item.sets,
             reps: entry.reps,
-            weight: entry.weight,
+            weight: normalizeWeightInput(entry.weight),
             repRange: item.repRange
           };
         });
@@ -913,17 +1117,17 @@
         <section class="hero">
           <div>
             <div class="pill-row">
-              <span class="pill good">Départ 25/05/2026</span>
-              <span class="pill">${weeks.length} semaines</span>
+              <span class="pill good">Starts 25/05/2026</span>
+              <span class="pill">${weeks.length} weeks</span>
             </div>
-            <h1>Choisis la semaine</h1>
+            <h1>Choose the week</h1>
           </div>
-          <p>L’application commence par le planning de semaines. Clique sur une semaine pour choisir ensuite la séance à faire.</p>
+          <p>The app starts with the week list. Tap a week, then choose the session you want to do.</p>
         </section>
 
         <div class="section-title">
-          <h2>Semaines 2026</h2>
-          <span class="fine">Jusqu’à la dernière semaine de 2026</span>
+          <h2>2026 Weeks</h2>
+          <span class="fine">Until the last week of 2026</span>
         </div>
 
         <section class="grid week-grid">
@@ -937,10 +1141,10 @@
                     <strong>${week.label}</strong>
                     <p class="fine">${week.range}</p>
                   </div>
-                  <span class="pill ${completion.complete ? "good" : ""}">${completion.complete ? "Complétée" : `${completion.done}/${completion.total} faites`}</span>
+                  <span class="pill ${completion.complete ? "good" : ""}">${completion.complete ? "Completed" : `${completion.done}/${completion.total} done`}</span>
                 </div>
-                <div class="progress-bar" aria-label="Progression ${week.label}"><span style="--value:${completion.percent}%"></span></div>
-                ${isCurrent ? `<p class="fine">Semaine en cours${completion.done ? ` · ${completion.done} séance${completion.done > 1 ? "s" : ""} validée${completion.done > 1 ? "s" : ""}` : ""}.</p>` : ""}
+                <div class="progress-bar" aria-label="${week.label} progress"><span style="--value:${completion.percent}%"></span></div>
+                ${isCurrent ? `<p class="fine">Current week${completion.done ? ` · ${completion.done} session${completion.done > 1 ? "s" : ""} completed` : ""}.</p>` : ""}
               </button>
             `;
           }).join("")}
@@ -954,27 +1158,27 @@
       return `
         <section class="hero">
           <div>
-            <button class="btn secondary" type="button" id="backToWeeks">Retour aux semaines</button>
+            <button class="btn secondary" type="button" id="backToWeeks">Back to weeks</button>
             <div style="height:.75rem"></div>
             <div class="pill-row">
               <span class="pill good">${week?.label || ""}</span>
               <span class="pill">${week?.range || ""}</span>
             </div>
-            <h1>Choisis ta séance</h1>
+            <h1>Choose your session</h1>
           </div>
           <div class="grid">
-            <p>Les icônes donnent le sport d’un coup d’œil : musculation, course, natation ou vélo.</p>
+            <p>The icons show the sport at a glance: strength training, running, swimming, or cycling.</p>
             <div class="notice">
-              <strong>${completion.done}/${completion.total} séances faites</strong>
-              <div class="progress-bar" style="margin-top:.55rem" aria-label="Progression de la semaine"><span style="--value:${completion.percent}%"></span></div>
-              <p class="fine" style="margin-top:.45rem">${completion.complete ? "Semaine complétée." : "La barre atteint 100 % quand les six séances sont cochées."}</p>
+              <strong>${completion.done}/${completion.total} sessions done</strong>
+              <div class="progress-bar" style="margin-top:.55rem" aria-label="Week progress"><span style="--value:${completion.percent}%"></span></div>
+              <p class="fine" style="margin-top:.45rem">${completion.complete ? "Week completed." : "The bar reaches 100% when all six sessions are checked."}</p>
             </div>
           </div>
         </section>
 
         <div class="section-title">
-          <h2>Séances proposées</h2>
-          <span class="fine">Sans indication de jour</span>
+          <h2>Suggested Sessions</h2>
+          <span class="fine">No fixed day</span>
         </div>
 
         <section class="grid sessions-grid">
@@ -991,17 +1195,17 @@
                   <span class="sport-icon" aria-hidden="true">${session.icon}</span>
                   <label class="done-check">
                     <input type="checkbox" data-session-done="${session.id}" ${done ? "checked" : ""}>
-                    <span>Faite</span>
+                    <span>Done</span>
                   </label>
                 </div>
               </div>
               <div class="pill-row">
                 <span class="pill">${session.duration}</span>
-                <span class="pill">${session.type === "strength" ? `${session.exercises.length} exos` : "cardio"}</span>
-                ${done ? `<span class="pill good">Validée</span>` : ""}
+                <span class="pill">${session.type === "strength" ? `${session.exercises.length} exercises` : "cardio"}</span>
+                ${done ? `<span class="pill good">Completed</span>` : ""}
               </div>
               <p class="fine">${session.note}</p>
-              <button class="btn secondary" type="button" data-select-session="${session.id}">Ouvrir la séance</button>
+              <button class="btn secondary" type="button" data-select-session="${session.id}">Open session</button>
             </article>
           `;
           }).join("")}
@@ -1019,7 +1223,7 @@
       return `
         <section class="hero">
           <div>
-            <button class="btn secondary" type="button" id="backToSessions">Retour aux séances</button>
+            <button class="btn secondary" type="button" id="backToSessions">Back to sessions</button>
             <div style="height:.75rem"></div>
             <div class="pill-row">
               <span class="pill good">${week?.label || ""}</span>
@@ -1031,30 +1235,39 @@
         </section>
 
         <div class="section-title">
-          <h2>Exercices</h2>
-          <span class="fine">Poids · reps · séries</span>
+          <h2>Exercises</h2>
+          <span class="fine">Weight · reps · sets</span>
         </div>
+
+        <section class="notice" style="margin-bottom:.8rem">
+          The load suggestion uses your saved weight and reps, estimates strength with the Epley formula, and applies double progression: build reps first, then increase load when you reach the top of the range.
+        </section>
 
         <section class="grid">
           ${session.exercises.map(item => {
+            const suggestion = suggestNextLoad(item);
             const entry = entryFor(item);
             return `
               <article class="exercise">
                 <div class="exercise-head">
                   <div>
                     <strong>${item.name}</strong>
-                    <p class="fine">Fourchette recommandée : ${item.repRange}</p>
+                    <p class="fine">Recommended range: ${item.repRange}</p>
                   </div>
                 </div>
+                <div class="notice">
+                  <strong>${suggestion.title}${suggestion.weight || item.defaultWeight ? `: ${escapeHtml(displayLoadWithUnit(suggestion.weight || item.defaultWeight))}` : ""}</strong>
+                  <p class="fine" style="margin-top:.35rem">${escapeHtml(suggestion.detail)}</p>
+                </div>
                 <div class="fields">
-                  <label>Poids
-                    <input data-exercise="${item.id}" data-field="weight" value="${escapeHtml(entry.weight)}">
+                  <label>Weight (kg)
+                    <input inputmode="decimal" data-exercise="${item.id}" data-field="weight" value="${escapeHtml(entry.weight)}" placeholder="25">
                   </label>
                   <label>Reps
                     <input data-exercise="${item.id}" data-field="reps" value="${escapeHtml(entry.reps)}">
                   </label>
-                  <label>Séries
-                    <input value="${item.sets}" readonly aria-label="Nombre de séries">
+                  <label>Sets
+                    <input value="${item.sets}" readonly aria-label="Number of sets">
                   </label>
                 </div>
               </article>
@@ -1063,7 +1276,7 @@
         </section>
 
         <div class="actions">
-          <button class="btn" type="button" id="saveWorkout">Sauvegarder la séance</button>
+          <button class="btn" type="button" id="saveWorkout">Save session</button>
         </div>
       `;
     }
@@ -1074,7 +1287,7 @@
       return `
         <section class="hero">
           <div>
-            <button class="btn secondary" type="button" id="backToSessions">Retour aux séances</button>
+            <button class="btn secondary" type="button" id="backToSessions">Back to sessions</button>
             <div style="height:.75rem"></div>
             <div class="pill-row">
               <span class="pill good">${week?.label || ""}</span>
@@ -1086,26 +1299,26 @@
         </section>
 
         <div class="section-title">
-          <h2>Suivi simple</h2>
-          <span class="fine">Durée · distance · ressenti</span>
+          <h2>Simple Tracking</h2>
+          <span class="fine">Duration · distance · effort</span>
         </div>
 
         <section class="exercise">
           <div class="activity-fields">
-            <label>Durée réelle
+            <label>Actual duration
               <input data-activity-field="duration" value="${escapeHtml(entry.duration)}" placeholder="minutes">
             </label>
             <label>Distance
-              <input data-activity-field="distance" value="${escapeHtml(entry.distance)}" placeholder="m, km ou longueurs">
+              <input data-activity-field="distance" value="${escapeHtml(entry.distance)}" placeholder="m, km, or lengths">
             </label>
-            <label>Ressenti /10
-              <input data-activity-field="effort" value="${escapeHtml(entry.effort)}" placeholder="ex. 6">
+            <label>Effort /10
+          <input data-activity-field="effort" value="${escapeHtml(entry.effort)}" placeholder="e.g. 6">
             </label>
           </div>
         </section>
 
         <div class="actions">
-          <button class="btn" type="button" id="saveWorkout">Sauvegarder la séance</button>
+          <button class="btn" type="button" id="saveWorkout">Save session</button>
         </div>
       `;
     }
@@ -1149,7 +1362,13 @@
           const id = event.currentTarget.dataset.exercise;
           const field = event.currentTarget.dataset.field;
           if (!data.currentEntries[id]) data.currentEntries[id] = {};
-          data.currentEntries[id][field] = event.currentTarget.value;
+          if (field === "weight") {
+            const normalized = normalizeWeightInput(event.currentTarget.value);
+            event.currentTarget.value = normalized;
+            data.currentEntries[id][field] = normalized;
+          } else {
+            data.currentEntries[id][field] = event.currentTarget.value;
+          }
           saveData();
         });
       });
@@ -1168,55 +1387,69 @@
     function renderProgress() {
       const stats = getProgressStats();
       const selectedWeek = getSelectedWeek();
+      const volumeWeekId = getVolumeWeekId();
+      const volumeWeek = weeks.find(week => week.id === volumeWeekId);
+      const muscleVolume = getWeeklyMuscleVolume(volumeWeekId);
       document.querySelector("#view-progress").innerHTML = `
         <section class="hero">
           <div>
             <div class="pill-row">
-              <span class="pill good">${data.history.length} séance${data.history.length > 1 ? "s" : ""}</span>
-              <span class="pill">${stats.exerciseCount} exercice${stats.exerciseCount > 1 ? "s" : ""}</span>
+              <span class="pill good">${data.history.length} session${data.history.length > 1 ? "s" : ""}</span>
+              <span class="pill">${stats.exerciseCount} exercise${stats.exerciseCount > 1 ? "s" : ""}</span>
               <span class="pill">${stats.activityCount} cardio</span>
             </div>
-            <h1>Progression</h1>
+            <h1>Progress</h1>
           </div>
-          <p>Chaque sauvegarde est liée à une semaine. Les charges progressent exercice par exercice, les séances cardio restent lisibles dans l’historique.</p>
+          <p>Each saved entry is linked to a week. Strength progress is tracked exercise by exercise, while cardio stays easy to read in the history.</p>
         </section>
 
-        ${data.lastSavedAt ? `<section class="notice" style="margin-top:1rem">Dernière séance sauvegardée : ${new Date(data.lastSavedAt).toLocaleString("fr-FR")}${selectedWeek ? ` · semaine active : ${selectedWeek.label}` : ""}.</section>` : ""}
+        ${data.lastSavedAt ? `<section class="notice" style="margin-top:1rem">Last saved session: ${new Date(data.lastSavedAt).toLocaleString("en-GB")}${selectedWeek ? ` · active week: ${selectedWeek.label}` : ""}.</section>` : ""}
 
         <div class="section-title">
-          <h2>Résumé</h2>
-          <span class="fine">Données locales</span>
+          <h2>Summary</h2>
+          <span class="fine">Local data</span>
         </div>
         <section class="summary">
-          <div class="stat"><small>Séances</small><strong>${data.history.length}</strong></div>
-          <div class="stat"><small>Dernière</small><strong>${data.history[0] ? `${data.history[0].icon || ""} ${data.history[0].sessionName}` : "-"}</strong></div>
-          <div class="stat"><small>Volume max</small><strong>${stats.bestVolume ? Math.round(stats.bestVolume) : "-"}</strong></div>
+          <div class="stat"><small>Sessions</small><strong>${data.history.length}</strong></div>
+          <div class="stat"><small>Last</small><strong>${data.history[0] ? `${data.history[0].icon || ""} ${getSessionDisplayName(data.history[0])}` : "-"}</strong></div>
+          <div class="stat"><small>Best volume</small><strong>${stats.bestVolume ? Math.round(stats.bestVolume) : "-"}</strong></div>
         </section>
 
         <div class="section-title">
-          <h2>Musculation</h2>
-          <span class="fine">Dernière charge et tendance</span>
+          <h2>Weekly Muscle Volume</h2>
+          <span class="fine">${volumeWeek ? `${volumeWeek.label} · ${volumeWeek.range}` : "No week selected"}</span>
         </div>
         <section class="grid progress-grid">
-          ${stats.exercises.length ? stats.exercises.map(renderExerciseProgress).join("") : `<div class="empty">Aucun exercice sauvegardé pour le moment.</div>`}
+          ${muscleVolume.map(renderMuscleVolumeCard).join("")}
+        </section>
+        <section class="notice" style="margin-top:.8rem">
+          Volume is counted as weekly hard sets. Primary muscles receive 1 set per exercise set; secondary muscles receive a partial set.
+        </section>
+
+        <div class="section-title">
+          <h2>Strength</h2>
+          <span class="fine">Last load and trend</span>
+        </div>
+        <section class="grid progress-grid">
+          ${stats.exercises.length ? stats.exercises.map(renderExerciseProgress).join("") : `<div class="empty">No exercise saved yet.</div>`}
         </section>
 
         <div class="section-title">
           <h2>Cardio</h2>
-          <span class="fine">Natation et vélo</span>
+          <span class="fine">Swimming and cycling</span>
         </div>
         <section class="grid progress-grid">
-          ${stats.activities.length ? stats.activities.map(renderActivityProgress).join("") : `<div class="empty">Aucune séance natation ou vélo sauvegardée pour le moment.</div>`}
+          ${stats.activities.length ? stats.activities.map(renderActivityProgress).join("") : `<div class="empty">No swimming or cycling session saved yet.</div>`}
         </section>
 
         <div class="section-title">
-          <h2>Historique</h2>
-          <span class="fine">Séances récentes</span>
+          <h2>History</h2>
+          <span class="fine">Recent sessions</span>
         </div>
         <section class="card grid">
-          ${data.history.length ? renderHistoryTable() : `<div class="empty">L’historique apparaîtra ici après la première sauvegarde.</div>`}
-          <button class="btn secondary" type="button" id="exportData">Exporter les données</button>
-          <button class="btn danger" type="button" id="resetData">Réinitialiser</button>
+          ${data.history.length ? renderHistoryTable() : `<div class="empty">History will appear here after your first save.</div>`}
+          <button class="btn secondary" type="button" id="exportData">Export data</button>
+          <button class="btn danger" type="button" id="resetData">Reset</button>
         </section>
       `;
       bindProgressEvents();
@@ -1232,7 +1465,7 @@
           if (!exerciseMap.has(item.id)) {
             exerciseMap.set(item.id, {
               id: item.id,
-              name: item.name,
+              name: getExerciseDisplayName(item),
               first: item,
               last: item,
               bestWeight: numericWeight(item.weight),
@@ -1251,7 +1484,7 @@
           current.bestWeight = Math.max(current.bestWeight, weight);
           current.bestVolume = Math.max(current.bestVolume, volume);
           current.count += 1;
-          current.records.push({ date: record.date, weekLabel: record.weekLabel || "Non classée", sessionName: record.sessionName, ...item, volume });
+          current.records.push({ date: record.date, weekLabel: getWeekDisplayLabel(record), sessionName: getSessionDisplayName(record), ...item, volume });
           bestVolume = Math.max(bestVolume, volume);
         });
 
@@ -1260,7 +1493,7 @@
             activityMap.set(record.sessionId, {
               id: record.sessionId,
               icon: record.icon || "",
-              name: record.sessionName,
+              name: getSessionDisplayName(record),
               first: record.activity,
               last: record.activity,
               count: 0,
@@ -1276,8 +1509,8 @@
         }
       });
 
-      const exercises = [...exerciseMap.values()].sort((a, b) => a.name.localeCompare(b.name, "fr"));
-      const activities = [...activityMap.values()].sort((a, b) => a.name.localeCompare(b.name, "fr"));
+      const exercises = [...exerciseMap.values()].sort((a, b) => a.name.localeCompare(b.name, "en"));
+      const activities = [...activityMap.values()].sort((a, b) => a.name.localeCompare(b.name, "en"));
       return { exercises, activities, exerciseCount: exercises.length, activityCount: activities.length, bestVolume };
     }
 
@@ -1285,7 +1518,7 @@
       const firstWeight = numericWeight(item.first.weight);
       const lastWeight = numericWeight(item.last.weight);
       const diff = lastWeight - firstWeight;
-      const trend = diff > 0 ? `+${diff.toLocaleString("fr-FR")} kg` : diff < 0 ? `${diff.toLocaleString("fr-FR")} kg` : "stable";
+      const trend = diff > 0 ? `+${formatDecimalComma(diff)} kg` : diff < 0 ? `${formatDecimalComma(diff)} kg` : "stable";
       const trendClass = diff > 0 ? "good" : diff < 0 ? "warn" : "";
 
       return `
@@ -1293,19 +1526,47 @@
           <div class="progress-head">
             <div>
               <strong>${item.name}</strong>
-              <p class="fine">${item.count} relevé${item.count > 1 ? "s" : ""}</p>
+              <p class="fine">${item.count} log${item.count > 1 ? "s" : ""}</p>
             </div>
             <span class="pill ${trendClass}">${trend}</span>
           </div>
           <div class="summary">
-            <div class="stat"><small>Dernier poids</small><strong>${escapeHtml(item.last.weight)}</strong></div>
-            <div class="stat"><small>Dernières reps</small><strong>${escapeHtml(item.last.reps)}</strong></div>
-            <div class="stat"><small>Séries</small><strong>${item.last.sets}</strong></div>
+            <div class="stat"><small>Last weight</small><strong>${escapeHtml(displayLoadWithUnit(item.last.weight))}</strong></div>
+            <div class="stat"><small>Last reps</small><strong>${escapeHtml(item.last.reps)}</strong></div>
+            <div class="stat"><small>Sets</small><strong>${item.last.sets}</strong></div>
           </div>
           <div class="notice">
-            Meilleure charge notée : <strong>${item.bestWeight ? `${item.bestWeight.toLocaleString("fr-FR")} kg` : escapeHtml(item.last.weight)}</strong>.
-            ${item.bestVolume ? `Meilleur volume estimé : <strong>${Math.round(item.bestVolume)}</strong>.` : ""}
+            Best logged load: <strong>${item.bestWeight ? `${formatDecimalComma(item.bestWeight)} kg` : escapeHtml(displayLoadWithUnit(item.last.weight))}</strong>.
+            ${item.bestVolume ? `Best estimated volume: <strong>${Math.round(item.bestVolume)}</strong>.` : ""}
           </div>
+        </article>
+      `;
+    }
+
+    function renderMuscleVolumeCard(item) {
+      const statusClass = item.status === "Productive" ? "good" : item.status === "High" ? "warn" : "";
+      const message = item.status === "Low"
+        ? "Below the target range."
+        : item.status === "High"
+          ? "Above the target range. Watch recovery."
+          : "Inside the target range.";
+
+      return `
+        <article class="card grid">
+          <div class="progress-head">
+            <div>
+              <strong>${item.label}</strong>
+              <p class="fine">Target: ${item.min} to ${item.max} sets/week</p>
+            </div>
+            <span class="pill ${statusClass}">${item.status}</span>
+          </div>
+          <div class="progress-bar" aria-label="${item.label} weekly volume"><span style="--value:${item.percent}%"></span></div>
+          <div class="summary">
+            <div class="stat"><small>This week</small><strong>${item.sets}</strong></div>
+            <div class="stat"><small>Minimum</small><strong>${item.min}</strong></div>
+            <div class="stat"><small>Upper guide</small><strong>${item.max}</strong></div>
+          </div>
+          <p class="fine">${message}</p>
         </article>
       `;
     }
@@ -1316,16 +1577,16 @@
           <div class="progress-head">
             <div>
               <strong>${item.icon} ${item.name}</strong>
-              <p class="fine">${item.count} séance${item.count > 1 ? "s" : ""}</p>
+              <p class="fine">${item.count} session${item.count > 1 ? "s" : ""}</p>
             </div>
             <span class="pill good">${escapeHtml(item.last.duration || "-")} min</span>
           </div>
           <div class="summary">
-            <div class="stat"><small>Dernière durée</small><strong>${escapeHtml(item.last.duration || "-")}</strong></div>
-            <div class="stat"><small>Dernière distance</small><strong>${escapeHtml(item.last.distance || "-")}</strong></div>
-            <div class="stat"><small>Ressenti</small><strong>${escapeHtml(item.last.effort || "-")}</strong></div>
+            <div class="stat"><small>Last duration</small><strong>${escapeHtml(item.last.duration || "-")}</strong></div>
+            <div class="stat"><small>Last distance</small><strong>${escapeHtml(item.last.distance || "-")}</strong></div>
+            <div class="stat"><small>Effort</small><strong>${escapeHtml(item.last.effort || "-")}</strong></div>
           </div>
-          <div class="notice">Meilleure durée notée : <strong>${item.bestDuration || "-"} min</strong>${item.bestDistance ? ` · distance max : <strong>${item.bestDistance}</strong>` : ""}.</div>
+          <div class="notice">Best logged duration: <strong>${item.bestDuration || "-"} min</strong>${item.bestDistance ? ` · max distance: <strong>${item.bestDistance}</strong>` : ""}.</div>
         </article>
       `;
     }
@@ -1336,18 +1597,18 @@
           <table>
             <thead>
               <tr>
-                <th>Semaine</th>
+                <th>Week</th>
                 <th>Date</th>
-                <th>Séance</th>
-                <th>Détail</th>
+                <th>Session</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>
               ${data.history.slice(0, 24).map(record => `
                 <tr>
-                  <td>${escapeHtml(record.weekLabel || "Non classée")}</td>
+                  <td>${escapeHtml(getWeekDisplayLabel(record))}</td>
                   <td>${record.date}</td>
-                  <td>${escapeHtml(`${record.icon || ""} ${record.sessionName}`)}</td>
+                  <td>${escapeHtml(`${record.icon || ""} ${getSessionDisplayName(record)}`)}</td>
                   <td>${renderRecordDetail(record)}</td>
                 </tr>
               `).join("")}
@@ -1359,10 +1620,10 @@
 
     function renderRecordDetail(record) {
       if (record.activity) {
-        return `Durée : ${escapeHtml(record.activity.duration || "-")} min · Distance : ${escapeHtml(record.activity.distance || "-")} · Ressenti : ${escapeHtml(record.activity.effort || "-")}/10`;
+        return `Duration: ${escapeHtml(record.activity.duration || "-")} min · Distance: ${escapeHtml(record.activity.distance || "-")} · Effort: ${escapeHtml(record.activity.effort || "-")}/10`;
       }
       return (record.exercises || [])
-        .map(item => `${escapeHtml(item.name)} : ${escapeHtml(item.weight)}, ${escapeHtml(item.reps)} reps, ${item.sets} séries`)
+        .map(item => `${escapeHtml(getExerciseDisplayName(item))}: ${escapeHtml(displayLoadWithUnit(item.weight))}, ${escapeHtml(item.reps)} reps, ${item.sets} sets`)
         .join("<br>");
     }
 
@@ -1370,7 +1631,7 @@
       document.querySelector("#exportData")?.addEventListener("click", exportDataByEmail);
 
       document.querySelector("#resetData")?.addEventListener("click", () => {
-        if (confirm("Réinitialiser toutes les séances sauvegardées ?")) {
+        if (confirm("Reset all saved sessions?")) {
           data = createDefaultData();
           sessionScreen = "weeks";
           saveData();
