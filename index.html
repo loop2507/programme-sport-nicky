@@ -187,7 +187,8 @@
     }
 
     .session-card,
-    .week-card {
+    .week-card,
+    .overview-day {
       display: grid;
       gap: .65rem;
       text-align: left;
@@ -214,6 +215,19 @@
       align-items: start;
       justify-content: space-between;
       gap: .8rem;
+    }
+
+    .day-index {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 850;
+      font-size: .88rem;
     }
 
     .sport-icon {
@@ -427,7 +441,7 @@
 
     .bottom-nav-inner {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: .5rem;
       width: min(560px, 100%);
       margin: 0 auto;
@@ -479,6 +493,7 @@
 
       .sessions-grid,
       .progress-grid,
+      .overview-grid,
       .week-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -498,14 +513,16 @@
 <body>
   <div class="app">
     <main>
-      <section class="view active" id="view-session"></section>
+      <section class="view active" id="view-overview"></section>
+      <section class="view" id="view-session"></section>
       <section class="view" id="view-progress"></section>
     </main>
   </div>
 
   <nav class="bottom-nav" aria-label="Navigation">
     <div class="bottom-nav-inner">
-      <button class="nav-btn active" type="button" data-tab="session">Session</button>
+      <button class="nav-btn active" type="button" data-tab="overview">Overview</button>
+      <button class="nav-btn" type="button" data-tab="session">Session</button>
       <button class="nav-btn" type="button" data-tab="progress">Progress</button>
     </div>
   </nav>
@@ -514,6 +531,65 @@
     const STORAGE_KEY = "programmeSportSimple.v2";
     const PROGRAM_START = new Date(2026, 4, 25);
     const PROGRAM_LAST_WEEK_START = new Date(2026, 11, 28);
+
+    const RECOMMENDED_WEEK = [
+      {
+        day: "Sunday",
+        icon: "🏋️‍♀️🏃",
+        title: "Upper Body A + Quality Run",
+        duration: "1h25 to 1h30",
+        purpose: "Upper body strength first, then short quality running intervals.",
+        reason: "The intense run is placed after upper body work so the legs stay fresh for the two lower-body sessions."
+      },
+      {
+        day: "Monday",
+        icon: "🛌",
+        title: "Full Rest",
+        duration: "Complete recovery",
+        purpose: "No training load.",
+        reason: "This protects recovery after the long Sunday session and keeps the lower-body work productive."
+      },
+      {
+        day: "Tuesday",
+        icon: "🏋️‍♀️",
+        title: "Lower Body A",
+        duration: "60 to 70 min",
+        purpose: "Glutes and quads priority.",
+        reason: "This is one of the two highest-priority muscle-growth sessions of the week."
+      },
+      {
+        day: "Wednesday",
+        icon: "🏊",
+        title: "Technical Swimming",
+        duration: "30 to 40 min",
+        purpose: "Easy technique, breathing and relaxed endurance.",
+        reason: "Low intensity cardio supports fitness without stealing recovery from leg training."
+      },
+      {
+        day: "Thursday",
+        icon: "🏋️‍♀️🏃",
+        title: "Upper Body B + Easy Run",
+        duration: "1h20 to 1h30",
+        purpose: "Upper body strength first, then Zone 2 running.",
+        reason: "Easy running after upper body work improves cardio while limiting interference with lower-body progression."
+      },
+      {
+        day: "Friday",
+        icon: "🏋️‍♀️",
+        title: "Lower Body B",
+        duration: "60 to 70 min",
+        purpose: "Glutes, hamstrings and posterior chain.",
+        reason: "Placed after the easy run day with enough spacing from Lower Body A to keep performance high."
+      },
+      {
+        day: "Saturday",
+        icon: "🏊",
+        title: "Swimming Class",
+        duration: "50 min",
+        purpose: "Guided technique and aerobic work.",
+        reason: "A structured swim finishes the week without adding heavy impact before Sunday."
+      }
+    ];
 
     const SESSIONS = [
       {
@@ -698,7 +774,7 @@
     const weeks = generateWeeks();
     let data = loadData();
     hydrateCompletionFromHistory();
-    let activeTab = "session";
+    let activeTab = "overview";
     let sessionScreen = "weeks";
 
     function loadData() {
@@ -1248,9 +1324,86 @@
     }
 
     function renderAll() {
+      renderOverview();
       renderSession();
       renderProgress();
       updateNav();
+    }
+
+    function renderOverview() {
+      document.querySelector("#view-overview").innerHTML = `
+        <section class="hero">
+          <div>
+            <div class="pill-row">
+              <span class="pill good">Ideal weekly order</span>
+              <span class="pill">Muscle + cardio</span>
+            </div>
+            <h1>Overview</h1>
+          </div>
+          <p>This is the recommended 7-day structure to prioritize glute and leg growth, keep running productive, and avoid stacking too much fatigue.</p>
+        </section>
+
+        <div class="section-title">
+          <h2>Recommended Week</h2>
+          <span class="fine">Rest on Monday</span>
+        </div>
+
+        <section class="grid overview-grid">
+          ${RECOMMENDED_WEEK.map((item, index) => `
+            <article class="card overview-day">
+              <div class="session-head">
+                <span class="day-index">${index + 1}</span>
+                <div>
+                  <strong>${item.day}</strong>
+                  <p class="fine">${item.duration}</p>
+                </div>
+                <span class="sport-icon" aria-hidden="true">${item.icon}</span>
+              </div>
+              <div>
+                <strong>${item.title}</strong>
+                <p class="fine" style="margin-top:.25rem">${item.purpose}</p>
+              </div>
+              <p class="fine">${item.reason}</p>
+            </article>
+          `).join("")}
+        </section>
+
+        <div class="section-title">
+          <h2>Why this order works</h2>
+        </div>
+        <section class="grid progress-grid">
+          <article class="card grid">
+            <strong>Strength stays first</strong>
+            <p class="fine">Lower-body sessions are protected because they drive the main muscle-growth goal. Running is placed after upper-body work, not before legs.</p>
+          </article>
+          <article class="card grid">
+            <strong>Recovery is built in</strong>
+            <p class="fine">The two lower-body sessions are separated, there is one full rest day, and swimming is kept technical or guided rather than maximal.</p>
+          </article>
+          <article class="card grid">
+            <strong>Cardio supports the goal</strong>
+            <p class="fine">Quality running improves speed, easy Zone 2 running builds endurance, and swimming adds aerobic work with low impact.</p>
+          </article>
+          <article class="card grid">
+            <strong>If fatigue is high</strong>
+            <p class="fine">Reduce the technical swim first, then shorten the easy run. Keep Lower Body A and Lower Body B whenever possible, even with slightly less volume.</p>
+          </article>
+        </section>
+
+        <section class="notice" style="margin-top:1rem">
+          Stop the session if there is sharp pain, dizziness, chest pain, or unusual shortness of breath. Technique and gradual progression come before load or speed.
+        </section>
+
+        <div class="actions">
+          <button class="btn" type="button" id="overviewOpenSessions">Open sessions</button>
+        </div>
+      `;
+
+      document.querySelector("#overviewOpenSessions")?.addEventListener("click", () => {
+        activeTab = "session";
+        updateNav();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
     }
 
     function renderSession() {
