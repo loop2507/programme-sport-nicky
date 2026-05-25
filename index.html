@@ -6,19 +6,20 @@
   <title>Programme sport</title>
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #101114;
-      --surface: #191b20;
-      --card: #22262e;
-      --card-soft: #2a2f39;
-      --text: #f6f7f9;
-      --muted: #aeb5c0;
-      --line: #3a414d;
-      --accent: #6fd6b3;
-      --accent-strong: #46bd99;
-      --warning: #f1c36d;
-      --danger: #ff7b7b;
-      --shadow: 0 18px 40px rgba(0, 0, 0, .28);
+      color-scheme: light;
+      --bg: #f6f7f5;
+      --surface: #ffffff;
+      --surface-soft: #eef3ef;
+      --surface-strong: #e4ece6;
+      --text: #171b1f;
+      --muted: #66707a;
+      --line: #d9e0da;
+      --accent: #157c65;
+      --accent-soft: #dff4eb;
+      --accent-strong: #0f5f4d;
+      --warning: #9a650e;
+      --danger: #b83a3a;
+      --shadow: 0 16px 36px rgba(32, 45, 37, .10);
       --radius: 8px;
       --nav-height: 74px;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -36,8 +37,8 @@
     body {
       margin: 0;
       background:
-        radial-gradient(circle at top left, rgba(111, 214, 179, .1), transparent 28rem),
-        linear-gradient(180deg, #101114, #0c0d10 110%);
+        radial-gradient(circle at top left, rgba(21, 124, 101, .12), transparent 26rem),
+        linear-gradient(180deg, #fbfcfa, var(--bg) 64%, #eef1ed);
       color: var(--text);
       letter-spacing: 0;
     }
@@ -58,14 +59,19 @@
       padding: .72rem .78rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: var(--card-soft);
+      background: #fff;
       color: var(--text);
       outline: none;
     }
 
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(21, 124, 101, .12);
+    }
+
     input[readonly] {
       color: var(--muted);
-      background: #1b1e24;
+      background: var(--surface-soft);
     }
 
     label {
@@ -84,7 +90,7 @@
     }
 
     .app {
-      width: min(980px, 100%);
+      width: min(1000px, 100%);
       margin: 0 auto;
       padding: 1rem 1rem calc(var(--nav-height) + 1rem);
     }
@@ -95,8 +101,8 @@
       z-index: 5;
       margin: 0 -1rem 1rem;
       padding: .8rem 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, .08);
-      background: rgba(16, 17, 20, .86);
+      border-bottom: 1px solid rgba(23, 27, 31, .08);
+      background: rgba(251, 252, 250, .9);
       backdrop-filter: blur(16px);
     }
 
@@ -124,12 +130,12 @@
       padding: 1rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: linear-gradient(135deg, #20252d, #171a20);
+      background: linear-gradient(135deg, #ffffff, #eef6f1);
       box-shadow: var(--shadow);
     }
 
     .hero h1 {
-      max-width: 12ch;
+      max-width: 13ch;
       font-size: clamp(1.6rem, 8vw, 2.35rem);
       line-height: 1;
     }
@@ -156,12 +162,12 @@
       font-size: 1.06rem;
     }
 
-    .muted {
+    .muted,
+    .fine {
       color: var(--muted);
     }
 
     .fine {
-      color: var(--muted);
       font-size: .82rem;
       line-height: 1.45;
     }
@@ -170,11 +176,12 @@
       padding: .9rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: var(--card);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, .15);
+      background: var(--surface);
+      box-shadow: 0 10px 24px rgba(32, 45, 37, .08);
     }
 
-    .session-card {
+    .session-card,
+    .week-card {
       display: grid;
       gap: .65rem;
       text-align: left;
@@ -182,9 +189,11 @@
       width: 100%;
     }
 
-    .session-card.active {
+    .session-card:hover,
+    .week-card:hover,
+    .week-card.current {
       border-color: var(--accent);
-      box-shadow: 0 0 0 2px rgba(111, 214, 179, .16);
+      box-shadow: 0 0 0 3px rgba(21, 124, 101, .10);
     }
 
     .session-head,
@@ -194,6 +203,17 @@
       align-items: start;
       justify-content: space-between;
       gap: .8rem;
+    }
+
+    .sport-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      font-size: 1.25rem;
     }
 
     .pill-row {
@@ -209,14 +229,14 @@
       padding: .36rem .55rem;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: var(--card-soft);
+      background: var(--surface-soft);
       color: var(--muted);
       font-size: .78rem;
       white-space: nowrap;
     }
 
     .pill.good {
-      color: #07120e;
+      color: #fff;
       background: var(--accent);
       border-color: var(--accent);
       font-weight: 800;
@@ -224,7 +244,8 @@
 
     .pill.warn {
       color: var(--warning);
-      border-color: rgba(241, 195, 109, .5);
+      border-color: rgba(154, 101, 14, .3);
+      background: #fff6df;
     }
 
     .btn {
@@ -236,12 +257,12 @@
       padding: .8rem .95rem;
       border-radius: var(--radius);
       background: var(--accent);
-      color: #07120e;
+      color: #fff;
       font-weight: 850;
     }
 
     .btn.secondary {
-      background: var(--card-soft);
+      background: var(--surface);
       color: var(--text);
       border: 1px solid var(--line);
     }
@@ -257,7 +278,7 @@
       padding: .9rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: var(--card);
+      background: var(--surface);
     }
 
     .fields {
@@ -267,11 +288,18 @@
       align-items: end;
     }
 
+    .activity-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: .55rem;
+      align-items: end;
+    }
+
     .notice {
       padding: .8rem;
-      border: 1px solid rgba(111, 214, 179, .4);
+      border: 1px solid rgba(21, 124, 101, .22);
       border-radius: var(--radius);
-      background: rgba(111, 214, 179, .1);
+      background: var(--accent-soft);
       color: var(--text);
       line-height: 1.45;
     }
@@ -283,6 +311,7 @@
       color: var(--muted);
       text-align: center;
       line-height: 1.45;
+      background: rgba(255, 255, 255, .6);
     }
 
     .summary {
@@ -299,7 +328,7 @@
       padding: .7rem;
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: var(--card-soft);
+      background: var(--surface-soft);
     }
 
     .stat small {
@@ -308,7 +337,7 @@
     }
 
     .stat strong {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       line-height: 1.1;
     }
 
@@ -320,8 +349,9 @@
 
     table {
       width: 100%;
-      min-width: 520px;
+      min-width: 560px;
       border-collapse: collapse;
+      background: #fff;
     }
 
     th,
@@ -334,7 +364,7 @@
 
     th {
       color: var(--muted);
-      background: var(--card-soft);
+      background: var(--surface-soft);
       font-size: .78rem;
     }
 
@@ -349,8 +379,8 @@
       bottom: 0;
       z-index: 10;
       padding: .45rem .7rem calc(.45rem + env(safe-area-inset-bottom));
-      border-top: 1px solid rgba(255, 255, 255, .08);
-      background: rgba(16, 17, 20, .9);
+      border-top: 1px solid rgba(23, 27, 31, .08);
+      background: rgba(255, 255, 255, .92);
       backdrop-filter: blur(16px);
     }
 
@@ -371,7 +401,7 @@
     }
 
     .nav-btn.active {
-      color: #07120e;
+      color: #fff;
       background: var(--accent);
     }
 
@@ -380,15 +410,12 @@
       bottom: calc(var(--nav-height) + .7rem);
       z-index: 4;
       padding-top: .5rem;
-      background: linear-gradient(180deg, transparent, #101114 28%);
+      background: linear-gradient(180deg, transparent, var(--bg) 28%);
     }
 
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 390px) {
+    @media (max-width: 430px) {
       .fields,
+      .activity-fields,
       .summary {
         grid-template-columns: 1fr;
       }
@@ -410,12 +437,19 @@
       }
 
       .sessions-grid,
-      .progress-grid {
+      .progress-grid,
+      .week-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .btn {
         width: auto;
+      }
+    }
+
+    @media (min-width: 1040px) {
+      .week-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
   </style>
@@ -424,7 +458,7 @@
   <div class="app">
     <header class="top">
       <strong>Programme sport</strong>
-      <span>Choisir une séance, noter poids et répétitions, suivre la progression</span>
+      <span>Semaines 2026, séances simples, progression lisible</span>
     </header>
 
     <main>
@@ -441,11 +475,15 @@
   </nav>
 
   <script>
-    const STORAGE_KEY = "programmeSportSimple.v1";
+    const STORAGE_KEY = "programmeSportSimple.v2";
+    const PROGRAM_START = new Date(2026, 4, 25);
+    const PROGRAM_LAST_WEEK_START = new Date(2026, 11, 28);
 
     const SESSIONS = [
       {
         id: "upperA",
+        type: "strength",
+        icon: "🏋️‍♀️🏃",
         name: "Haut du corps A + course qualitative",
         duration: "55 à 60 min + 25 à 30 min course",
         focus: "Dos, épaules, bras, abdos anti-rotation",
@@ -455,58 +493,84 @@
           exercise("seatedRow", "Seated row", 3, "20 kg", 8, "8 à 12"),
           exercise("chestPress", "Chest press machine", 3, "à calibrer", 8, "8 à 12"),
           exercise("shoulderPress", "Shoulder press machine", 3, "7,5 kg", 8, "8 à 12"),
-          exercise("facePull", "Face pull assis", 3, "17,5 kg", 12, "12 à 15"),
+          exercise("facePull", "Seated face pull", 3, "17,5 kg", 12, "12 à 15"),
           exercise("cableCurls", "Cable curls", 3, "7,5 kg", 10, "10 à 15"),
-          exercise("pallofPress", "Pallof press ou gainage anti-rotation", 3, "léger/modéré", 10, "10 à 12 par côté")
+          exercise("cableCrunch", "Cable crunch", 3, "à calibrer", 10, "10 à 15")
         ]
       },
       {
         id: "lowerA",
+        type: "strength",
+        icon: "🏋️‍♀️",
         name: "Bas du corps A",
         duration: "60 à 70 min",
         focus: "Fessiers et quadriceps",
         note: "Séance prioritaire pour la recomposition.",
         exercises: [
-          exercise("hipThrustA", "Hip thrust machine ou barre", 4, "à calibrer", 8, "8 à 12"),
-          exercise("legPress", "Presse à cuisses", 3, "à calibrer", 8, "8 à 12"),
-          exercise("bulgarianSplitSquat", "Bulgarian split squat ou fentes", 3, "à calibrer", 8, "8 à 10 par jambe"),
+          exercise("hipThrustA", "Machine or barbell hip thrust", 4, "à calibrer", 8, "8 à 12"),
+          exercise("legPress", "Leg press", 3, "à calibrer", 8, "8 à 12"),
+          exercise("bulgarianSplitSquat", "Bulgarian split squat or lunges", 3, "à calibrer", 8, "8 à 10 par jambe"),
           exercise("legExtension", "Leg extension", 3, "à calibrer", 10, "10 à 15"),
           exercise("abductionA", "Abduction machine", 3, "à calibrer", 15, "15 à 20"),
-          exercise("calves", "Mollets", 3, "à calibrer", 10, "10 à 15"),
-          exercise("deadBug", "Dead bug ou planche", 3, "poids du corps", "10 ou 30 sec", "10 à 12 par côté ou 30 à 45 sec")
+          exercise("calves", "Calf raises", 3, "à calibrer", 10, "10 à 15"),
+          exercise("cableCrunch", "Cable crunch", 3, "à calibrer", 10, "10 à 15")
         ]
       },
       {
         id: "upperB",
+        type: "strength",
+        icon: "🏋️‍♀️🏃",
         name: "Haut du corps B + course facile",
         duration: "55 à 60 min + 25 à 30 min course",
         focus: "Épaules, dos, pectoraux, triceps, abdos",
         note: "La course facile reste en aisance respiratoire après la musculation.",
         exercises: [
           exercise("shoulderPress", "Shoulder press machine", 3, "7,5 kg", 8, "8 à 12"),
-          exercise("inclineChestPress", "Chest press ou développé incliné machine", 3, "à calibrer", 8, "8 à 12"),
+          exercise("inclineChestPress", "Chest press or incline press machine", 3, "à calibrer", 8, "8 à 12"),
           exercise("latPulldown", "Lat pulldown", 3, "25 kg", 10, "10 à 12"),
           exercise("seatedRow", "Seated row", 3, "20 kg", 10, "10 à 12"),
-          exercise("lateralRaise", "Élévations latérales", 3, "à calibrer", 12, "12 à 20"),
-          exercise("tricepsPulley", "Triceps poulie", 3, "à calibrer", 10, "10 à 15"),
+          exercise("lateralRaise", "Lateral raises", 3, "à calibrer", 12, "12 à 20"),
+          exercise("tricepsPulley", "Cable triceps pushdown", 3, "à calibrer", 10, "10 à 15"),
           exercise("cableCrunch", "Cable crunch", 3, "à calibrer", 10, "10 à 15")
         ]
       },
       {
         id: "lowerB",
+        type: "strength",
+        icon: "🏋️‍♀️",
         name: "Bas du corps B",
         duration: "60 à 70 min",
         focus: "Fessiers, ischios et chaîne postérieure",
         note: "Séance prioritaire, progression graduelle.",
         exercises: [
-          exercise("romanianDeadlift", "Soulevé de terre roumain avec haltères", 3, "à calibrer", 8, "8 à 10"),
-          exercise("hipThrustB", "Hip thrust ou glute bridge", 3, "à calibrer", 10, "10 à 12"),
+          exercise("romanianDeadlift", "Dumbbell Romanian deadlift", 3, "à calibrer", 8, "8 à 10"),
+          exercise("hipThrustB", "Hip thrust or glute bridge", 3, "à calibrer", 10, "10 à 12"),
           exercise("legCurl", "Leg curl", 3, "à calibrer", 10, "10 à 15"),
           exercise("cableKickback", "Cable kickback", 3, "à calibrer", 12, "12 à 15 par jambe"),
           exercise("backExtension", "Back extension", 3, "à calibrer", 10, "10 à 15"),
           exercise("abductionB", "Abduction machine", 3, "à calibrer", 15, "15 à 20"),
-          exercise("sidePlank", "Gainage latéral", 3, "poids du corps", "30 sec", "30 à 45 sec par côté")
+          exercise("cableCrunch", "Cable crunch", 3, "à calibrer", 10, "10 à 15")
         ]
+      },
+      {
+        id: "swim50",
+        type: "activity",
+        icon: "🏊",
+        name: "Natation",
+        duration: "50 min",
+        focus: "Technique, respiration, endurance douce",
+        note: "Note simplement la durée, la distance estimée et le ressenti.",
+        defaults: { duration: "50", distance: "", effort: "" }
+      },
+      {
+        id: "bike30",
+        type: "activity",
+        icon: "🚴",
+        name: "Vélo",
+        duration: "30 min",
+        focus: "Cardio facile à modéré",
+        note: "Séance courte : garde une intensité compatible avec la récupération.",
+        defaults: { duration: "30", distance: "", effort: "" }
       }
     ];
 
@@ -516,6 +580,7 @@
 
     function createDefaultData() {
       return {
+        selectedWeekId: "",
         selectedSessionId: "",
         currentEntries: {},
         history: [],
@@ -523,8 +588,10 @@
       };
     }
 
+    const weeks = generateWeeks();
     let data = loadData();
     let activeTab = "session";
+    let sessionScreen = "weeks";
 
     function loadData() {
       try {
@@ -539,12 +606,96 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
+    function addDays(date, amount) {
+      const copy = new Date(date);
+      copy.setDate(copy.getDate() + amount);
+      return copy;
+    }
+
+    function toIsoDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatShortDate(date) {
+      return date.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit" });
+    }
+
+    function generateWeeks() {
+      const list = [];
+      let current = new Date(PROGRAM_START);
+      let index = 1;
+      while (current <= PROGRAM_LAST_WEEK_START) {
+        const start = new Date(current);
+        const end = addDays(start, 6);
+        end.setHours(23, 59, 59, 999);
+        const id = toIsoDate(start);
+        list.push({
+          id,
+          index,
+          start,
+          end,
+          label: `Semaine ${index}`,
+          range: `${formatShortDate(start)} au ${formatShortDate(end)}`
+        });
+        current = addDays(current, 7);
+        index += 1;
+      }
+      return list;
+    }
+
+    function getCurrentProgramWeek() {
+      const now = new Date();
+      now.setHours(0, 0, 0, 0);
+      return weeks.find(week => now >= week.start && now <= week.end);
+    }
+
+    function getSelectedWeek() {
+      return weeks.find(week => week.id === data.selectedWeekId);
+    }
+
     function getSession(sessionId) {
       return SESSIONS.find(session => session.id === sessionId);
     }
 
     function today() {
-      return new Date().toISOString().slice(0, 10);
+      return toIsoDate(new Date());
+    }
+
+    function downloadJson(payload, filename) {
+      const blob = new Blob([payload], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function openExportEmail(payload, filename) {
+      const subject = `Export donnees sport - ${today()}`;
+      const shortPayload = payload.length <= 1400;
+      const body = [
+        "Bonjour,",
+        "",
+        "Voici mon export de donnees sport.",
+        shortPayload
+          ? `Donnees JSON :\n\n${payload}`
+          : `Le fichier ${filename} vient d'etre telecharge. Il faut l'ajouter en piece jointe a cet email.`,
+        "",
+        "Note : l'application conserve les donnees localement dans le navigateur."
+      ].join("\n");
+
+      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    function exportDataByEmail() {
+      const payload = JSON.stringify(data, null, 2);
+      const filename = `progression-sport-${today()}.json`;
+      downloadJson(payload, filename);
+      window.setTimeout(() => openExportEmail(payload, filename), 150);
     }
 
     function makeId() {
@@ -566,7 +717,7 @@
       return Number.isFinite(parsed) ? parsed : 0;
     }
 
-    function numericReps(value) {
+    function numericValue(value) {
       const parsed = Number(String(value ?? "").replace(",", ".").match(/\d+(\.\d+)?/)?.[0] || 0);
       return Number.isFinite(parsed) ? parsed : 0;
     }
@@ -581,9 +732,27 @@
       return data.currentEntries[exercise.id];
     }
 
+    function activityEntryFor(session) {
+      if (!data.currentEntries.activity) {
+        data.currentEntries.activity = { ...session.defaults };
+      }
+      return data.currentEntries.activity;
+    }
+
+    function selectWeek(weekId) {
+      data.selectedWeekId = weekId;
+      data.selectedSessionId = "";
+      data.currentEntries = {};
+      sessionScreen = "sessions";
+      saveData();
+      renderAll();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     function selectSession(sessionId) {
       data.selectedSessionId = sessionId;
       data.currentEntries = {};
+      sessionScreen = "form";
       saveData();
       renderAll();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -591,14 +760,24 @@
 
     function saveWorkout() {
       const session = getSession(data.selectedSessionId);
-      if (!session) return;
+      const week = getSelectedWeek();
+      if (!session || !week) return;
 
       const record = {
         id: makeId(),
         date: today(),
+        weekId: week.id,
+        weekLabel: `${week.label} · ${week.range}`,
         sessionId: session.id,
         sessionName: session.name,
-        exercises: session.exercises.map(item => {
+        icon: session.icon,
+        type: session.type,
+        exercises: [],
+        activity: null
+      };
+
+      if (session.type === "strength") {
+        record.exercises = session.exercises.map(item => {
           const entry = entryFor(item);
           return {
             id: item.id,
@@ -608,13 +787,21 @@
             weight: entry.weight,
             repRange: item.repRange
           };
-        })
-      };
+        });
+      } else {
+        const entry = activityEntryFor(session);
+        record.activity = {
+          duration: entry.duration,
+          distance: entry.distance,
+          effort: entry.effort
+        };
+      }
 
       data.history.unshift(record);
       data.lastSavedAt = new Date().toISOString();
       data.currentEntries = {};
       data.selectedSessionId = "";
+      sessionScreen = "sessions";
       activeTab = "progress";
       saveData();
       renderAll();
@@ -628,22 +815,72 @@
     }
 
     function renderSession() {
-      const session = getSession(data.selectedSessionId);
-      document.querySelector("#view-session").innerHTML = session ? renderWorkoutForm(session) : renderSessionPicker();
+      let html = "";
+      if (sessionScreen === "weeks" || !data.selectedWeekId) {
+        html = renderWeekPicker();
+      } else if (sessionScreen === "form" && data.selectedSessionId) {
+        html = renderWorkoutForm(getSession(data.selectedSessionId));
+      } else {
+        html = renderSessionPicker();
+      }
+      document.querySelector("#view-session").innerHTML = html;
       bindSessionEvents();
     }
 
-    function renderSessionPicker() {
+    function renderWeekPicker() {
+      const currentWeek = getCurrentProgramWeek();
       return `
         <section class="hero">
           <div>
             <div class="pill-row">
-              <span class="pill good">Musculation prioritaire</span>
-              <span class="pill">4 séances</span>
+              <span class="pill good">Départ 25/05/2026</span>
+              <span class="pill">${weeks.length} semaines</span>
+            </div>
+            <h1>Choisis la semaine</h1>
+          </div>
+          <p>L’application commence par le planning de semaines. Clique sur une semaine pour choisir ensuite la séance à faire.</p>
+        </section>
+
+        <div class="section-title">
+          <h2>Semaines 2026</h2>
+          <span class="fine">Jusqu’à la dernière semaine de 2026</span>
+        </div>
+
+        <section class="grid week-grid">
+          ${weeks.map(week => {
+            const count = data.history.filter(record => record.weekId === week.id).length;
+            const isCurrent = currentWeek?.id === week.id;
+            return `
+              <button class="card week-card ${isCurrent ? "current" : ""}" type="button" data-select-week="${week.id}">
+                <div class="session-head">
+                  <div>
+                    <strong>${week.label}</strong>
+                    <p class="fine">${week.range}</p>
+                  </div>
+                  ${isCurrent ? `<span class="pill good">En cours</span>` : `<span class="pill">${count} séance${count > 1 ? "s" : ""}</span>`}
+                </div>
+                ${isCurrent && count ? `<p class="fine">${count} séance${count > 1 ? "s" : ""} déjà sauvegardée${count > 1 ? "s" : ""} cette semaine.</p>` : ""}
+              </button>
+            `;
+          }).join("")}
+        </section>
+      `;
+    }
+
+    function renderSessionPicker() {
+      const week = getSelectedWeek();
+      return `
+        <section class="hero">
+          <div>
+            <button class="btn secondary" type="button" id="backToWeeks">Retour aux semaines</button>
+            <div style="height:.75rem"></div>
+            <div class="pill-row">
+              <span class="pill good">${week?.label || ""}</span>
+              <span class="pill">${week?.range || ""}</span>
             </div>
             <h1>Choisis ta séance</h1>
           </div>
-          <p>Vue volontairement simple : tu choisis la séance à faire, puis tu notes seulement le poids, les répétitions et les séries prévues.</p>
+          <p>Les icônes donnent le sport d’un coup d’œil : musculation, course, natation ou vélo.</p>
         </section>
 
         <div class="section-title">
@@ -659,10 +896,11 @@
                   <strong>${session.name}</strong>
                   <p class="fine">${session.focus}</p>
                 </div>
-                <span class="pill">${session.exercises.length} exos</span>
+                <span class="sport-icon" aria-hidden="true">${session.icon}</span>
               </div>
               <div class="pill-row">
                 <span class="pill">${session.duration}</span>
+                <span class="pill">${session.type === "strength" ? `${session.exercises.length} exos` : "cardio"}</span>
               </div>
               <p class="fine">${session.note}</p>
             </button>
@@ -672,14 +910,20 @@
     }
 
     function renderWorkoutForm(session) {
+      if (!session) return renderSessionPicker();
+      return session.type === "strength" ? renderStrengthForm(session) : renderActivityForm(session);
+    }
+
+    function renderStrengthForm(session) {
+      const week = getSelectedWeek();
       return `
         <section class="hero">
           <div>
             <button class="btn secondary" type="button" id="backToSessions">Retour aux séances</button>
             <div style="height:.75rem"></div>
             <div class="pill-row">
-              <span class="pill good">${session.exercises.length} exercices</span>
-              <span class="pill">${session.duration}</span>
+              <span class="pill good">${week?.label || ""}</span>
+              <span class="pill">${session.icon} ${session.duration}</span>
             </div>
             <h1>${session.name}</h1>
           </div>
@@ -724,12 +968,67 @@
       `;
     }
 
+    function renderActivityForm(session) {
+      const week = getSelectedWeek();
+      const entry = activityEntryFor(session);
+      return `
+        <section class="hero">
+          <div>
+            <button class="btn secondary" type="button" id="backToSessions">Retour aux séances</button>
+            <div style="height:.75rem"></div>
+            <div class="pill-row">
+              <span class="pill good">${week?.label || ""}</span>
+              <span class="pill">${session.icon} ${session.duration}</span>
+            </div>
+            <h1>${session.name}</h1>
+          </div>
+          <p>${session.note}</p>
+        </section>
+
+        <div class="section-title">
+          <h2>Suivi simple</h2>
+          <span class="fine">Durée · distance · ressenti</span>
+        </div>
+
+        <section class="exercise">
+          <div class="activity-fields">
+            <label>Durée réelle
+              <input data-activity-field="duration" value="${escapeHtml(entry.duration)}" placeholder="minutes">
+            </label>
+            <label>Distance
+              <input data-activity-field="distance" value="${escapeHtml(entry.distance)}" placeholder="m, km ou longueurs">
+            </label>
+            <label>Ressenti /10
+              <input data-activity-field="effort" value="${escapeHtml(entry.effort)}" placeholder="ex. 6">
+            </label>
+          </div>
+        </section>
+
+        <div class="actions">
+          <button class="btn" type="button" id="saveWorkout">Sauvegarder la séance</button>
+        </div>
+      `;
+    }
+
     function bindSessionEvents() {
+      document.querySelectorAll("[data-select-week]").forEach(button => {
+        button.addEventListener("click", () => selectWeek(button.dataset.selectWeek));
+      });
+
       document.querySelectorAll("[data-select-session]").forEach(button => {
         button.addEventListener("click", () => selectSession(button.dataset.selectSession));
       });
 
+      document.querySelector("#backToWeeks")?.addEventListener("click", () => {
+        sessionScreen = "weeks";
+        data.selectedSessionId = "";
+        data.currentEntries = {};
+        saveData();
+        renderAll();
+      });
+
       document.querySelector("#backToSessions")?.addEventListener("click", () => {
+        sessionScreen = "sessions";
         data.selectedSessionId = "";
         data.currentEntries = {};
         saveData();
@@ -746,41 +1045,59 @@
         });
       });
 
+      document.querySelectorAll("[data-activity-field]").forEach(input => {
+        input.addEventListener("input", event => {
+          if (!data.currentEntries.activity) data.currentEntries.activity = {};
+          data.currentEntries.activity[event.currentTarget.dataset.activityField] = event.currentTarget.value;
+          saveData();
+        });
+      });
+
       document.querySelector("#saveWorkout")?.addEventListener("click", saveWorkout);
     }
 
     function renderProgress() {
       const stats = getProgressStats();
+      const selectedWeek = getSelectedWeek();
       document.querySelector("#view-progress").innerHTML = `
         <section class="hero">
           <div>
             <div class="pill-row">
               <span class="pill good">${data.history.length} séance${data.history.length > 1 ? "s" : ""}</span>
-              <span class="pill">${stats.exerciseCount} exercice${stats.exerciseCount > 1 ? "s" : ""} suivis</span>
+              <span class="pill">${stats.exerciseCount} exercice${stats.exerciseCount > 1 ? "s" : ""}</span>
+              <span class="pill">${stats.activityCount} cardio</span>
             </div>
             <h1>Progression</h1>
           </div>
-          <p>Lecture simple : dernière performance, meilleure charge notée, et évolution depuis la première séance enregistrée.</p>
+          <p>Chaque sauvegarde est liée à une semaine. Les charges progressent exercice par exercice, les séances cardio restent lisibles dans l’historique.</p>
         </section>
 
-        ${data.lastSavedAt ? `<section class="notice" style="margin-top:1rem">Dernière séance sauvegardée : ${new Date(data.lastSavedAt).toLocaleString("fr-FR")}.</section>` : ""}
+        ${data.lastSavedAt ? `<section class="notice" style="margin-top:1rem">Dernière séance sauvegardée : ${new Date(data.lastSavedAt).toLocaleString("fr-FR")}${selectedWeek ? ` · semaine active : ${selectedWeek.label}` : ""}.</section>` : ""}
 
         <div class="section-title">
           <h2>Résumé</h2>
-          <span class="fine">LocalStorage</span>
+          <span class="fine">Données locales</span>
         </div>
         <section class="summary">
           <div class="stat"><small>Séances</small><strong>${data.history.length}</strong></div>
-          <div class="stat"><small>Dernière</small><strong>${data.history[0]?.sessionName || "-"}</strong></div>
+          <div class="stat"><small>Dernière</small><strong>${data.history[0] ? `${data.history[0].icon || ""} ${data.history[0].sessionName}` : "-"}</strong></div>
           <div class="stat"><small>Volume max</small><strong>${stats.bestVolume ? Math.round(stats.bestVolume) : "-"}</strong></div>
         </section>
 
         <div class="section-title">
-          <h2>Par exercice</h2>
-          <span class="fine">Plus lisible</span>
+          <h2>Musculation</h2>
+          <span class="fine">Dernière charge et tendance</span>
         </div>
         <section class="grid progress-grid">
-          ${stats.exercises.length ? stats.exercises.map(renderExerciseProgress).join("") : `<div class="empty">Aucune séance sauvegardée pour le moment. Va dans l’onglet Séance, choisis une séance, puis appuie sur “Sauvegarder la séance”.</div>`}
+          ${stats.exercises.length ? stats.exercises.map(renderExerciseProgress).join("") : `<div class="empty">Aucun exercice sauvegardé pour le moment.</div>`}
+        </section>
+
+        <div class="section-title">
+          <h2>Cardio</h2>
+          <span class="fine">Natation et vélo</span>
+        </div>
+        <section class="grid progress-grid">
+          ${stats.activities.length ? stats.activities.map(renderActivityProgress).join("") : `<div class="empty">Aucune séance natation ou vélo sauvegardée pour le moment.</div>`}
         </section>
 
         <div class="section-title">
@@ -797,13 +1114,14 @@
     }
 
     function getProgressStats() {
-      const map = new Map();
+      const exerciseMap = new Map();
+      const activityMap = new Map();
       let bestVolume = 0;
 
       [...data.history].reverse().forEach(record => {
-        record.exercises.forEach(item => {
-          if (!map.has(item.id)) {
-            map.set(item.id, {
+        (record.exercises || []).forEach(item => {
+          if (!exerciseMap.has(item.id)) {
+            exerciseMap.set(item.id, {
               id: item.id,
               name: item.name,
               first: item,
@@ -815,22 +1133,43 @@
             });
           }
 
-          const current = map.get(item.id);
+          const current = exerciseMap.get(item.id);
           const weight = numericWeight(item.weight);
-          const reps = numericReps(item.reps);
+          const reps = numericValue(item.reps);
           const volume = weight * reps * Number(item.sets || 0);
 
           current.last = item;
           current.bestWeight = Math.max(current.bestWeight, weight);
           current.bestVolume = Math.max(current.bestVolume, volume);
           current.count += 1;
-          current.records.push({ date: record.date, sessionName: record.sessionName, ...item, volume });
+          current.records.push({ date: record.date, weekLabel: record.weekLabel || "Non classée", sessionName: record.sessionName, ...item, volume });
           bestVolume = Math.max(bestVolume, volume);
         });
+
+        if (record.activity) {
+          if (!activityMap.has(record.sessionId)) {
+            activityMap.set(record.sessionId, {
+              id: record.sessionId,
+              icon: record.icon || "",
+              name: record.sessionName,
+              first: record.activity,
+              last: record.activity,
+              count: 0,
+              bestDuration: 0,
+              bestDistance: 0
+            });
+          }
+          const current = activityMap.get(record.sessionId);
+          current.last = record.activity;
+          current.count += 1;
+          current.bestDuration = Math.max(current.bestDuration, numericValue(record.activity.duration));
+          current.bestDistance = Math.max(current.bestDistance, numericValue(record.activity.distance));
+        }
       });
 
-      const exercises = [...map.values()].sort((a, b) => a.name.localeCompare(b.name, "fr"));
-      return { exercises, exerciseCount: exercises.length, bestVolume };
+      const exercises = [...exerciseMap.values()].sort((a, b) => a.name.localeCompare(b.name, "fr"));
+      const activities = [...activityMap.values()].sort((a, b) => a.name.localeCompare(b.name, "fr"));
+      return { exercises, activities, exerciseCount: exercises.length, activityCount: activities.length, bestVolume };
     }
 
     function renderExerciseProgress(item) {
@@ -862,23 +1201,45 @@
       `;
     }
 
+    function renderActivityProgress(item) {
+      return `
+        <article class="card grid">
+          <div class="progress-head">
+            <div>
+              <strong>${item.icon} ${item.name}</strong>
+              <p class="fine">${item.count} séance${item.count > 1 ? "s" : ""}</p>
+            </div>
+            <span class="pill good">${escapeHtml(item.last.duration || "-")} min</span>
+          </div>
+          <div class="summary">
+            <div class="stat"><small>Dernière durée</small><strong>${escapeHtml(item.last.duration || "-")}</strong></div>
+            <div class="stat"><small>Dernière distance</small><strong>${escapeHtml(item.last.distance || "-")}</strong></div>
+            <div class="stat"><small>Ressenti</small><strong>${escapeHtml(item.last.effort || "-")}</strong></div>
+          </div>
+          <div class="notice">Meilleure durée notée : <strong>${item.bestDuration || "-"} min</strong>${item.bestDistance ? ` · distance max : <strong>${item.bestDistance}</strong>` : ""}.</div>
+        </article>
+      `;
+    }
+
     function renderHistoryTable() {
       return `
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
+                <th>Semaine</th>
                 <th>Date</th>
                 <th>Séance</th>
-                <th>Exercices</th>
+                <th>Détail</th>
               </tr>
             </thead>
             <tbody>
-              ${data.history.slice(0, 20).map(record => `
+              ${data.history.slice(0, 24).map(record => `
                 <tr>
+                  <td>${escapeHtml(record.weekLabel || "Non classée")}</td>
                   <td>${record.date}</td>
-                  <td>${escapeHtml(record.sessionName)}</td>
-                  <td>${record.exercises.map(item => `${escapeHtml(item.name)} : ${escapeHtml(item.weight)}, ${escapeHtml(item.reps)} reps, ${item.sets} séries`).join("<br>")}</td>
+                  <td>${escapeHtml(`${record.icon || ""} ${record.sessionName}`)}</td>
+                  <td>${renderRecordDetail(record)}</td>
                 </tr>
               `).join("")}
             </tbody>
@@ -887,20 +1248,22 @@
       `;
     }
 
+    function renderRecordDetail(record) {
+      if (record.activity) {
+        return `Durée : ${escapeHtml(record.activity.duration || "-")} min · Distance : ${escapeHtml(record.activity.distance || "-")} · Ressenti : ${escapeHtml(record.activity.effort || "-")}/10`;
+      }
+      return (record.exercises || [])
+        .map(item => `${escapeHtml(item.name)} : ${escapeHtml(item.weight)}, ${escapeHtml(item.reps)} reps, ${item.sets} séries`)
+        .join("<br>");
+    }
+
     function bindProgressEvents() {
-      document.querySelector("#exportData")?.addEventListener("click", () => {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `progression-sport-${today()}.json`;
-        link.click();
-        URL.revokeObjectURL(url);
-      });
+      document.querySelector("#exportData")?.addEventListener("click", exportDataByEmail);
 
       document.querySelector("#resetData")?.addEventListener("click", () => {
         if (confirm("Réinitialiser toutes les séances sauvegardées ?")) {
           data = createDefaultData();
+          sessionScreen = "weeks";
           saveData();
           renderAll();
         }
