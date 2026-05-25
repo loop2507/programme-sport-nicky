@@ -74,6 +74,12 @@
       background: var(--surface-soft);
     }
 
+    input[type="checkbox"] {
+      width: 1.2rem;
+      min-height: auto;
+      accent-color: var(--accent);
+    }
+
     label {
       display: grid;
       gap: .35rem;
@@ -196,6 +202,11 @@
       box-shadow: 0 0 0 3px rgba(21, 124, 101, .10);
     }
 
+    .session-card.done {
+      border-color: rgba(21, 124, 101, .45);
+      background: linear-gradient(135deg, #ffffff, var(--accent-soft));
+    }
+
     .session-head,
     .exercise-head,
     .progress-head {
@@ -214,6 +225,18 @@
       border-radius: 50%;
       background: var(--accent-soft);
       font-size: 1.25rem;
+    }
+
+    .done-check {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: .42rem;
+      min-height: 36px;
+      color: var(--text);
+      font-size: .84rem;
+      font-weight: 750;
+      white-space: nowrap;
     }
 
     .pill-row {
@@ -302,6 +325,24 @@
       background: var(--accent-soft);
       color: var(--text);
       line-height: 1.45;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: .7rem;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface-strong);
+    }
+
+    .progress-bar span {
+      display: block;
+      width: var(--value, 0%);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), #50b58e);
+      transition: width .2s ease;
     }
 
     .empty {
@@ -583,6 +624,8 @@
         selectedWeekId: "",
         selectedSessionId: "",
         currentEntries: {},
+        completed: {},
+        completionHydrated: false,
         history: [],
         lastSavedAt: ""
       };
@@ -590,6 +633,7 @@
 
     const weeks = generateWeeks();
     let data = loadData();
+    hydrateCompletionFromHistory();
     let activeTab = "session";
     let sessionScreen = "weeks";
 
@@ -658,6 +702,41 @@
 
     function getSession(sessionId) {
       return SESSIONS.find(session => session.id === sessionId);
+    }
+
+    function hydrateCompletionFromHistory() {
+      if (data.completionHydrated) return;
+      data.completed = data.completed || {};
+      data.history.forEach(record => {
+        if (record.weekId && record.sessionId) {
+          markSessionDone(record.weekId, record.sessionId, true, false);
+        }
+      });
+      data.completionHydrated = true;
+      saveData();
+    }
+
+    function markSessionDone(weekId, sessionId, done, persist = true) {
+      data.completed = data.completed || {};
+      if (!data.completed[weekId]) data.completed[weekId] = {};
+      if (done) data.completed[weekId][sessionId] = true;
+      else delete data.completed[weekId][sessionId];
+      if (persist) saveData();
+    }
+
+    function isSessionDone(weekId, sessionId) {
+      return Boolean(data.completed?.[weekId]?.[sessionId]);
+    }
+
+    function getWeekCompletion(weekId) {
+      const done = SESSIONS.filter(session => isSessionDone(weekId, session.id)).length;
+      const total = SESSIONS.length;
+      return {
+        done,
+        total,
+        complete: done === total,
+        percent: total ? Math.round((done / total) * 100) : 0
+      };
     }
 
     function today() {
@@ -798,11 +877,12 @@
       }
 
       data.history.unshift(record);
+      markSessionDone(week.id, session.id, true, false);
       data.lastSavedAt = new Date().toISOString();
       data.currentEntries = {};
       data.selectedSessionId = "";
       sessionScreen = "sessions";
-      activeTab = "progress";
+      activeTab = "session";
       saveData();
       renderAll();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -848,7 +928,7 @@
 
         <section class="grid week-grid">
           ${weeks.map(week => {
-            const count = data.history.filter(record => record.weekId === week.id).length;
+            const completion = getWeekCompletion(week.id);
             const isCurrent = currentWeek?.id === week.id;
             return `
               <button class="card week-card ${isCurrent ? "current" : ""}" type="button" data-select-week="${week.id}">
@@ -857,9 +937,10 @@
                     <strong>${week.label}</strong>
                     <p class="fine">${week.range}</p>
                   </div>
-                  ${isCurrent ? `<span class="pill good">En cours</span>` : `<span class="pill">${count} séance${count > 1 ? "s" : ""}</span>`}
+                  <span class="pill ${completion.complete ? "good" : ""}">${completion.complete ? "Complétée" : `${completion.done}/${completion.total} faites`}</span>
                 </div>
-                ${isCurrent && count ? `<p class="fine">${count} séance${count > 1 ? "s" : ""} déjà sauvegardée${count > 1 ? "s" : ""} cette semaine.</p>` : ""}
+                <div class="progress-bar" aria-label="Progression ${week.label}"><span style="--value:${completion.percent}%"></span></div>
+                ${isCurrent ? `<p class="fine">Semaine en cours${completion.done ? ` · ${completion.done} séance${completion.done > 1 ? "s" : ""} validée${completion.done > 1 ? "s" : ""}` : ""}.</p>` : ""}
               </button>
             `;
           }).join("")}
@@ -869,6 +950,7 @@
 
     function renderSessionPicker() {
       const week = getSelectedWeek();
+      const completion = week ? getWeekCompletion(week.id) : { done: 0, total: SESSIONS.length, percent: 0, complete: false };
       return `
         <section class="hero">
           <div>
@@ -880,7 +962,14 @@
             </div>
             <h1>Choisis ta séance</h1>
           </div>
-          <p>Les icônes donnent le sport d’un coup d’œil : musculation, course, natation ou vélo.</p>
+          <div class="grid">
+            <p>Les icônes donnent le sport d’un coup d’œil : musculation, course, natation ou vélo.</p>
+            <div class="notice">
+              <strong>${completion.done}/${completion.total} séances faites</strong>
+              <div class="progress-bar" style="margin-top:.55rem" aria-label="Progression de la semaine"><span style="--value:${completion.percent}%"></span></div>
+              <p class="fine" style="margin-top:.45rem">${completion.complete ? "Semaine complétée." : "La barre atteint 100 % quand les six séances sont cochées."}</p>
+            </div>
+          </div>
         </section>
 
         <div class="section-title">
@@ -889,22 +978,33 @@
         </div>
 
         <section class="grid sessions-grid">
-          ${SESSIONS.map(session => `
-            <button class="card session-card" type="button" data-select-session="${session.id}">
+          ${SESSIONS.map(session => {
+            const done = week ? isSessionDone(week.id, session.id) : false;
+            return `
+            <article class="card session-card ${done ? "done" : ""}">
               <div class="session-head">
                 <div>
                   <strong>${session.name}</strong>
                   <p class="fine">${session.focus}</p>
                 </div>
-                <span class="sport-icon" aria-hidden="true">${session.icon}</span>
+                <div class="grid" style="justify-items:end">
+                  <span class="sport-icon" aria-hidden="true">${session.icon}</span>
+                  <label class="done-check">
+                    <input type="checkbox" data-session-done="${session.id}" ${done ? "checked" : ""}>
+                    <span>Faite</span>
+                  </label>
+                </div>
               </div>
               <div class="pill-row">
                 <span class="pill">${session.duration}</span>
                 <span class="pill">${session.type === "strength" ? `${session.exercises.length} exos` : "cardio"}</span>
+                ${done ? `<span class="pill good">Validée</span>` : ""}
               </div>
               <p class="fine">${session.note}</p>
-            </button>
-          `).join("")}
+              <button class="btn secondary" type="button" data-select-session="${session.id}">Ouvrir la séance</button>
+            </article>
+          `;
+          }).join("")}
         </section>
       `;
     }
@@ -1017,6 +1117,15 @@
 
       document.querySelectorAll("[data-select-session]").forEach(button => {
         button.addEventListener("click", () => selectSession(button.dataset.selectSession));
+      });
+
+      document.querySelectorAll("[data-session-done]").forEach(input => {
+        input.addEventListener("change", event => {
+          const week = getSelectedWeek();
+          if (!week) return;
+          markSessionDone(week.id, event.currentTarget.dataset.sessionDone, event.currentTarget.checked);
+          renderAll();
+        });
       });
 
       document.querySelector("#backToWeeks")?.addEventListener("click", () => {
