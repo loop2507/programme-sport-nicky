@@ -497,11 +497,6 @@
 </head>
 <body>
   <div class="app">
-    <header class="top">
-      <strong>Training Program</strong>
-      <span>2026 weeks, simple sessions, clear progress</span>
-    </header>
-
     <main>
       <section class="view active" id="view-session"></section>
       <section class="view" id="view-progress"></section>
@@ -636,7 +631,7 @@
         duration: "Free",
         focus: "Optional extra running session",
         note: "Use this when you decide to add an extra run outside the planned Upper Body + Run sessions.",
-        defaults: { duration: "", speed: "", distance: "", avgHr: "", maxHr: "", effort: "", notes: "" }
+        defaults: { duration: "", speed: "", distance: "", avgHr: "", maxHr: "", zone: "", notes: "" }
       }
     ];
 
@@ -1098,7 +1093,7 @@
           distance: "",
           avgHr: "",
           maxHr: "",
-          effort: session.run?.defaultEffort || "",
+          zone: session.run?.id === "easyRun" ? "Zone 2" : "Zones 3-4",
           notes: ""
         };
       }
@@ -1117,7 +1112,8 @@
             "Run after strength training, never before.",
             "Duration: 25 to 30 minutes.",
             "Treadmill speed guide: 6,9 to 8,0 km/h, roughly 7:30 to 8:45 min/km.",
-            "Intensity: easy, RPE 5 to 6/10. You should be able to speak in short sentences.",
+            "Target zone: Zone 2, around 60-70% of max heart rate. It should feel easy and aerobic.",
+            "Practical check: you should be able to speak in short sentences and avoid drifting into Zone 4.",
             "Optional incline: 0,5% to 1%. Do not chase a record here."
           ]
         };
@@ -1128,10 +1124,10 @@
           title: "How to do the Quality Run",
           lines: [
             "Run after strength training, never before.",
-            "Warm-up: 8 minutes easy at 6,9 to 7,7 km/h.",
-            "Main set: 8 rounds of 30 seconds fast at 8,9 to 10,0 km/h, then 90 seconds easy jog or active walk.",
+            "Warm-up: 8 minutes easy in Zones 1-2 at 6,9 to 7,7 km/h.",
+            "Main set: 8 rounds of 30 seconds fast in Zones 3-4 at 8,9 to 10,0 km/h, then 90 seconds easy jog or active walk back toward Zone 2.",
             "Cool-down: 5 minutes easy.",
-            "Keep the fast parts controlled. The goal is quality, not exhaustion."
+            "Keep the fast parts controlled. Avoid spending repeated time in Zone 5."
           ]
         };
       }
@@ -1141,10 +1137,10 @@
           title: "How to do the Quality Run",
           lines: [
             "Run after strength training, never before.",
-            "Warm-up: 8 minutes easy.",
-            "Main set: 6 rounds of 1 minute fast at 9,2 to 10,3 km/h, then 90 seconds to 2 minutes easy.",
+            "Warm-up: 8 minutes easy in Zones 1-2.",
+            "Main set: 6 rounds of 1 minute fast in Zones 3-4 at 9,2 to 10,3 km/h, then 90 seconds to 2 minutes easy back toward Zone 2.",
             "Cool-down: 5 minutes easy.",
-            "Keep good form and avoid regularly exceeding very high heart rates."
+            "Keep good form and avoid spending repeated time in Zone 5."
           ]
         };
       }
@@ -1153,8 +1149,8 @@
         title: "How to do the Quality Run",
         lines: [
           "Run after strength training, never before.",
-          "Warm-up: 8 to 10 minutes easy.",
-          "Main set: 3 rounds of 4 minutes steady at 8,6 to 9,5 km/h, then 2 minutes easy.",
+          "Warm-up: 8 to 10 minutes easy in Zones 1-2.",
+          "Main set: 3 rounds of 4 minutes steady in Zone 3, briefly touching Zone 4 if needed, at 8,6 to 9,5 km/h. Recover for 2 minutes easy toward Zone 2.",
           "Cool-down: 5 minutes easy.",
           "This is a controlled sustained effort, not an all-out test."
         ]
@@ -1221,7 +1217,7 @@
             distance: entry.distance,
             avgHr: entry.avgHr,
             maxHr: entry.maxHr,
-            effort: entry.effort,
+            zone: entry.zone,
             notes: entry.notes
           };
         }
@@ -1233,7 +1229,8 @@
           distance: entry.distance,
           avgHr: entry.avgHr,
           maxHr: entry.maxHr,
-          effort: entry.effort
+          effort: entry.effort,
+          zone: entry.zone
         };
         if (entry.notes) record.activity.notes = entry.notes;
       }
@@ -1280,12 +1277,10 @@
             </div>
             <h1>Choose the week</h1>
           </div>
-          <p>The app starts with the week list. Tap a week, then choose the session you want to do.</p>
         </section>
 
         <div class="section-title">
           <h2>2026 Weeks</h2>
-          <span class="fine">Until the last week of 2026</span>
         </div>
 
         <section class="grid week-grid">
@@ -1313,6 +1308,7 @@
     function renderSessionPicker() {
       const week = getSelectedWeek();
       const completion = week ? getWeekCompletion(week.id) : { done: 0, total: getCoreSessions().length, percent: 0, complete: false };
+      const muscleVolume = week ? getWeeklyMuscleVolume(week.id) : [];
       return `
         <section class="hero">
           <div>
@@ -1366,6 +1362,17 @@
             </article>
           `;
           }).join("")}
+        </section>
+
+        <div class="section-title">
+          <h2>Weekly Muscle Volume</h2>
+          <span class="fine">${week ? `${week.label} · ${week.range}` : ""}</span>
+        </div>
+        <section class="grid progress-grid">
+          ${muscleVolume.map(renderMuscleVolumeCard).join("")}
+        </section>
+        <section class="notice" style="margin-top:.8rem">
+          Volume is counted from this selected week only. Primary muscles receive 1 set per exercise set; secondary muscles receive a partial set.
         </section>
       `;
     }
@@ -1479,8 +1486,8 @@
             <label>Max HR
               <input inputmode="numeric" data-run-field="maxHr" value="${escapeHtml(entry.maxHr)}" placeholder="bpm">
             </label>
-            <label>Effort /10
-              <input inputmode="decimal" data-run-field="effort" value="${escapeHtml(entry.effort)}" placeholder="6">
+            <label>HR zone
+              <input data-run-field="zone" value="${escapeHtml(entry.zone)}" placeholder="Zone 2">
             </label>
           </div>
           <label>Run notes
@@ -1510,7 +1517,7 @@
 
         <div class="section-title">
           <h2>Simple Tracking</h2>
-          <span class="fine">${isRun ? "Duration · speed · distance · HR · effort" : "Duration · distance · effort"}</span>
+          <span class="fine">${isRun ? "Duration · speed · distance · HR zone" : "Duration · distance · effort"}</span>
         </div>
 
         <section class="exercise">
@@ -1534,9 +1541,15 @@
               <input inputmode="numeric" data-activity-field="maxHr" value="${escapeHtml(entry.maxHr || "")}" placeholder="bpm">
             </label>
             ` : ""}
+            ${isRun ? `
+            <label>HR zone
+              <input data-activity-field="zone" value="${escapeHtml(entry.zone || "")}" placeholder="Zone 2">
+            </label>
+            ` : `
             <label>Effort /10
               <input data-activity-field="effort" value="${escapeHtml(entry.effort)}" placeholder="e.g. 6">
             </label>
+            `}
           </div>
           ${isRun ? `
           <label style="margin-top:.7rem">Run notes
@@ -1637,9 +1650,6 @@
     function renderProgress() {
       const stats = getProgressStats();
       const selectedWeek = getSelectedWeek();
-      const volumeWeekId = getVolumeWeekId();
-      const volumeWeek = weeks.find(week => week.id === volumeWeekId);
-      const muscleVolume = getWeeklyMuscleVolume(volumeWeekId);
       const sessionCounts = getSessionSummaryCounts();
       document.querySelector("#view-progress").innerHTML = `
         <section class="hero">
@@ -1657,21 +1667,17 @@
 
         <div class="section-title">
           <h2>Summary</h2>
-          <span class="fine">Done sessions by type</span>
         </div>
         <section class="grid progress-grid">
           ${SESSIONS.map(session => renderSessionSummaryCard(session, sessionCounts[session.id] || 0)).join("")}
         </section>
 
         <div class="section-title">
-          <h2>Weekly Muscle Volume</h2>
-          <span class="fine">${volumeWeek ? `${volumeWeek.label} · ${volumeWeek.range}` : "No week selected"}</span>
+          <h2>Weight Progress Charts</h2>
+          <span class="fine">Saved loads over time</span>
         </div>
         <section class="grid progress-grid">
-          ${muscleVolume.map(renderMuscleVolumeCard).join("")}
-        </section>
-        <section class="notice" style="margin-top:.8rem">
-          Volume is counted as weekly hard sets. Primary muscles receive 1 set per exercise set; secondary muscles receive a partial set.
+          ${stats.exercises.length ? stats.exercises.map(renderExerciseWeightChart).join("") : `<div class="empty">No exercise saved yet.</div>`}
         </section>
 
         <div class="section-title">
@@ -1783,6 +1789,76 @@
       return { exercises, activities, exerciseCount: exercises.length, activityCount: activities.length, bestVolume };
     }
 
+    function renderExerciseWeightChart(item) {
+      const points = item.records
+        .map(record => ({ ...record, value: numericWeight(record.weight) }))
+        .filter(record => record.value > 0);
+
+      if (!points.length) {
+        return `
+          <article class="card grid">
+            <div class="progress-head">
+              <div>
+                <strong>${escapeHtml(item.name)}</strong>
+                <p class="fine">No numeric load saved yet</p>
+              </div>
+            </div>
+            <div class="empty">Save a weight for this exercise to start the chart.</div>
+          </article>
+        `;
+      }
+
+      const chartWidth = 320;
+      const chartHeight = 130;
+      const padding = 24;
+      const weights = points.map(point => point.value);
+      const minWeight = Math.min(...weights);
+      const maxWeight = Math.max(...weights);
+      const flatRange = Math.max(1, maxWeight * 0.12);
+      const chartMin = minWeight === maxWeight ? Math.max(0, minWeight - flatRange) : minWeight;
+      const chartMax = minWeight === maxWeight ? maxWeight + flatRange : maxWeight;
+      const span = chartMax - chartMin || 1;
+      const coordinates = points.map((point, index) => {
+        const x = points.length === 1
+          ? chartWidth / 2
+          : padding + (index / (points.length - 1)) * (chartWidth - padding * 2);
+        const y = chartHeight - padding - ((point.value - chartMin) / span) * (chartHeight - padding * 2);
+        return { ...point, x, y };
+      });
+      const linePath = coordinates.map((point, index) => `${index ? "L" : "M"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ");
+      const first = points[0];
+      const latest = points[points.length - 1];
+      const change = latest.value - first.value;
+      const changeLabel = change > 0 ? `+${formatDecimalComma(change)} kg` : change < 0 ? `${formatDecimalComma(change)} kg` : "stable";
+      const changeClass = change > 0 ? "good" : change < 0 ? "warn" : "";
+
+      return `
+        <article class="card grid">
+          <div class="progress-head">
+            <div>
+              <strong>${escapeHtml(item.name)}</strong>
+              <p class="fine">${points.length} saved load${points.length > 1 ? "s" : ""}</p>
+            </div>
+            <span class="pill ${changeClass}">${changeLabel}</span>
+          </div>
+          <svg viewBox="0 0 ${chartWidth} ${chartHeight}" role="img" aria-label="${escapeHtml(item.name)} weight progression chart" style="width:100%;height:auto;display:block">
+            <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${chartHeight - padding}" stroke="#d7ded8" stroke-width="1" />
+            <line x1="${padding}" y1="${chartHeight - padding}" x2="${chartWidth - padding}" y2="${chartHeight - padding}" stroke="#d7ded8" stroke-width="1" />
+            <line x1="${padding}" y1="${chartHeight / 2}" x2="${chartWidth - padding}" y2="${chartHeight / 2}" stroke="#edf1ee" stroke-width="1" />
+            <path d="${linePath}" fill="none" stroke="#2f6f55" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            ${coordinates.map(point => `<circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="4.5" fill="#2f6f55"><title>${escapeHtml(point.weekLabel)} - ${formatDecimalComma(point.value)} kg</title></circle>`).join("")}
+            <text x="${padding}" y="${padding - 8}" fill="#52645a" font-size="11">${formatDecimalComma(chartMax)} kg</text>
+            <text x="${padding}" y="${chartHeight - 6}" fill="#52645a" font-size="11">${formatDecimalComma(chartMin)} kg</text>
+          </svg>
+          <div class="summary">
+            <div class="stat"><small>First</small><strong>${escapeHtml(displayLoadWithUnit(first.weight))}</strong></div>
+            <div class="stat"><small>Latest</small><strong>${escapeHtml(displayLoadWithUnit(latest.weight))}</strong></div>
+            <div class="stat"><small>Best</small><strong>${formatDecimalComma(maxWeight)} kg</strong></div>
+          </div>
+        </article>
+      `;
+    }
+
     function renderExerciseProgress(item) {
       const firstWeight = numericWeight(item.first.weight);
       const lastWeight = numericWeight(item.last.weight);
@@ -1872,7 +1948,7 @@
           <div class="summary">
             <div class="stat"><small>Last duration</small><strong>${escapeHtml(item.last.duration || "-")}</strong></div>
             <div class="stat"><small>Last distance</small><strong>${escapeHtml(item.last.distance || "-")}</strong></div>
-            <div class="stat"><small>${item.last.speed ? "Speed" : "Effort"}</small><strong>${item.last.speed ? escapeHtml(displaySpeedWithUnit(item.last.speed)) : escapeHtml(item.last.effort || "-")}</strong></div>
+            <div class="stat"><small>${item.last.zone ? "Zone" : item.last.speed ? "Speed" : "Effort"}</small><strong>${item.last.zone ? escapeHtml(item.last.zone) : item.last.speed ? escapeHtml(displaySpeedWithUnit(item.last.speed)) : escapeHtml(item.last.effort || "-")}</strong></div>
           </div>
           <div class="notice">Best logged duration: <strong>${item.bestDuration || "-"} min</strong>${item.bestDistance ? ` · max distance: <strong>${item.bestDistance}</strong>` : ""}.</div>
         </article>
@@ -1912,13 +1988,14 @@
       if (record.activity && !(record.exercises || []).length) {
         const speed = record.activity.speed ? ` · Speed: ${escapeHtml(displaySpeedWithUnit(record.activity.speed))}` : "";
         const hr = record.activity.avgHr || record.activity.maxHr ? ` · HR: ${escapeHtml(record.activity.avgHr || "-")}/${escapeHtml(record.activity.maxHr || "-")} bpm` : "";
-        return `Duration: ${escapeHtml(record.activity.duration || "-")} min${speed} · Distance: ${escapeHtml(record.activity.distance || "-")}${hr} · Effort: ${escapeHtml(record.activity.effort || "-")}/10`;
+        const intensity = record.activity.zone ? ` · Zone: ${escapeHtml(record.activity.zone)}` : ` · Effort: ${escapeHtml(record.activity.effort || "-")}/10`;
+        return `Duration: ${escapeHtml(record.activity.duration || "-")} min${speed} · Distance: ${escapeHtml(record.activity.distance || "-")}${hr}${intensity}`;
       }
       const strength = (record.exercises || [])
         .map(item => `${escapeHtml(getExerciseDisplayName(item))}: ${escapeHtml(displayLoadWithUnit(item.weight))}, ${escapeHtml(item.reps)} reps, ${item.sets} sets`)
         .join("<br>");
       const run = record.running
-        ? `<br><strong>🏃 ${escapeHtml(record.running.name || "Run")}</strong>: ${escapeHtml(record.running.duration || "-")} min · ${escapeHtml(displaySpeedWithUnit(record.running.speed))} · Distance: ${escapeHtml(record.running.distance || "-")} · Effort: ${escapeHtml(record.running.effort || "-")}/10`
+        ? `<br><strong>🏃 ${escapeHtml(record.running.name || "Run")}</strong>: ${escapeHtml(record.running.duration || "-")} min · ${escapeHtml(displaySpeedWithUnit(record.running.speed))} · Distance: ${escapeHtml(record.running.distance || "-")} · Zone: ${escapeHtml(record.running.zone || "-")}`
         : "";
       return `${strength}${run}`;
     }
