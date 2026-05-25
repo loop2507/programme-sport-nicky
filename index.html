@@ -1325,18 +1325,16 @@
             <h1>Choose your session</h1>
           </div>
           <div class="grid">
-            <p>The icons show the sport at a glance: strength training, running, swimming, or cycling.</p>
             <div class="notice">
               <strong>${completion.done}/${completion.total} sessions done</strong>
               <div class="progress-bar" style="margin-top:.55rem" aria-label="Week progress"><span style="--value:${completion.percent}%"></span></div>
-              <p class="fine" style="margin-top:.45rem">${completion.complete ? "Week completed." : "The bar reaches 100% when six sessions are checked. Extra sessions show as 7/6, 8/6, and beyond."}</p>
+              ${completion.complete ? `<p class="fine" style="margin-top:.45rem">Week completed.</p>` : ""}
             </div>
           </div>
         </section>
 
         <div class="section-title">
-          <h2>Suggested Sessions</h2>
-          <span class="fine">No fixed day</span>
+          <h2>Sessions</h2>
         </div>
 
         <section class="grid sessions-grid">
@@ -1653,7 +1651,6 @@
             </div>
             <h1>Progress</h1>
           </div>
-          <p>Each saved entry is linked to a week. Strength progress is tracked exercise by exercise, while cardio stays easy to read in the history.</p>
         </section>
 
         ${data.lastSavedAt ? `<section class="notice" style="margin-top:1rem">Last saved session: ${new Date(data.lastSavedAt).toLocaleString("en-GB")}${selectedWeek ? ` · active week: ${selectedWeek.label}` : ""}.</section>` : ""}
@@ -1892,6 +1889,7 @@
                 <th>Date</th>
                 <th>Session</th>
                 <th>Details</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -1901,6 +1899,7 @@
                   <td>${record.date}</td>
                   <td>${escapeHtml(`${record.icon || ""} ${getSessionDisplayName(record)}`)}</td>
                   <td>${renderRecordDetail(record)}</td>
+                  <td><button class="btn danger" type="button" data-delete-record="${record.id}">Delete</button></td>
                 </tr>
               `).join("")}
             </tbody>
@@ -1926,6 +1925,20 @@
 
     function bindProgressEvents() {
       document.querySelector("#exportData")?.addEventListener("click", exportDataByEmail);
+
+      document.querySelectorAll("[data-delete-record]").forEach(button => {
+        button.addEventListener("click", event => {
+          const recordId = event.currentTarget.dataset.deleteRecord;
+          const record = data.history.find(item => item.id === recordId);
+          if (!record) return;
+          if (confirm(`Delete ${getSessionDisplayName(record)} from ${record.date}?`)) {
+            data.history = data.history.filter(item => item.id !== recordId);
+            if (!data.history.length) data.lastSavedAt = "";
+            saveData();
+            renderAll();
+          }
+        });
+      });
 
       document.querySelector("#resetData")?.addEventListener("click", () => {
         if (confirm("Reset all saved sessions?")) {
