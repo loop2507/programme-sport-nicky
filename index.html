@@ -44,7 +44,8 @@
     }
 
     button,
-    input {
+    input,
+    select {
       font: inherit;
     }
 
@@ -53,7 +54,8 @@
       cursor: pointer;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       min-height: 46px;
       padding: .72rem .78rem;
@@ -64,12 +66,14 @@
       outline: none;
     }
 
-    input:focus {
+    input:focus,
+    select:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(21, 124, 101, .12);
     }
 
-    input[readonly] {
+    input[readonly],
+    select:disabled {
       color: var(--muted);
       background: var(--surface-soft);
     }
@@ -196,16 +200,38 @@
       width: 100%;
     }
 
+    .session-card {
+      cursor: pointer;
+    }
+
     .session-card:hover,
     .week-card:hover,
-    .week-card.current {
+    .week-card.current,
+    .session-card:focus-visible {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(21, 124, 101, .10);
+      outline: none;
     }
 
     .session-card.done {
       border-color: rgba(21, 124, 101, .45);
       background: linear-gradient(135deg, #ffffff, var(--accent-soft));
+    }
+
+    .exercise.done {
+      border-color: rgba(21, 124, 101, .35);
+      background: #eef3ef;
+      opacity: .78;
+    }
+
+    .exercise.done .notice {
+      background: #e5ece7;
+      border-color: var(--line);
+    }
+
+    .exercise.done input:not([type="checkbox"]) {
+      color: var(--muted);
+      background: #e8eee9;
     }
 
     .session-head,
@@ -239,6 +265,23 @@
       border-radius: 50%;
       background: var(--accent-soft);
       font-size: 1.25rem;
+      line-height: 1;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .sport-icon > span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      line-height: 1;
+    }
+
+    .sport-icon.combo {
+      width: 46px;
+      height: 46px;
+      font-size: 1rem;
     }
 
     .done-check {
@@ -251,6 +294,24 @@
       font-size: .84rem;
       font-weight: 750;
       white-space: nowrap;
+    }
+
+    .exercise-check {
+      justify-content: flex-start;
+      margin-top: .25rem;
+    }
+
+    .history-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      min-width: 150px;
+    }
+
+    .history-actions .btn {
+      width: auto;
+      min-height: 40px;
+      padding: .55rem .7rem;
     }
 
     .pill-row {
@@ -332,6 +393,13 @@
       align-items: end;
     }
 
+    .health-fields {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: .55rem;
+      align-items: end;
+    }
+
     .notice {
       padding: .8rem;
       border: 1px solid rgba(21, 124, 101, .22);
@@ -342,6 +410,7 @@
     }
 
     .progress-bar {
+      position: relative;
       width: 100%;
       height: .7rem;
       overflow: hidden;
@@ -359,6 +428,145 @@
       transition: width .2s ease;
     }
 
+    .progress-bar.segmented span {
+      position: absolute;
+      top: 0;
+      height: 100%;
+    }
+
+    .progress-bar.segmented .progress-core {
+      left: 0;
+      width: var(--core, 0%);
+      background: linear-gradient(90deg, var(--accent), #50b58e);
+    }
+
+    .progress-bar.segmented .progress-optional {
+      left: var(--optional-left, 0%);
+      width: var(--optional, 0%);
+      background: linear-gradient(90deg, #d8952d, #f0bd66);
+    }
+
+    .progress-bar.segmented .progress-overflow {
+      right: 0;
+      width: var(--overflow, 0%);
+      background: repeating-linear-gradient(
+        135deg,
+        #d8952d 0,
+        #d8952d 5px,
+        #f3c87a 5px,
+        #f3c87a 10px
+      );
+    }
+
+    .calendar-card {
+      display: grid;
+      gap: .75rem;
+      margin-bottom: 1rem;
+    }
+
+    .calendar-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+    }
+
+    .calendar-nav {
+      display: inline-flex;
+      gap: .4rem;
+      flex: 0 0 auto;
+    }
+
+    .calendar-nav .btn {
+      width: 44px;
+      min-height: 40px;
+      padding: 0;
+      font-size: 1.1rem;
+    }
+
+    .calendar-nav .today-btn {
+      width: auto;
+      padding: 0 .65rem;
+      font-size: .82rem;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: .35rem;
+    }
+
+    .calendar-weekday {
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 850;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .calendar-day {
+      display: grid;
+      align-content: start;
+      gap: .28rem;
+      min-height: 64px;
+      padding: .42rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .calendar-day.empty-day {
+      border-style: dashed;
+      background: rgba(255, 255, 255, .45);
+    }
+
+    .calendar-day.today {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(21, 124, 101, .10);
+    }
+
+    .calendar-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      color: var(--text);
+      font-size: .78rem;
+      font-weight: 850;
+    }
+
+    .calendar-day.today .calendar-number {
+      color: #fff;
+      background: var(--accent);
+    }
+
+    .calendar-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .18rem;
+    }
+
+    .calendar-icon,
+    .calendar-more {
+      display: inline-grid;
+      place-items: center;
+      min-width: 22px;
+      height: 22px;
+      padding: 0 .12rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      font-size: .82rem;
+      line-height: 1;
+    }
+
+    .calendar-more {
+      color: var(--accent-strong);
+      font-size: .68rem;
+      font-weight: 850;
+    }
+
     .empty {
       padding: 1.1rem;
       border: 1px dashed var(--line);
@@ -373,6 +581,32 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: .55rem;
+    }
+
+    .compact-summary {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .compact-summary .stat {
+      min-height: 58px;
+      padding: .55rem .42rem;
+      text-align: center;
+    }
+
+    .compact-summary .stat strong {
+      font-size: .98rem;
+      overflow-wrap: anywhere;
+    }
+
+    .chart-card {
+      display: grid;
+      gap: .75rem;
+    }
+
+    .chart-svg {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
     .stat {
@@ -441,7 +675,7 @@
 
     .bottom-nav-inner {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: .5rem;
       width: min(560px, 100%);
       margin: 0 auto;
@@ -471,8 +705,22 @@
     @media (max-width: 430px) {
       .fields,
       .activity-fields,
+      .health-fields,
       .summary {
         grid-template-columns: 1fr;
+      }
+
+      .compact-summary {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .35rem;
+      }
+
+      .compact-summary .stat small {
+        font-size: .66rem;
+      }
+
+      .compact-summary .stat strong {
+        font-size: .88rem;
       }
     }
 
@@ -516,6 +764,7 @@
       <section class="view active" id="view-overview"></section>
       <section class="view" id="view-session"></section>
       <section class="view" id="view-progress"></section>
+      <section class="view" id="view-health"></section>
     </main>
   </div>
 
@@ -524,6 +773,7 @@
       <button class="nav-btn active" type="button" data-tab="overview">Overview</button>
       <button class="nav-btn" type="button" data-tab="session">Session</button>
       <button class="nav-btn" type="button" data-tab="progress">Progress</button>
+      <button class="nav-btn" type="button" data-tab="health">Health</button>
     </div>
   </nav>
 
@@ -531,6 +781,29 @@
     const STORAGE_KEY = "programmeSportSimple.v2";
     const PROGRAM_START = new Date(2026, 4, 25);
     const PROGRAM_LAST_WEEK_START = new Date(2026, 11, 28);
+    const USER_PROFILE_NOTE = "Personalized for: 28-year-old woman, 1,54 m, about 55 kg, no current injury, average sleep around 7 h.";
+    const CALENDAR_WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const HR_ZONES = [
+      "Zone 1",
+      "Zone 2",
+      "Zone 3",
+      "Zone 4",
+      "Zone 5",
+      "Zones 1-2",
+      "Zones 2-3",
+      "Zones 3-4"
+    ];
+
+    const SESSION_DISPLAY_ORDER = [
+      "upperA",
+      "lowerA",
+      "swimOptional",
+      "bike30",
+      "upperB",
+      "lowerB",
+      "swim50",
+      "extraRun"
+    ];
 
     const RECOMMENDED_WEEK = [
       {
@@ -552,18 +825,19 @@
       {
         day: "Tuesday",
         icon: "🏋️‍♀️",
-        title: "Lower Body A",
-        duration: "60 to 70 min",
-        purpose: "Glutes and quads priority.",
-        reason: "This is one of the two highest-priority muscle-growth sessions of the week."
+        title: "Lower Body A + Easy Cycling",
+        duration: "70 to 80 min",
+        purpose: "Glutes and quads priority, then a short Zone 1-2 easy cycling.",
+        reason: "The extra cycling stays low resistance and short so it adds aerobic work without turning the leg session into endurance training."
       },
       {
         day: "Wednesday",
         icon: "🏊",
-        title: "Technical Swimming",
-        duration: "30 to 40 min",
-        purpose: "Easy technique, breathing and relaxed endurance.",
-        reason: "Low intensity cardio supports fitness without stealing recovery from leg training."
+        title: "Recovery",
+        icon: "\u{1F6CC}",
+        duration: "0 to 30 min",
+        purpose: "Choose one: full rest, Swimming - optional 30 min easy technique, Cycling 30 min Zone 2, or 10 to 20 min mobility/walking.",
+        reason: "If fatigue is high, choose full rest. If you feel fresh, pick only one easy option and keep it recovery-friendly."
       },
       {
         day: "Thursday",
@@ -576,10 +850,10 @@
       {
         day: "Friday",
         icon: "🏋️‍♀️",
-        title: "Lower Body B",
-        duration: "60 to 70 min",
-        purpose: "Glutes, hamstrings and posterior chain.",
-        reason: "Placed after the easy run day with enough spacing from Lower Body A to keep performance high."
+        title: "Lower Body B + Easy Swimming",
+        duration: "75 to 85 min",
+        purpose: "Glutes, hamstrings and posterior chain, then very easy technical swimming.",
+        reason: "Swimming is placed after the second lower-body session as low-impact technique work, not as a hard cardio block."
       },
       {
         day: "Saturday",
@@ -591,6 +865,126 @@
       }
     ];
 
+    const ACTIVITY_PROGRESSIONS = {
+      swimOptional: {
+        title: "Swimming Progression Program",
+        baseline: "Personal baseline: about 3 minutes swimming without a pause. The first goal is relaxed breathing and repeatable lengths, not speed.",
+        metric: "Main progress marker: total easy distance with controlled breathing.",
+        phases: [
+          {
+            label: "Weeks 1-4",
+            target: "30 to 40 min - about 300 to 500 m",
+            details: [
+              "Use mostly 25 m repeats with long rests of 30 to 60 seconds.",
+              "Aim for 12 to 20 relaxed lengths total, split across warm-up, drills and easy swimming.",
+              "Keep intensity easy: Zone 1-2 feeling, breathing controlled, no racing."
+            ]
+          },
+          {
+            label: "Weeks 5-8",
+            target: "35 to 45 min - about 500 to 800 m",
+            details: [
+              "Keep 25 m technique repeats, then add 6 to 8 x 50 m easy when breathing stays calm.",
+              "Reduce rest a little only if technique stays clean.",
+              "Main objective: more continuous rhythm, not higher intensity."
+            ]
+          },
+          {
+            label: "Weeks 9-12",
+            target: "45 to 50 min - about 800 to 1000 m",
+            details: [
+              "Build toward 4 x 50 m warm-up, 6 to 8 x 50 m easy, and 2 to 4 x 100 m if fresh.",
+              "Keep most swimming relaxed and technical.",
+              "Stop the set early if breathing becomes rushed or form breaks down."
+            ]
+          }
+        ],
+        rules: [
+          "Technique and breathing come before distance.",
+          "If fatigue is high, keep the class but shorten the free technical swim first.",
+          "Progress only when the previous distance feels repeatable for two sessions."
+        ]
+      },
+      bike30: {
+        title: "Cycling Progression Program",
+        baseline: "Personal baseline: no fixed cycling baseline yet. Cycling is used as low-impact cardio that should not compromise lower-body strength.",
+        metric: "Main progress marker: Zone 2 duration and distance at the same perceived effort.",
+        phases: [
+          {
+            label: "Weeks 1-4",
+            target: "30 min - easy Zone 2",
+            details: [
+              "Ride at a smooth cadence, roughly 80 to 95 rpm if the bike shows it.",
+              "Use light to moderate resistance, legs should feel fresh afterward.",
+              "Distance can vary by bike, but a typical target is about 8 to 12 km."
+            ]
+          },
+          {
+            label: "Weeks 5-8",
+            target: "35 to 40 min - Zone 2 with small pushes",
+            details: [
+              "Keep most of the ride easy Zone 2.",
+              "If recovery is good, add 4 x 2 min in upper Zone 2 or low Zone 3 with easy pedaling between.",
+              "Typical distance target: about 10 to 16 km, depending on resistance."
+            ]
+          },
+          {
+            label: "Weeks 9-12",
+            target: "40 to 50 min - aerobic endurance",
+            details: [
+              "Option A: continuous Zone 2 ride.",
+              "Option B if legs are fresh: 6 x 2 min controlled Zone 3, never all-out.",
+              "Typical distance target: about 14 to 22 km, depending on resistance."
+            ]
+          }
+        ],
+        rules: [
+          "Keep cycling low impact and recovery-friendly.",
+          "Avoid heavy resistance the day before or after Lower Body sessions.",
+          "If legs feel heavy, stay in Zone 2 and skip the Zone 3 blocks."
+        ]
+      },
+      extraRun: {
+        title: "Running Progression Program",
+        baseline: "Personal baseline: you can already run 30 minutes continuously on a treadmill. Extra running should support cardio without stealing recovery from glute and leg training.",
+        metric: "Main progress marker: easy Zone 2 duration and distance at stable heart rate.",
+        phases: [
+          {
+            label: "Weeks 1-4",
+            target: "25 to 30 min - about 3,0 to 4,0 km",
+            details: [
+              "Stay in Zone 2, around 60-70% of max heart rate.",
+              "Use this only if lower-body sessions are recovering well.",
+              "Keep treadmill speed easy, usually around 6,9 to 8,0 km/h."
+            ]
+          },
+          {
+            label: "Weeks 5-8",
+            target: "30 to 35 min - about 3,8 to 4,7 km",
+            details: [
+              "Keep the whole run easy Zone 2.",
+              "If fresh, add 4 x 20 seconds relaxed strides, with full easy recovery.",
+              "Do not add this run right after a heavy leg session."
+            ]
+          },
+          {
+            label: "Weeks 9-12",
+            target: "35 to 40 min - about 4,5 to 5,3 km",
+            details: [
+              "Keep most of the run in Zone 2.",
+              "If recovery is excellent, finish with 5 minutes in Zone 3, controlled.",
+              "Avoid repeated Zone 4-5 work in this optional session."
+            ]
+          }
+        ],
+        rules: [
+          "Do not make a single run much longer than your recent longest comfortable run.",
+          "If fatigue is high, remove this optional run before reducing lower-body strength.",
+          "Keep the planned Quality Run as the priority if you only do one run that week."
+        ]
+      }
+    };
+
     const SESSIONS = [
       {
         id: "upperA",
@@ -598,8 +992,7 @@
         icon: "🏋️‍♀️🏃",
         name: "Upper Body A + Quality Run",
         duration: "55 to 60 min + 25 to 30 min run",
-        focus: "Back, shoulders, arms, abs",
-        note: "The quality run is done after strength training.",
+        focus: "Back, shoulders, arms, abs, quality run",
         exercises: [
           exercise("latPulldown", "Lat pulldown", 3, "25", 8, "8 to 12"),
           exercise("seatedRow", "Seated row", 3, "20", 8, "8 to 12"),
@@ -607,7 +1000,8 @@
           exercise("shoulderPress", "Shoulder press machine", 3, "7,5", 8, "8 to 12"),
           exercise("facePull", "Seated face pull", 3, "17,5", 12, "12 to 15"),
           exercise("cableCurls", "Cable curls", 3, "7,5", 10, "10 to 15"),
-          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15")
+          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15"),
+          exercise("reverseCrunch", "Reverse crunch", 3, "", 10, "10 to 15")
         ],
         run: {
           id: "qualityRun",
@@ -621,18 +1015,30 @@
         id: "lowerA",
         type: "strength",
         icon: "🏋️‍♀️",
-        name: "Lower Body A",
-        duration: "60 to 70 min",
-        focus: "Glutes and quads",
-        note: "Priority session for body recomposition.",
+        name: "Lower Body A + Easy Cycling",
+        icon: "\u{1F3CB}\uFE0F\u200D\u2640\uFE0F\u{1F6B4}",
+        duration: "70 to 80 min",
+        focus: "Glutes, quads, easy cycling",
         exercises: [
           exercise("hipThrustA", "Machine or barbell hip thrust", 4, "", 8, "8 to 12"),
-          exercise("legPress", "Leg press", 3, "", 8, "8 to 12"),
+          exercise("legPress", "Leg press", 4, "", 8, "8 to 12"),
           exercise("bulgarianSplitSquat", "Bulgarian split squat or lunges", 3, "", 8, "8 to 10 per leg"),
-          exercise("legExtension", "Leg extension", 3, "", 10, "10 to 15"),
+          exercise("legExtension", "Leg extension", 4, "", 10, "10 to 15"),
           exercise("abductionA", "Abduction machine", 3, "", 15, "15 to 20"),
           exercise("calves", "Calf raises", 3, "", 10, "10 to 15"),
-          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15")
+          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15"),
+          exercise("reverseCrunch", "Reverse crunch", 3, "", 10, "10 to 15")
+        ],
+        addons: [
+          activityAddon("lowerACycling", "Cycling", "ðŸš´", "cycling", "10 to 12 min", "Low-resistance Zone 1-2 cooldown", {
+            duration: "10",
+            speed: "",
+            distance: "",
+            avgHr: "",
+            maxHr: "",
+            zone: "Zones 1-2",
+            notes: ""
+          })
         ]
       },
       {
@@ -641,16 +1047,17 @@
         icon: "🏋️‍♀️🏃",
         name: "Upper Body B + Easy Run",
         duration: "55 to 60 min + 25 to 30 min run",
-        focus: "Shoulders, back, chest, triceps, abs",
-        note: "The easy run stays conversational and is done after strength training.",
+        focus: "Shoulders, back, chest, triceps, abs, easy run",
         exercises: [
           exercise("shoulderPress", "Shoulder press machine", 3, "7,5", 8, "8 to 12"),
           exercise("inclineChestPress", "Chest press or incline press machine", 3, "", 8, "8 to 12"),
           exercise("latPulldown", "Lat pulldown", 3, "25", 10, "10 to 12"),
+          exercise("straightArmPulldown", "Straight-arm cable pulldown", 3, "", 12, "12"),
           exercise("seatedRow", "Seated row", 3, "20", 10, "10 to 12"),
           exercise("lateralRaise", "Lateral raises", 3, "", 12, "12 to 20"),
           exercise("tricepsPulley", "Cable triceps pushdown", 3, "", 10, "10 to 15"),
-          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15")
+          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15"),
+          exercise("reverseCrunch", "Reverse crunch", 3, "", 10, "10 to 15")
         ],
         run: {
           id: "easyRun",
@@ -664,10 +1071,10 @@
         id: "lowerB",
         type: "strength",
         icon: "🏋️‍♀️",
-        name: "Lower Body B",
-        duration: "60 to 70 min",
-        focus: "Glutes, hamstrings, posterior chain",
-        note: "Priority session with gradual progression.",
+        name: "Lower Body B + Easy Swimming",
+        icon: "\u{1F3CB}\uFE0F\u200D\u2640\uFE0F\u{1F3CA}",
+        duration: "75 to 85 min",
+        focus: "Glutes, hamstrings, posterior chain, easy swimming",
         exercises: [
           exercise("romanianDeadlift", "Dumbbell Romanian deadlift", 3, "", 8, "8 to 10"),
           exercise("hipThrustB", "Hip thrust or glute bridge", 3, "", 10, "10 to 12"),
@@ -675,18 +1082,39 @@
           exercise("cableKickback", "Cable kickback", 3, "", 12, "12 to 15 per leg"),
           exercise("backExtension", "Back extension", 3, "", 10, "10 to 15"),
           exercise("abductionB", "Abduction machine", 3, "", 15, "15 to 20"),
-          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15")
+          exercise("cableCrunch", "Cable crunch", 3, "", 10, "10 to 15"),
+          exercise("reverseCrunch", "Reverse crunch", 3, "", 10, "10 to 15")
+        ],
+        addons: [
+          activityAddon("lowerBSwimming", "Swimming", "ðŸŠ", "swimming", "10 to 15 min", "Very easy technique and breathing", {
+            duration: "12",
+            distance: "",
+            avgHr: "",
+            maxHr: "",
+            zone: "Zone 1",
+            notes: ""
+          })
         ]
       },
       {
         id: "swim50",
         type: "activity",
         icon: "🏊",
-        name: "Swimming",
+        name: "Swimming - class",
         duration: "50 min",
         focus: "Technique, breathing, easy endurance",
-        note: "Simply log duration, estimated distance, and effort.",
         defaults: { duration: "50", distance: "", effort: "" }
+      },
+      {
+        id: "swimOptional",
+        type: "activity",
+        optional: true,
+        icon: "ðŸŠ",
+        name: "Swimming - optional",
+        icon: "\u{1F3CA}",
+        duration: "30 min",
+        focus: "Free technical swim",
+        defaults: { duration: "30", distance: "", effort: "" }
       },
       {
         id: "bike30",
@@ -695,7 +1123,6 @@
         name: "Cycling",
         duration: "30 min",
         focus: "Easy to moderate cardio",
-        note: "Short session: keep the intensity recovery-friendly.",
         defaults: { duration: "30", distance: "", effort: "" }
       },
       {
@@ -703,16 +1130,16 @@
         type: "activity",
         optional: true,
         icon: "🏃",
-        name: "Run",
+        name: "Running",
         duration: "Free",
         focus: "Optional extra running session",
-        note: "Use this when you decide to add an extra run outside the planned Upper Body + Run sessions.",
-        defaults: { duration: "", speed: "", distance: "", avgHr: "", maxHr: "", zone: "", notes: "" }
+        defaults: { duration: "", speed: "", distance: "", avgHr: "", maxHr: "", zone: "Zone 2", notes: "" }
       }
     ];
 
     const EXERCISE_MUSCLES = {
       latPulldown: { back: 1 },
+      straightArmPulldown: { back: 1 },
       seatedRow: { back: 1 },
       chestPress: { chest: 1, shoulders: 0.25, arms: 0.25 },
       inclineChestPress: { chest: 1, shoulders: 0.25, arms: 0.25 },
@@ -720,6 +1147,7 @@
       facePull: { back: 0.5, shoulders: 0.5 },
       cableCurls: { arms: 1 },
       cableCrunch: { abs: 1 },
+      reverseCrunch: { abs: 1 },
       hipThrustA: { glutes: 1, hamstrings: 0.5 },
       hipThrustB: { glutes: 1, hamstrings: 0.5 },
       legPress: { quads: 1, glutes: 0.5 },
@@ -759,14 +1187,26 @@
       return { id, name, sets, defaultWeight, defaultReps, repRange };
     }
 
+    function activityAddon(id, name, icon, kind, duration, focus, defaults) {
+      const icons = {
+        cycling: "\u{1F6B4}",
+        swimming: "\u{1F3CA}"
+      };
+      return { id, name, icon: icons[kind] || icon, kind, duration, focus, defaults };
+    }
+
     function createDefaultData() {
       return {
         selectedWeekId: "",
         selectedSessionId: "",
+        editingRecordId: "",
+        editingHealthId: "",
         currentEntries: {},
         completed: {},
         completionHydrated: false,
         history: [],
+        health: [],
+        healthDraft: null,
         lastSavedAt: ""
       };
     }
@@ -776,6 +1216,7 @@
     hydrateCompletionFromHistory();
     let activeTab = "overview";
     let sessionScreen = "weeks";
+    let calendarCursor = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 
     function loadData() {
       try {
@@ -848,6 +1289,17 @@
       return SESSIONS.filter(session => !session.optional);
     }
 
+    function getDisplaySessions() {
+      const byId = new Map(SESSIONS.map(session => [session.id, session]));
+      const ordered = SESSION_DISPLAY_ORDER.map(id => byId.get(id)).filter(Boolean);
+      const orderedIds = new Set(ordered.map(session => session.id));
+      return [...ordered, ...SESSIONS.filter(session => !orderedIds.has(session.id))];
+    }
+
+    function getSessionItemCount(session) {
+      return (session.exercises?.length || 0) + (session.run ? 1 : 0) + (session.addons?.length || 0);
+    }
+
     function getExerciseDisplayName(item) {
       const exercise = SESSIONS.flatMap(session => session.exercises || []).find(entry => entry.id === item.id);
       return exercise?.name || item.name;
@@ -888,6 +1340,7 @@
 
     function getWeekCompletion(weekId) {
       const total = getCoreSessions().length;
+      const coreIds = new Set(getCoreSessions().map(session => session.id));
       const records = data.history.filter(record => record.weekId === weekId && record.sessionId);
       const completedSet = new Set(Object.entries(data.completed?.[weekId] || {})
         .filter(([, done]) => done)
@@ -898,13 +1351,36 @@
         return map;
       }, {});
       const extraSessions = Object.values(recordCounts).reduce((sum, count) => sum + Math.max(0, count - 1), 0);
-      const done = completedSet.size + extraSessions;
+      const coreDone = [...completedSet].filter(sessionId => coreIds.has(sessionId)).length;
+      const optionalDone = [...completedSet].filter(sessionId => !coreIds.has(sessionId)).length + extraSessions;
+      const remainingCoreSlots = Math.max(0, total - coreDone);
+      const optionalWithinTarget = Math.min(optionalDone, remainingCoreSlots);
+      const optionalOverflow = Math.max(0, optionalDone - optionalWithinTarget);
+      const done = coreDone + optionalDone;
       return {
         done,
         total,
         complete: done >= total,
-        percent: total ? Math.min(100, Math.round((done / total) * 100)) : 0
+        percent: total ? Math.min(100, Math.round((done / total) * 100)) : 0,
+        coreDone,
+        optionalDone,
+        corePercent: total ? Math.min(100, Math.round((coreDone / total) * 100)) : 0,
+        optionalPercent: total ? Math.min(100, Math.round((optionalWithinTarget / total) * 100)) : 0,
+        optionalOverflowPercent: total ? Math.min(100, Math.round((optionalOverflow / total) * 100)) : 0
       };
+    }
+
+    function renderWeeklyProgressBar(completion, label = "Week progress") {
+      const corePercent = Number(completion.corePercent || 0);
+      const optionalPercent = Number(completion.optionalPercent || 0);
+      const overflowPercent = Number(completion.optionalOverflowPercent || 0);
+      return `
+        <div class="progress-bar segmented" aria-label="${escapeHtml(label)}">
+          <span class="progress-core" style="--core:${corePercent}%"></span>
+          <span class="progress-optional" style="--optional-left:${corePercent}%;--optional:${optionalPercent}%"></span>
+          ${overflowPercent ? `<span class="progress-overflow" style="--overflow:${overflowPercent}%"></span>` : ""}
+        </div>
+      `;
     }
 
     function getSessionSummaryCounts() {
@@ -1041,6 +1517,12 @@
       return normalized ? `${normalized} km/h` : emptyText;
     }
 
+    function renderHrZoneOptions(selectedValue = "") {
+      const selected = String(selectedValue || "");
+      const values = selected && !HR_ZONES.includes(selected) ? [selected, ...HR_ZONES] : HR_ZONES;
+      return values.map(zone => `<option value="${escapeHtml(zone)}" ${zone === selected ? "selected" : ""}>${escapeHtml(zone)}</option>`).join("");
+    }
+
     function numericValue(value) {
       const parsed = Number(String(value ?? "").replace(",", ".").match(/\d+(\.\d+)?/)?.[0] || 0);
       return Number.isFinite(parsed) ? parsed : 0;
@@ -1079,6 +1561,41 @@
     function formatLoad(value) {
       if (!Number.isFinite(value) || value <= 0) return "";
       return formatDecimalComma(value);
+    }
+
+    function formatPercent(value) {
+      if (!Number.isFinite(value)) return "-";
+      return `${formatDecimalComma(value)}%`;
+    }
+
+    function emptyHealthDraft() {
+      return { date: today(), totalWeight: "", fatWeight: "", muscleWeight: "" };
+    }
+
+    function getHealthDraft() {
+      if (!data.healthDraft) data.healthDraft = emptyHealthDraft();
+      data.healthDraft.totalWeight = normalizeWeightInput(data.healthDraft.totalWeight);
+      data.healthDraft.fatWeight = normalizeWeightInput(data.healthDraft.fatWeight);
+      data.healthDraft.muscleWeight = normalizeWeightInput(data.healthDraft.muscleWeight);
+      return data.healthDraft;
+    }
+
+    function getSortedHealthMeasurements() {
+      return [...(data.health || [])].sort((a, b) => {
+        const dateCompare = String(a.date || "").localeCompare(String(b.date || ""));
+        if (dateCompare) return dateCompare;
+        return String(a.createdAt || "").localeCompare(String(b.createdAt || ""));
+      });
+    }
+
+    function calculateHealthPercentages(measurement) {
+      const total = numericWeight(measurement?.totalWeight);
+      const fat = numericWeight(measurement?.fatWeight);
+      const muscle = numericWeight(measurement?.muscleWeight);
+      return {
+        fatPercent: total > 0 && fat > 0 ? (fat / total) * 100 : NaN,
+        musclePercent: total > 0 && muscle > 0 ? (muscle / total) * 100 : NaN
+      };
     }
 
     function suggestNextLoad(exercise) {
@@ -1151,6 +1668,7 @@
         };
       }
       data.currentEntries[exercise.id].weight = normalizeWeightInput(data.currentEntries[exercise.id].weight);
+      data.currentEntries[exercise.id].done = Boolean(data.currentEntries[exercise.id].done);
       return data.currentEntries[exercise.id];
     }
 
@@ -1158,6 +1676,8 @@
       if (!data.currentEntries.activity) {
         data.currentEntries.activity = { ...session.defaults };
       }
+      if (session.id === "extraRun" && !data.currentEntries.activity.zone) data.currentEntries.activity.zone = "Zone 2";
+      data.currentEntries.activity.done = Boolean(data.currentEntries.activity.done);
       return data.currentEntries.activity;
     }
 
@@ -1174,7 +1694,117 @@
         };
       }
       data.currentEntries.run.speed = normalizeWeightInput(data.currentEntries.run.speed);
+      data.currentEntries.run.done = Boolean(data.currentEntries.run.done);
       return data.currentEntries.run;
+    }
+
+    function addonEntryKey(addonId) {
+      return `addon_${addonId}`;
+    }
+
+    function addonEntryFor(addon) {
+      const key = addonEntryKey(addon.id);
+      if (!data.currentEntries[key]) {
+        data.currentEntries[key] = { ...addon.defaults };
+      }
+      data.currentEntries[key].speed = normalizeWeightInput(data.currentEntries[key].speed);
+      data.currentEntries[key].done = Boolean(data.currentEntries[key].done);
+      return data.currentEntries[key];
+    }
+
+    function isEditingSession() {
+      return Boolean(data.editingRecordId);
+    }
+
+    function getEditingRecord() {
+      return isEditingSession() ? data.history.find(record => record.id === data.editingRecordId) : null;
+    }
+
+    function isCurrentSessionComplete(session) {
+      if (!session) return false;
+      if (session.type === "strength") {
+        const strengthDone = session.exercises.every(item => Boolean(data.currentEntries[item.id]?.done));
+        const runDone = session.run ? Boolean(data.currentEntries.run?.done) : true;
+        const addonsDone = (session.addons || []).every(addon => Boolean(data.currentEntries[addonEntryKey(addon.id)]?.done));
+        return strengthDone && runDone && addonsDone;
+      }
+      return Boolean(data.currentEntries.activity?.done);
+    }
+
+    function getCurrentSessionProgress(session) {
+      if (!session) return { done: 0, total: 0, percent: 0 };
+      if (session.type === "strength") {
+        const exerciseDone = session.exercises.filter(item => Boolean(data.currentEntries[item.id]?.done)).length;
+        const addonDone = (session.addons || []).filter(addon => Boolean(data.currentEntries[addonEntryKey(addon.id)]?.done)).length;
+        const total = session.exercises.length + (session.run ? 1 : 0) + (session.addons?.length || 0);
+        const done = exerciseDone + (session.run && data.currentEntries.run?.done ? 1 : 0) + addonDone;
+        return { done, total, percent: total ? Math.round((done / total) * 100) : 0 };
+      }
+      const done = data.currentEntries.activity?.done ? 1 : 0;
+      return { done, total: 1, percent: done ? 100 : 0 };
+    }
+
+    function renderSessionProgressBar(session) {
+      const progress = getCurrentSessionProgress(session);
+      return `
+        <section class="notice" style="margin-bottom:.8rem">
+          <strong>${progress.done}/${progress.total} completed</strong>
+          <div class="progress-bar" style="margin-top:.55rem" aria-label="Session progress"><span style="--value:${progress.percent}%"></span></div>
+          <p class="fine" style="margin-top:.4rem">${progress.percent}% of this session done.</p>
+        </section>
+      `;
+    }
+
+    function hydrateEntriesFromRecord(record) {
+      const session = getSession(record.sessionId);
+      const entries = {};
+      (record.exercises || []).forEach(item => {
+        entries[item.id] = {
+          weight: normalizeWeightInput(item.weight),
+          reps: item.reps || "",
+          done: true
+        };
+      });
+      if (record.running) {
+        entries.run = {
+          duration: record.running.duration || "",
+          speed: normalizeWeightInput(record.running.speed),
+          distance: record.running.distance || "",
+          avgHr: record.running.avgHr || "",
+          maxHr: record.running.maxHr || "",
+          zone: record.running.zone || "",
+          notes: record.running.notes || "",
+          done: true
+        };
+      }
+      if (record.activity) {
+        entries.activity = {
+          ...(session?.defaults || {}),
+          duration: record.activity.duration || "",
+          speed: normalizeWeightInput(record.activity.speed),
+          distance: record.activity.distance || "",
+          avgHr: record.activity.avgHr || "",
+          maxHr: record.activity.maxHr || "",
+          effort: record.activity.effort || "",
+          zone: record.activity.zone || "",
+          notes: record.activity.notes || "",
+          done: true
+        };
+      }
+      (record.addons || []).forEach(addon => {
+        entries[addonEntryKey(addon.id)] = {
+          ...(session?.addons?.find(item => item.id === addon.id)?.defaults || {}),
+          duration: addon.duration || "",
+          speed: normalizeWeightInput(addon.speed),
+          distance: addon.distance || "",
+          avgHr: addon.avgHr || "",
+          maxHr: addon.maxHr || "",
+          zone: addon.zone || "",
+          notes: addon.notes || "",
+          done: true
+        };
+      });
+      return entries;
     }
 
     function getRunPlan(session) {
@@ -1233,9 +1863,51 @@
       };
     }
 
+    function renderActivityProgression(session) {
+      const plan = ACTIVITY_PROGRESSIONS[session.id];
+      if (!plan) return "";
+
+      return `
+        <div class="section-title">
+          <h2>Progression Program</h2>
+          <span class="fine">${escapeHtml(plan.metric)}</span>
+        </div>
+
+        <section class="notice" style="margin-bottom:.8rem">
+          <strong>${escapeHtml(plan.title)}</strong>
+          <p class="fine" style="margin-top:.35rem">${escapeHtml(plan.baseline)}</p>
+          <p class="fine" style="margin-top:.35rem">${escapeHtml(USER_PROFILE_NOTE)}</p>
+        </section>
+
+        <section class="grid progress-grid">
+          ${plan.phases.map(phase => `
+            <article class="card grid">
+              <div class="progress-head">
+                <div>
+                  <strong>${escapeHtml(phase.label)}</strong>
+                  <p class="fine">${escapeHtml(phase.target)}</p>
+                </div>
+              </div>
+              <ul class="fine" style="margin:0; padding-left:1.1rem">
+                ${phase.details.map(line => `<li>${escapeHtml(line)}</li>`).join("")}
+              </ul>
+            </article>
+          `).join("")}
+        </section>
+
+        <section class="notice" style="margin-top:.8rem">
+          <strong>Progression rules</strong>
+          <ul class="fine" style="margin:.55rem 0 0; padding-left:1.1rem">
+            ${plan.rules.map(rule => `<li>${escapeHtml(rule)}</li>`).join("")}
+          </ul>
+        </section>
+      `;
+    }
+
     function selectWeek(weekId) {
       data.selectedWeekId = weekId;
       data.selectedSessionId = "";
+      data.editingRecordId = "";
       data.currentEntries = {};
       sessionScreen = "sessions";
       saveData();
@@ -1245,8 +1917,24 @@
 
     function selectSession(sessionId) {
       data.selectedSessionId = sessionId;
+      data.editingRecordId = "";
       data.currentEntries = {};
       sessionScreen = "form";
+      saveData();
+      renderAll();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function editHistoryRecord(recordId) {
+      const record = data.history.find(item => item.id === recordId);
+      const session = record ? getSession(record.sessionId) : null;
+      if (!record || !session) return;
+      data.selectedWeekId = record.weekId || data.selectedWeekId || getCurrentProgramWeek()?.id || weeks[0]?.id || "";
+      data.selectedSessionId = record.sessionId;
+      data.editingRecordId = record.id;
+      data.currentEntries = hydrateEntriesFromRecord(record);
+      sessionScreen = "form";
+      activeTab = "session";
       saveData();
       renderAll();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1256,10 +1944,11 @@
       const session = getSession(data.selectedSessionId);
       const week = getSelectedWeek();
       if (!session || !week) return;
+      const editingRecord = getEditingRecord();
 
       const record = {
-        id: makeId(),
-        date: today(),
+        id: editingRecord?.id || makeId(),
+        date: editingRecord?.date || today(),
         weekId: week.id,
         weekLabel: `${week.label} · ${week.range}`,
         sessionId: session.id,
@@ -1268,7 +1957,8 @@
         type: session.type,
         exercises: [],
         activity: null,
-        running: null
+        running: null,
+        addons: []
       };
 
       if (session.type === "strength") {
@@ -1297,6 +1987,22 @@
             notes: entry.notes
           };
         }
+        record.addons = (session.addons || []).map(addon => {
+          const entry = addonEntryFor(addon);
+          return {
+            id: addon.id,
+            kind: addon.kind,
+            name: addon.name,
+            icon: addon.icon,
+            duration: entry.duration,
+            speed: normalizeWeightInput(entry.speed),
+            distance: entry.distance,
+            avgHr: entry.avgHr,
+            maxHr: entry.maxHr,
+            zone: entry.zone,
+            notes: entry.notes
+          };
+        });
       } else {
         const entry = activityEntryFor(session);
         record.activity = {
@@ -1311,10 +2017,15 @@
         if (entry.notes) record.activity.notes = entry.notes;
       }
 
-      data.history.unshift(record);
+      if (editingRecord) {
+        data.history = data.history.map(item => item.id === editingRecord.id ? record : item);
+      } else {
+        data.history.unshift(record);
+      }
       markSessionDone(week.id, session.id, true, false);
       data.lastSavedAt = new Date().toISOString();
       data.currentEntries = {};
+      data.editingRecordId = "";
       data.selectedSessionId = "";
       sessionScreen = "sessions";
       activeTab = "session";
@@ -1327,25 +2038,14 @@
       renderOverview();
       renderSession();
       renderProgress();
+      renderHealth();
       updateNav();
     }
 
     function renderOverview() {
       document.querySelector("#view-overview").innerHTML = `
-        <section class="hero">
-          <div>
-            <div class="pill-row">
-              <span class="pill good">Ideal weekly order</span>
-              <span class="pill">Muscle + cardio</span>
-            </div>
-            <h1>Overview</h1>
-          </div>
-          <p>This is the recommended 7-day structure to prioritize glute and leg growth, keep running productive, and avoid stacking too much fatigue.</p>
-        </section>
-
         <div class="section-title">
           <h2>Recommended Week</h2>
-          <span class="fine">Rest on Monday</span>
         </div>
 
         <section class="grid overview-grid">
@@ -1357,7 +2057,7 @@
                   <strong>${item.day}</strong>
                   <p class="fine">${item.duration}</p>
                 </div>
-                <span class="sport-icon" aria-hidden="true">${item.icon}</span>
+                  <span class="sport-icon ${item.title.includes("+") ? "combo" : ""}" aria-hidden="true"><span>${item.icon}</span></span>
               </div>
               <div>
                 <strong>${item.title}</strong>
@@ -1366,32 +2066,6 @@
               <p class="fine">${item.reason}</p>
             </article>
           `).join("")}
-        </section>
-
-        <div class="section-title">
-          <h2>Why this order works</h2>
-        </div>
-        <section class="grid progress-grid">
-          <article class="card grid">
-            <strong>Strength stays first</strong>
-            <p class="fine">Lower-body sessions are protected because they drive the main muscle-growth goal. Running is placed after upper-body work, not before legs.</p>
-          </article>
-          <article class="card grid">
-            <strong>Recovery is built in</strong>
-            <p class="fine">The two lower-body sessions are separated, there is one full rest day, and swimming is kept technical or guided rather than maximal.</p>
-          </article>
-          <article class="card grid">
-            <strong>Cardio supports the goal</strong>
-            <p class="fine">Quality running improves speed, easy Zone 2 running builds endurance, and swimming adds aerobic work with low impact.</p>
-          </article>
-          <article class="card grid">
-            <strong>If fatigue is high</strong>
-            <p class="fine">Reduce the technical swim first, then shorten the easy run. Keep Lower Body A and Lower Body B whenever possible, even with slightly less volume.</p>
-          </article>
-        </section>
-
-        <section class="notice" style="margin-top:1rem">
-          Stop the session if there is sharp pain, dizziness, chest pain, or unusual shortness of breath. Technique and gradual progression come before load or speed.
         </section>
 
         <div class="actions">
@@ -1449,7 +2123,7 @@
                   </div>
                   <span class="pill ${completion.complete ? "good" : ""}">${completion.done}/${completion.total} done</span>
                 </div>
-                <div class="progress-bar" aria-label="${week.label} progress"><span style="--value:${completion.percent}%"></span></div>
+                ${renderWeeklyProgressBar(completion, `${week.label} progress`)}
                 ${isCurrent ? `<p class="fine">Current week${completion.done ? ` · ${completion.done} session${completion.done > 1 ? "s" : ""} completed` : ""}.</p>` : ""}
               </button>
             `;
@@ -1476,7 +2150,7 @@
           <div class="grid">
             <div class="notice">
               <strong>${completion.done}/${completion.total} sessions done</strong>
-              <div class="progress-bar" style="margin-top:.55rem" aria-label="Week progress"><span style="--value:${completion.percent}%"></span></div>
+              <div style="margin-top:.55rem">${renderWeeklyProgressBar(completion, "Week progress")}</div>
               ${completion.complete ? `<p class="fine" style="margin-top:.45rem">Week completed.</p>` : ""}
             </div>
           </div>
@@ -1487,17 +2161,17 @@
         </div>
 
         <section class="grid sessions-grid">
-          ${SESSIONS.map(session => {
+          ${getDisplaySessions().map(session => {
             const done = week ? isSessionDone(week.id, session.id) : false;
             return `
-            <article class="card session-card ${done ? "done" : ""}">
+            <article class="card session-card ${done ? "done" : ""}" role="button" tabindex="0" data-select-session="${session.id}">
               <div class="session-head">
                 <div>
                   <strong>${session.name}</strong>
                   <p class="fine">${session.focus}</p>
                 </div>
                 <div class="grid" style="justify-items:end">
-                  <span class="sport-icon" aria-hidden="true">${session.icon}</span>
+                  <span class="sport-icon ${session.run || session.addons?.length ? "combo" : ""}" aria-hidden="true"><span>${session.icon}</span></span>
                   <label class="done-check">
                     <input type="checkbox" data-session-done="${session.id}" ${done ? "checked" : ""}>
                     <span>Done</span>
@@ -1506,12 +2180,9 @@
               </div>
               <div class="pill-row">
                 <span class="pill">${session.duration}</span>
-                <span class="pill">${session.type === "strength" ? `${session.exercises.length} exercises` : "cardio"}</span>
+                <span class="pill">${session.type === "strength" ? `${getSessionItemCount(session)} items` : "cardio"}</span>
                 ${session.optional ? `<span class="pill warn">Optional</span>` : ""}
-                ${done ? `<span class="pill good">Completed</span>` : ""}
               </div>
-              <p class="fine">${session.note}</p>
-              <button class="btn secondary" type="button" data-select-session="${session.id}">Open session</button>
             </article>
           `;
           }).join("")}
@@ -1524,9 +2195,6 @@
         <section class="grid progress-grid">
           ${muscleVolume.map(renderMuscleVolumeCard).join("")}
         </section>
-        <section class="notice" style="margin-top:.8rem">
-          Volume is counted from this selected week only. Primary muscles receive 1 set per exercise set; secondary muscles receive a partial set.
-        </section>
       `;
     }
 
@@ -1537,6 +2205,7 @@
 
     function renderStrengthForm(session) {
       const week = getSelectedWeek();
+      const editing = isEditingSession();
       return `
         <section class="hero">
           <div>
@@ -1548,13 +2217,15 @@
             </div>
             <h1>${session.name}</h1>
           </div>
-          <p>${session.note}</p>
+          ${editing ? `<p>Edit the saved session. Uncheck an exercise to unlock its fields, then check it again when corrected.</p>` : session.note ? `<p>${escapeHtml(session.note)}</p>` : ""}
         </section>
 
         <div class="section-title">
           <h2>Exercises</h2>
           <span class="fine">Weight · reps · sets</span>
         </div>
+
+        ${renderSessionProgressBar(session)}
 
         <section class="notice" style="margin-bottom:.8rem">
           The load suggestion uses your saved weight and reps, estimates strength with the Epley formula, and applies double progression: build reps first, then increase load when you reach the top of the range.
@@ -1564,13 +2235,18 @@
           ${session.exercises.map(item => {
             const suggestion = suggestNextLoad(item);
             const entry = entryFor(item);
+            const done = Boolean(entry.done);
             return `
-              <article class="exercise">
+              <article class="exercise ${done ? "done" : ""}">
                 <div class="exercise-head">
                   <div>
                     <strong>${item.name}</strong>
                     <p class="fine">Recommended range: ${item.repRange}</p>
                   </div>
+                  <label class="done-check exercise-check">
+                    <input type="checkbox" data-exercise-done="${item.id}" ${done ? "checked" : ""}>
+                    <span>${done ? "Done" : "To do"}</span>
+                  </label>
                 </div>
                 <div class="notice">
                   <strong>${suggestion.title}${suggestion.weight || item.defaultWeight ? `: ${escapeHtml(displayLoadWithUnit(suggestion.weight || item.defaultWeight))}` : ""}</strong>
@@ -1578,10 +2254,10 @@
                 </div>
                 <div class="fields">
                   <label>Weight (kg)
-                    <input inputmode="decimal" data-exercise="${item.id}" data-field="weight" value="${escapeHtml(entry.weight)}" placeholder="25">
+                    <input inputmode="decimal" data-exercise="${item.id}" data-field="weight" value="${escapeHtml(entry.weight)}" placeholder="25" ${done ? "disabled" : ""}>
                   </label>
                   <label>Reps
-                    <input data-exercise="${item.id}" data-field="reps" value="${escapeHtml(entry.reps)}">
+                    <input data-exercise="${item.id}" data-field="reps" value="${escapeHtml(entry.reps)}" ${done ? "disabled" : ""}>
                   </label>
                   <label>Sets
                     <input value="${item.sets}" readonly aria-label="Number of sets">
@@ -1593,9 +2269,10 @@
         </section>
 
         ${session.run ? renderRunBlock(session) : ""}
+        ${session.addons?.length ? renderAddonBlocks(session) : ""}
 
         <div class="actions">
-          <button class="btn" type="button" id="saveWorkout">Save session</button>
+          <button class="btn" type="button" id="saveWorkout">${editing ? "Update session" : "Save session"}</button>
         </div>
       `;
     }
@@ -1603,6 +2280,7 @@
     function renderRunBlock(session) {
       const entry = runEntryFor(session);
       const plan = getRunPlan(session);
+      const done = Boolean(entry.done);
 
       return `
         <div class="section-title">
@@ -1610,12 +2288,16 @@
           <span class="fine">Separate run exercise</span>
         </div>
 
-        <section class="exercise">
+        <section class="exercise ${done ? "done" : ""}">
           <div class="exercise-head">
             <div>
               <strong>🏃 ${session.run.name}</strong>
               <p class="fine">Complete this after the strength exercises.</p>
             </div>
+            <label class="done-check exercise-check">
+              <input type="checkbox" data-run-done ${done ? "checked" : ""}>
+              <span>${done ? "Done" : "To do"}</span>
+            </label>
           </div>
           <div class="notice">
             <strong>${plan.title}</strong>
@@ -1625,35 +2307,97 @@
           </div>
           <div class="activity-fields">
             <label>Actual duration
-              <input inputmode="decimal" data-run-field="duration" value="${escapeHtml(entry.duration)}" placeholder="minutes">
+              <input inputmode="decimal" data-run-field="duration" value="${escapeHtml(entry.duration)}" placeholder="minutes" ${done ? "disabled" : ""}>
             </label>
             <label>Treadmill speed (km/h)
-              <input inputmode="decimal" data-run-field="speed" value="${escapeHtml(entry.speed)}" placeholder="7,5">
+              <input inputmode="decimal" data-run-field="speed" value="${escapeHtml(entry.speed)}" placeholder="7,5" ${done ? "disabled" : ""}>
             </label>
             <label>Distance
-              <input data-run-field="distance" value="${escapeHtml(entry.distance)}" placeholder="km">
+              <input data-run-field="distance" value="${escapeHtml(entry.distance)}" placeholder="km" ${done ? "disabled" : ""}>
             </label>
             <label>Average HR
-              <input inputmode="numeric" data-run-field="avgHr" value="${escapeHtml(entry.avgHr)}" placeholder="bpm">
+              <input inputmode="numeric" data-run-field="avgHr" value="${escapeHtml(entry.avgHr)}" placeholder="bpm" ${done ? "disabled" : ""}>
             </label>
             <label>Max HR
-              <input inputmode="numeric" data-run-field="maxHr" value="${escapeHtml(entry.maxHr)}" placeholder="bpm">
+              <input inputmode="numeric" data-run-field="maxHr" value="${escapeHtml(entry.maxHr)}" placeholder="bpm" ${done ? "disabled" : ""}>
             </label>
             <label>HR zone
-              <input data-run-field="zone" value="${escapeHtml(entry.zone)}" placeholder="Zone 2">
+              <select data-run-field="zone" ${done ? "disabled" : ""}>
+                ${renderHrZoneOptions(entry.zone)}
+              </select>
             </label>
           </div>
           <label>Run notes
-            <input data-run-field="notes" value="${escapeHtml(entry.notes)}" placeholder="Breathing, legs, treadmill incline...">
+            <input data-run-field="notes" value="${escapeHtml(entry.notes)}" placeholder="Breathing, legs, treadmill incline..." ${done ? "disabled" : ""}>
           </label>
         </section>
       `;
+    }
+
+    function renderAddonBlocks(session) {
+      return session.addons.map(addon => {
+        const entry = addonEntryFor(addon);
+        const done = Boolean(entry.done);
+        const isCycling = addon.kind === "cycling";
+        return `
+          <div class="section-title">
+            <h2>${escapeHtml(addon.name)}</h2>
+            <span class="fine">${escapeHtml(addon.duration)} · ${escapeHtml(addon.focus)}</span>
+          </div>
+
+          <section class="exercise ${done ? "done" : ""}">
+            <div class="exercise-head">
+              <div>
+                <strong>${addon.icon} ${escapeHtml(addon.name)}</strong>
+                <p class="fine">Complete this at the end of the session.</p>
+              </div>
+              <label class="done-check exercise-check">
+                <input type="checkbox" data-addon-done="${addon.id}" ${done ? "checked" : ""}>
+                <span>${done ? "Done" : "To do"}</span>
+              </label>
+            </div>
+            <div class="notice">
+              <strong>${isCycling ? "Keep it easy and recovery-friendly." : "Keep it technical and very easy."}</strong>
+              <p class="fine" style="margin-top:.35rem">${isCycling ? "Use low resistance in Zones 1-2. This is a cooldown, not a hard cycling workout." : "Focus on relaxed breathing and clean technique. Stop before fatigue changes your form."}</p>
+            </div>
+            <div class="activity-fields">
+              <label>Actual duration
+                <input inputmode="decimal" data-addon="${addon.id}" data-addon-field="duration" value="${escapeHtml(entry.duration || "")}" placeholder="minutes" ${done ? "disabled" : ""}>
+              </label>
+              ${isCycling ? `
+              <label>Speed (km/h)
+                <input inputmode="decimal" data-addon="${addon.id}" data-addon-field="speed" value="${escapeHtml(entry.speed || "")}" placeholder="easy" ${done ? "disabled" : ""}>
+              </label>
+              ` : ""}
+              <label>Distance
+                <input data-addon="${addon.id}" data-addon-field="distance" value="${escapeHtml(entry.distance || "")}" placeholder="${isCycling ? "km" : "m or lengths"}" ${done ? "disabled" : ""}>
+              </label>
+              <label>Average HR
+                <input inputmode="numeric" data-addon="${addon.id}" data-addon-field="avgHr" value="${escapeHtml(entry.avgHr || "")}" placeholder="bpm" ${done ? "disabled" : ""}>
+              </label>
+              <label>Max HR
+                <input inputmode="numeric" data-addon="${addon.id}" data-addon-field="maxHr" value="${escapeHtml(entry.maxHr || "")}" placeholder="bpm" ${done ? "disabled" : ""}>
+              </label>
+              <label>HR zone
+                <select data-addon="${addon.id}" data-addon-field="zone" ${done ? "disabled" : ""}>
+                  ${renderHrZoneOptions(entry.zone || (isCycling ? "Zones 1-2" : "Zone 1"))}
+                </select>
+              </label>
+            </div>
+            <label style="margin-top:.7rem">Notes
+              <input data-addon="${addon.id}" data-addon-field="notes" value="${escapeHtml(entry.notes || "")}" placeholder="${isCycling ? "Resistance, cadence, legs..." : "Breathing, stroke, technique..."}" ${done ? "disabled" : ""}>
+            </label>
+          </section>
+        `;
+      }).join("");
     }
 
     function renderActivityForm(session) {
       const week = getSelectedWeek();
       const entry = activityEntryFor(session);
       const isRun = session.id === "extraRun";
+      const done = Boolean(entry.done);
+      const editing = isEditingSession();
       return `
         <section class="hero">
           <div>
@@ -1665,54 +2409,70 @@
             </div>
             <h1>${session.name}</h1>
           </div>
-          <p>${session.note}</p>
+          ${editing ? `<p>Edit the saved session. Uncheck the activity to unlock its fields, then check it again when corrected.</p>` : session.note ? `<p>${escapeHtml(session.note)}</p>` : ""}
         </section>
+
+        ${renderSessionProgressBar(session)}
 
         <div class="section-title">
           <h2>Simple Tracking</h2>
           <span class="fine">${isRun ? "Duration · speed · distance · HR zone" : "Duration · distance · effort"}</span>
         </div>
 
-        <section class="exercise">
+        <section class="exercise ${done ? "done" : ""}">
+          <div class="exercise-head">
+            <div>
+              <strong>${session.icon} ${session.name}</strong>
+              <p class="fine">Check this when the session is complete.</p>
+            </div>
+            <label class="done-check exercise-check">
+              <input type="checkbox" data-activity-done ${done ? "checked" : ""}>
+              <span>${done ? "Done" : "To do"}</span>
+            </label>
+          </div>
           <div class="activity-fields">
             <label>Actual duration
-              <input data-activity-field="duration" value="${escapeHtml(entry.duration)}" placeholder="minutes">
+              <input data-activity-field="duration" value="${escapeHtml(entry.duration)}" placeholder="minutes" ${done ? "disabled" : ""}>
             </label>
             ${isRun ? `
             <label>Speed (km/h)
-              <input inputmode="decimal" data-activity-field="speed" value="${escapeHtml(entry.speed || "")}" placeholder="8,0">
+              <input inputmode="decimal" data-activity-field="speed" value="${escapeHtml(entry.speed || "")}" placeholder="8,0" ${done ? "disabled" : ""}>
             </label>
             ` : ""}
             <label>Distance
-              <input data-activity-field="distance" value="${escapeHtml(entry.distance)}" placeholder="m, km, or lengths">
+              <input data-activity-field="distance" value="${escapeHtml(entry.distance)}" placeholder="m, km, or lengths" ${done ? "disabled" : ""}>
             </label>
             ${isRun ? `
             <label>Average HR
-              <input inputmode="numeric" data-activity-field="avgHr" value="${escapeHtml(entry.avgHr || "")}" placeholder="bpm">
+              <input inputmode="numeric" data-activity-field="avgHr" value="${escapeHtml(entry.avgHr || "")}" placeholder="bpm" ${done ? "disabled" : ""}>
             </label>
             <label>Max HR
-              <input inputmode="numeric" data-activity-field="maxHr" value="${escapeHtml(entry.maxHr || "")}" placeholder="bpm">
+              <input inputmode="numeric" data-activity-field="maxHr" value="${escapeHtml(entry.maxHr || "")}" placeholder="bpm" ${done ? "disabled" : ""}>
             </label>
             ` : ""}
             ${isRun ? `
             <label>HR zone
-              <input data-activity-field="zone" value="${escapeHtml(entry.zone || "")}" placeholder="Zone 2">
+              <select data-activity-field="zone" ${done ? "disabled" : ""}>
+                ${renderHrZoneOptions(entry.zone || "Zone 2")}
+              </select>
             </label>
             ` : `
             <label>Effort /10
-              <input data-activity-field="effort" value="${escapeHtml(entry.effort)}" placeholder="e.g. 6">
+              <input data-activity-field="effort" value="${escapeHtml(entry.effort)}" placeholder="e.g. 6" ${done ? "disabled" : ""}>
             </label>
             `}
           </div>
           ${isRun ? `
-          <label style="margin-top:.7rem">Run notes
-            <input data-activity-field="notes" value="${escapeHtml(entry.notes || "")}" placeholder="Route, treadmill incline, breathing, legs...">
+          <label style="margin-top:.7rem">Running notes
+            <input data-activity-field="notes" value="${escapeHtml(entry.notes || "")}" placeholder="Route, treadmill incline, breathing, legs..." ${done ? "disabled" : ""}>
           </label>
           ` : ""}
         </section>
 
+        ${renderActivityProgression(session)}
+
         <div class="actions">
-          <button class="btn" type="button" id="saveWorkout">Save session</button>
+          <button class="btn" type="button" id="saveWorkout">${editing ? "Update session" : "Save session"}</button>
         </div>
       `;
     }
@@ -1722,8 +2482,16 @@
         button.addEventListener("click", () => selectWeek(button.dataset.selectWeek));
       });
 
-      document.querySelectorAll("[data-select-session]").forEach(button => {
-        button.addEventListener("click", () => selectSession(button.dataset.selectSession));
+      document.querySelectorAll("[data-select-session]").forEach(card => {
+        card.addEventListener("click", event => {
+          if (event.target.closest(".done-check, input, button, select, textarea, label")) return;
+          selectSession(card.dataset.selectSession);
+        });
+        card.addEventListener("keydown", event => {
+          if (event.target !== card || !["Enter", " "].includes(event.key)) return;
+          event.preventDefault();
+          selectSession(card.dataset.selectSession);
+        });
       });
 
       document.querySelectorAll("[data-session-done]").forEach(input => {
@@ -1738,6 +2506,7 @@
       document.querySelector("#backToWeeks")?.addEventListener("click", () => {
         sessionScreen = "weeks";
         data.selectedSessionId = "";
+        data.editingRecordId = "";
         data.currentEntries = {};
         saveData();
         renderAll();
@@ -1746,6 +2515,7 @@
       document.querySelector("#backToSessions")?.addEventListener("click", () => {
         sessionScreen = "sessions";
         data.selectedSessionId = "";
+        data.editingRecordId = "";
         data.currentEntries = {};
         saveData();
         renderAll();
@@ -1767,8 +2537,20 @@
         });
       });
 
+      document.querySelectorAll("[data-exercise-done]").forEach(input => {
+        input.addEventListener("change", event => {
+          const id = event.currentTarget.dataset.exerciseDone;
+          if (!data.currentEntries[id]) data.currentEntries[id] = {};
+          data.currentEntries[id].done = event.currentTarget.checked;
+          saveData();
+          const session = getSession(data.selectedSessionId);
+          if (isCurrentSessionComplete(session)) saveWorkout();
+          else renderAll();
+        });
+      });
+
       document.querySelectorAll("[data-activity-field]").forEach(input => {
-        input.addEventListener("input", event => {
+        const updateActivityField = event => {
           if (!data.currentEntries.activity) data.currentEntries.activity = {};
           const field = event.currentTarget.dataset.activityField;
           if (field === "speed") {
@@ -1779,11 +2561,22 @@
             data.currentEntries.activity[field] = event.currentTarget.value;
           }
           saveData();
-        });
+        };
+        input.addEventListener("input", updateActivityField);
+        input.addEventListener("change", updateActivityField);
+      });
+
+      document.querySelector("[data-activity-done]")?.addEventListener("change", event => {
+        if (!data.currentEntries.activity) data.currentEntries.activity = {};
+        data.currentEntries.activity.done = event.currentTarget.checked;
+        saveData();
+        const session = getSession(data.selectedSessionId);
+        if (isCurrentSessionComplete(session)) saveWorkout();
+        else renderAll();
       });
 
       document.querySelectorAll("[data-run-field]").forEach(input => {
-        input.addEventListener("input", event => {
+        const updateRunField = event => {
           if (!data.currentEntries.run) data.currentEntries.run = {};
           const field = event.currentTarget.dataset.runField;
           if (["speed"].includes(field)) {
@@ -1794,17 +2587,395 @@
             data.currentEntries.run[field] = event.currentTarget.value;
           }
           saveData();
+        };
+        input.addEventListener("input", updateRunField);
+        input.addEventListener("change", updateRunField);
+      });
+
+      document.querySelector("[data-run-done]")?.addEventListener("change", event => {
+        if (!data.currentEntries.run) data.currentEntries.run = {};
+        data.currentEntries.run.done = event.currentTarget.checked;
+        saveData();
+        const session = getSession(data.selectedSessionId);
+        if (isCurrentSessionComplete(session)) saveWorkout();
+        else renderAll();
+      });
+
+      document.querySelectorAll("[data-addon-field]").forEach(input => {
+        const updateAddonField = event => {
+          const addonId = event.currentTarget.dataset.addon;
+          const key = addonEntryKey(addonId);
+          if (!data.currentEntries[key]) data.currentEntries[key] = {};
+          const field = event.currentTarget.dataset.addonField;
+          if (field === "speed") {
+            const normalized = normalizeWeightInput(event.currentTarget.value);
+            event.currentTarget.value = normalized;
+            data.currentEntries[key][field] = normalized;
+          } else {
+            data.currentEntries[key][field] = event.currentTarget.value;
+          }
+          saveData();
+        };
+        input.addEventListener("input", updateAddonField);
+        input.addEventListener("change", updateAddonField);
+      });
+
+      document.querySelectorAll("[data-addon-done]").forEach(input => {
+        input.addEventListener("change", event => {
+          const key = addonEntryKey(event.currentTarget.dataset.addonDone);
+          if (!data.currentEntries[key]) data.currentEntries[key] = {};
+          data.currentEntries[key].done = event.currentTarget.checked;
+          saveData();
+          const session = getSession(data.selectedSessionId);
+          if (isCurrentSessionComplete(session)) saveWorkout();
+          else renderAll();
         });
       });
 
       document.querySelector("#saveWorkout")?.addEventListener("click", saveWorkout);
     }
 
+    function renderHealth() {
+      const draft = getHealthDraft();
+      const editing = Boolean(data.editingHealthId);
+      const measurements = getSortedHealthMeasurements();
+
+      document.querySelector("#view-health").innerHTML = `
+        <section class="hero">
+          <div>
+            <div class="pill-row">
+              <span class="pill good">${measurements.length} measurement${measurements.length > 1 ? "s" : ""}</span>
+              <span class="pill">Body composition</span>
+            </div>
+            <h1>Health</h1>
+          </div>
+        </section>
+
+        <div class="section-title">
+          <h2>New Measurement</h2>
+          <span class="fine">${editing ? "Editing saved measurement" : "Weight and composition"}</span>
+        </div>
+
+        <section class="card grid">
+          <div class="health-fields">
+            <label>Date
+              <input type="date" data-health-field="date" value="${escapeHtml(draft.date || today())}">
+            </label>
+            <label>Total weight (kg)
+              <input inputmode="decimal" data-health-field="totalWeight" value="${escapeHtml(draft.totalWeight || "")}" placeholder="55">
+            </label>
+            <label>Fat mass (kg)
+              <input inputmode="decimal" data-health-field="fatWeight" value="${escapeHtml(draft.fatWeight || "")}" placeholder="14">
+            </label>
+            <label>Muscle mass (kg)
+              <input inputmode="decimal" data-health-field="muscleWeight" value="${escapeHtml(draft.muscleWeight || "")}" placeholder="24">
+            </label>
+          </div>
+          <div class="summary" data-health-preview>
+            ${renderHealthPreview(draft)}
+          </div>
+          <div class="grid">
+            <button class="btn" type="button" id="saveHealthMeasurement">${editing ? "Update measurement" : "Save measurement"}</button>
+            ${editing ? `<button class="btn secondary" type="button" id="cancelHealthEdit">Cancel edit</button>` : ""}
+          </div>
+        </section>
+
+        <div class="section-title">
+          <h2>Charts</h2>
+          <span class="fine">All saved measurements</span>
+        </div>
+        <section class="grid progress-grid">
+          ${renderHealthWeightChart(measurements)}
+          ${renderHealthCompositionChart(measurements)}
+        </section>
+
+        <div class="section-title">
+          <h2>Measurement History</h2>
+          <span class="fine">Edit or delete entries</span>
+        </div>
+        <section class="card grid">
+          ${measurements.length ? renderHealthHistoryTable(measurements) : `<div class="empty">Your saved health measurements will appear here.</div>`}
+        </section>
+      `;
+
+      bindHealthEvents();
+    }
+
+    function renderHealthPreview(measurement) {
+      const total = numericWeight(measurement?.totalWeight);
+      const fat = numericWeight(measurement?.fatWeight);
+      const muscle = numericWeight(measurement?.muscleWeight);
+      const percentages = calculateHealthPercentages(measurement);
+
+      return `
+        <div class="stat"><small>Total weight</small><strong>${total ? `${formatDecimalComma(total)} kg` : "-"}</strong></div>
+        <div class="stat"><small>Body fat</small><strong>${formatPercent(percentages.fatPercent)}</strong></div>
+        <div class="stat"><small>Muscle mass</small><strong>${formatPercent(percentages.musclePercent)}</strong></div>
+        <div class="stat"><small>Fat mass</small><strong>${fat ? `${formatDecimalComma(fat)} kg` : "-"}</strong></div>
+        <div class="stat"><small>Muscle weight</small><strong>${muscle ? `${formatDecimalComma(muscle)} kg` : "-"}</strong></div>
+        <div class="stat"><small>Tracked date</small><strong>${escapeHtml(measurement?.date || today())}</strong></div>
+      `;
+    }
+
+    function updateHealthPreview() {
+      const target = document.querySelector("[data-health-preview]");
+      if (target) target.innerHTML = renderHealthPreview(getHealthDraft());
+    }
+
+    function healthPoint(measurement, value) {
+      return { date: measurement.date || today(), value };
+    }
+
+    function renderHealthWeightChart(measurements) {
+      const points = measurements
+        .map(item => healthPoint(item, numericWeight(item.totalWeight)))
+        .filter(point => point.value > 0);
+
+      return renderHealthLineChart({
+        title: "Weight Trend",
+        subtitle: "Total body weight over time",
+        unit: "kg",
+        emptyMessage: "Save at least one total weight measurement to start this chart.",
+        series: [{ label: "Weight", color: "#157c65", points }]
+      });
+    }
+
+    function renderHealthCompositionChart(measurements) {
+      const fatPoints = [];
+      const musclePoints = [];
+      measurements.forEach(item => {
+        const percentages = calculateHealthPercentages(item);
+        if (Number.isFinite(percentages.fatPercent)) fatPoints.push(healthPoint(item, percentages.fatPercent));
+        if (Number.isFinite(percentages.musclePercent)) musclePoints.push(healthPoint(item, percentages.musclePercent));
+      });
+
+      return renderHealthLineChart({
+        title: "Composition Trend",
+        subtitle: "Body fat % and muscle mass %",
+        unit: "%",
+        emptyMessage: "Save fat mass and muscle mass with total weight to start this chart.",
+        series: [
+          { label: "Body fat", color: "#b83a3a", points: fatPoints },
+          { label: "Muscle mass", color: "#157c65", points: musclePoints }
+        ]
+      });
+    }
+
+    function renderHealthLineChart({ title, subtitle, unit, emptyMessage, series }) {
+      const validSeries = series.map(item => ({
+        ...item,
+        points: item.points.filter(point => Number.isFinite(point.value))
+      }));
+      const allPoints = validSeries.flatMap(item => item.points);
+
+      if (!allPoints.length) {
+        return `
+          <article class="card chart-card">
+            <div>
+              <strong>${escapeHtml(title)}</strong>
+              <p class="fine">${escapeHtml(subtitle)}</p>
+            </div>
+            <div class="empty">${escapeHtml(emptyMessage)}</div>
+          </article>
+        `;
+      }
+
+      const chartWidth = 340;
+      const chartHeight = 160;
+      const padding = 30;
+      const dates = [...new Set(allPoints.map(point => point.date))].sort();
+      const values = allPoints.map(point => point.value);
+      const minValue = Math.min(...values);
+      const maxValue = Math.max(...values);
+      const flatRange = Math.max(1, maxValue * 0.08);
+      const chartMin = minValue === maxValue ? Math.max(0, minValue - flatRange) : minValue;
+      const chartMax = minValue === maxValue ? maxValue + flatRange : maxValue;
+      const span = chartMax - chartMin || 1;
+      const xForDate = date => dates.length === 1
+        ? chartWidth / 2
+        : padding + (dates.indexOf(date) / (dates.length - 1)) * (chartWidth - padding * 2);
+      const yForValue = value => chartHeight - padding - ((value - chartMin) / span) * (chartHeight - padding * 2);
+      const formatChartValue = value => unit === "%" ? formatPercent(value) : `${formatDecimalComma(value)} ${unit}`;
+
+      const paths = validSeries.map(item => {
+        const coordinates = item.points.map(point => ({
+          ...point,
+          x: xForDate(point.date),
+          y: yForValue(point.value)
+        }));
+        const path = coordinates.map((point, index) => `${index ? "L" : "M"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ");
+        return { ...item, coordinates, path };
+      });
+
+      return `
+        <article class="card chart-card">
+          <div class="progress-head">
+            <div>
+              <strong>${escapeHtml(title)}</strong>
+              <p class="fine">${escapeHtml(subtitle)}</p>
+            </div>
+          </div>
+          <svg class="chart-svg" viewBox="0 0 ${chartWidth} ${chartHeight}" role="img" aria-label="${escapeHtml(title)} chart">
+            <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${chartHeight - padding}" stroke="#d7ded8" stroke-width="1" />
+            <line x1="${padding}" y1="${chartHeight - padding}" x2="${chartWidth - padding}" y2="${chartHeight - padding}" stroke="#d7ded8" stroke-width="1" />
+            <line x1="${padding}" y1="${chartHeight / 2}" x2="${chartWidth - padding}" y2="${chartHeight / 2}" stroke="#edf1ee" stroke-width="1" />
+            ${paths.map(item => `
+              <path d="${item.path}" fill="none" stroke="${item.color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+              ${item.coordinates.map(point => `<circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="4.5" fill="${item.color}"><title>${escapeHtml(item.label)} - ${escapeHtml(point.date)} - ${escapeHtml(formatChartValue(point.value))}</title></circle>`).join("")}
+            `).join("")}
+            <text x="${padding}" y="${padding - 8}" fill="#52645a" font-size="11">${escapeHtml(formatChartValue(chartMax))}</text>
+            <text x="${padding}" y="${chartHeight - 6}" fill="#52645a" font-size="11">${escapeHtml(formatChartValue(chartMin))}</text>
+          </svg>
+          <div class="pill-row">
+            ${validSeries.map(item => `<span class="pill"><span aria-hidden="true" style="width:.7rem;height:.7rem;border-radius:999px;background:${item.color};display:inline-block;margin-right:.35rem"></span>${escapeHtml(item.label)}</span>`).join("")}
+          </div>
+        </article>
+      `;
+    }
+
+    function renderHealthHistoryTable(measurements) {
+      return `
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Fat mass</th>
+                <th>Muscle mass</th>
+                <th>Calculated %</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[...measurements].reverse().map(item => {
+                const percentages = calculateHealthPercentages(item);
+                return `
+                  <tr>
+                    <td>${escapeHtml(item.date || "-")}</td>
+                    <td>${escapeHtml(displayLoadWithUnit(item.totalWeight))}</td>
+                    <td>${escapeHtml(displayLoadWithUnit(item.fatWeight))}</td>
+                    <td>${escapeHtml(displayLoadWithUnit(item.muscleWeight))}</td>
+                    <td>Fat: ${escapeHtml(formatPercent(percentages.fatPercent))}<br>Muscle: ${escapeHtml(formatPercent(percentages.musclePercent))}</td>
+                    <td>
+                      <div class="history-actions">
+                        <button class="btn secondary" type="button" data-edit-health="${item.id}">Edit</button>
+                        <button class="btn danger" type="button" data-delete-health="${item.id}">Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                `;
+              }).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function saveHealthMeasurement() {
+      const draft = getHealthDraft();
+      const total = numericWeight(draft.totalWeight);
+      if (!total) {
+        alert("Add a total weight before saving.");
+        return;
+      }
+
+      data.health = data.health || [];
+      const existing = data.editingHealthId ? data.health.find(item => item.id === data.editingHealthId) : null;
+      const record = {
+        id: existing?.id || makeId(),
+        date: draft.date || today(),
+        totalWeight: normalizeWeightInput(draft.totalWeight),
+        fatWeight: normalizeWeightInput(draft.fatWeight),
+        muscleWeight: normalizeWeightInput(draft.muscleWeight),
+        createdAt: existing?.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      if (existing) {
+        data.health = data.health.map(item => item.id === existing.id ? record : item);
+      } else {
+        data.health.unshift(record);
+      }
+
+      data.editingHealthId = "";
+      data.healthDraft = emptyHealthDraft();
+      saveData();
+      renderAll();
+    }
+
+    function editHealthMeasurement(id) {
+      const measurement = (data.health || []).find(item => item.id === id);
+      if (!measurement) return;
+      data.editingHealthId = id;
+      data.healthDraft = {
+        date: measurement.date || today(),
+        totalWeight: normalizeWeightInput(measurement.totalWeight),
+        fatWeight: normalizeWeightInput(measurement.fatWeight),
+        muscleWeight: normalizeWeightInput(measurement.muscleWeight)
+      };
+      activeTab = "health";
+      saveData();
+      renderAll();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function bindHealthEvents() {
+      document.querySelectorAll("[data-health-field]").forEach(input => {
+        input.addEventListener("input", event => {
+          const field = event.currentTarget.dataset.healthField;
+          const draft = getHealthDraft();
+          if (field === "date") {
+            draft[field] = event.currentTarget.value;
+          } else {
+            const normalized = normalizeWeightInput(event.currentTarget.value);
+            event.currentTarget.value = normalized;
+            draft[field] = normalized;
+          }
+          saveData();
+          updateHealthPreview();
+        });
+      });
+
+      document.querySelector("#saveHealthMeasurement")?.addEventListener("click", saveHealthMeasurement);
+
+      document.querySelector("#cancelHealthEdit")?.addEventListener("click", () => {
+        data.editingHealthId = "";
+        data.healthDraft = emptyHealthDraft();
+        saveData();
+        renderAll();
+      });
+
+      document.querySelectorAll("[data-edit-health]").forEach(button => {
+        button.addEventListener("click", event => editHealthMeasurement(event.currentTarget.dataset.editHealth));
+      });
+
+      document.querySelectorAll("[data-delete-health]").forEach(button => {
+        button.addEventListener("click", event => {
+          const id = event.currentTarget.dataset.deleteHealth;
+          const measurement = (data.health || []).find(item => item.id === id);
+          if (!measurement) return;
+          if (confirm(`Delete health measurement from ${measurement.date || "this date"}?`)) {
+            data.health = (data.health || []).filter(item => item.id !== id);
+            if (data.editingHealthId === id) {
+              data.editingHealthId = "";
+              data.healthDraft = emptyHealthDraft();
+            }
+            saveData();
+            renderAll();
+          }
+        });
+      });
+    }
+
     function renderProgress() {
       const stats = getProgressStats();
       const selectedWeek = getSelectedWeek();
       const sessionCounts = getSessionSummaryCounts();
+      const cardioItems = getCardioProgressItems(stats.activities);
       document.querySelector("#view-progress").innerHTML = `
+        ${renderProgressCalendar()}
+
         <section class="hero">
           <div>
             <div class="pill-row">
@@ -1822,7 +2993,7 @@
           <h2>Summary</h2>
         </div>
         <section class="grid progress-grid">
-          ${SESSIONS.map(session => renderSessionSummaryCard(session, sessionCounts[session.id] || 0)).join("")}
+          ${getDisplaySessions().map(session => renderSessionSummaryCard(session, sessionCounts[session.id] || 0)).join("")}
         </section>
 
         <div class="section-title">
@@ -1834,19 +3005,11 @@
         </section>
 
         <div class="section-title">
-          <h2>Strength</h2>
-          <span class="fine">Last load and trend</span>
-        </div>
-        <section class="grid progress-grid">
-          ${stats.exercises.length ? stats.exercises.map(renderExerciseProgress).join("") : `<div class="empty">No exercise saved yet.</div>`}
-        </section>
-
-        <div class="section-title">
           <h2>Cardio</h2>
-          <span class="fine">Running, swimming and cycling</span>
+          <span class="fine">Progression charts by activity</span>
         </div>
         <section class="grid progress-grid">
-          ${stats.activities.length ? stats.activities.map(renderActivityProgress).join("") : `<div class="empty">No cardio session saved yet.</div>`}
+          ${cardioItems.map(renderActivityProgress).join("")}
         </section>
 
         <div class="section-title">
@@ -1860,6 +3023,90 @@
         </section>
       `;
       bindProgressEvents();
+    }
+
+    function getMonthKey(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      return `${year}-${month}`;
+    }
+
+    function getDateKey(year, monthIndex, day) {
+      return `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    }
+
+    function getCalendarRecordsByDate(monthDate) {
+      const monthKey = getMonthKey(monthDate);
+      return data.history.reduce((map, record) => {
+        if (!record.date || String(record.date).slice(0, 7) !== monthKey) return map;
+        if (!map.has(record.date)) map.set(record.date, []);
+        map.get(record.date).push(record);
+        return map;
+      }, new Map());
+    }
+
+    function getRecordCalendarIcon(record) {
+      return record.icon || getSession(record.sessionId)?.icon || (record.type === "strength" ? "🏋️‍♀️" : "•");
+    }
+
+    function renderProgressCalendar() {
+      const year = calendarCursor.getFullYear();
+      const monthIndex = calendarCursor.getMonth();
+      const monthTitle = calendarCursor.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+      const firstDay = new Date(year, monthIndex, 1);
+      const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+      const startOffset = (firstDay.getDay() + 6) % 7;
+      const recordsByDate = getCalendarRecordsByDate(calendarCursor);
+      const monthSessionCount = [...recordsByDate.values()].reduce((sum, records) => sum + records.length, 0);
+      const todayKey = today();
+      const cells = [];
+
+      for (let i = 0; i < startOffset; i += 1) {
+        cells.push(`<div class="calendar-day empty-day" aria-hidden="true"></div>`);
+      }
+
+      for (let day = 1; day <= daysInMonth; day += 1) {
+        const dateKey = getDateKey(year, monthIndex, day);
+        const records = recordsByDate.get(dateKey) || [];
+        const visibleRecords = records.slice(0, 6);
+        const extraCount = Math.max(0, records.length - visibleRecords.length);
+        const titles = records.map(record => getSessionDisplayName(record)).join(", ");
+        cells.push(`
+          <div class="calendar-day ${dateKey === todayKey ? "today" : ""}" title="${escapeHtml(titles)}">
+            <span class="calendar-number">${day}</span>
+            ${records.length ? `
+              <div class="calendar-icons" aria-label="${escapeHtml(`${records.length} session${records.length > 1 ? "s" : ""} on ${dateKey}`)}">
+                ${visibleRecords.map(record => `<span class="calendar-icon" title="${escapeHtml(getSessionDisplayName(record))}">${escapeHtml(getRecordCalendarIcon(record))}</span>`).join("")}
+                ${extraCount ? `<span class="calendar-more">+${extraCount}</span>` : ""}
+              </div>
+            ` : ""}
+          </div>
+        `);
+      }
+
+      while (cells.length % 7 !== 0) {
+        cells.push(`<div class="calendar-day empty-day" aria-hidden="true"></div>`);
+      }
+
+      return `
+        <section class="card calendar-card" aria-label="Monthly session calendar">
+          <div class="calendar-top">
+            <div>
+              <strong>Monthly Calendar</strong>
+              <p class="fine">${monthSessionCount} saved session${monthSessionCount > 1 ? "s" : ""} in ${escapeHtml(monthTitle)}</p>
+            </div>
+            <div class="calendar-nav" aria-label="Calendar navigation">
+              <button class="btn secondary" type="button" data-calendar-shift="-1" aria-label="Previous month">‹</button>
+              <button class="btn secondary today-btn" type="button" data-calendar-today aria-label="Current month">Today</button>
+              <button class="btn secondary" type="button" data-calendar-shift="1" aria-label="Next month">›</button>
+            </div>
+          </div>
+          <div class="calendar-grid">
+            ${CALENDAR_WEEKDAYS.map(day => `<div class="calendar-weekday">${day}</div>`).join("")}
+            ${cells.join("")}
+          </div>
+        </section>
+      `;
     }
 
     function getProgressStats() {
@@ -1905,7 +3152,8 @@
               last: record.activity,
               count: 0,
               bestDuration: 0,
-              bestDistance: 0
+              bestDistance: 0,
+              records: []
             });
           }
           const current = activityMap.get(record.sessionId);
@@ -1913,6 +3161,12 @@
           current.count += 1;
           current.bestDuration = Math.max(current.bestDuration, numericValue(record.activity.duration));
           current.bestDistance = Math.max(current.bestDistance, numericValue(record.activity.distance));
+          current.records.push({
+            date: record.date,
+            weekLabel: getWeekDisplayLabel(record),
+            sessionName: getSessionDisplayName(record),
+            ...record.activity
+          });
         }
 
         if (record.running) {
@@ -1926,7 +3180,8 @@
               last: record.running,
               count: 0,
               bestDuration: 0,
-              bestDistance: 0
+              bestDistance: 0,
+              records: []
             });
           }
           const current = activityMap.get(key);
@@ -1934,12 +3189,69 @@
           current.count += 1;
           current.bestDuration = Math.max(current.bestDuration, numericValue(record.running.duration));
           current.bestDistance = Math.max(current.bestDistance, numericValue(record.running.distance));
+          current.records.push({
+            date: record.date,
+            weekLabel: getWeekDisplayLabel(record),
+            sessionName: getSessionDisplayName(record),
+            ...record.running
+          });
         }
+
+        (record.addons || []).forEach(addon => {
+          const key = addon.kind === "cycling" ? "bike30" : addon.kind === "swimming" ? "swim50" : addon.id;
+          const name = addon.kind === "cycling" ? "Cycling" : addon.kind === "swimming" ? "Swimming" : addon.name;
+          if (!activityMap.has(key)) {
+            activityMap.set(key, {
+              id: key,
+              icon: addon.icon || "",
+              name,
+              first: addon,
+              last: addon,
+              count: 0,
+              bestDuration: 0,
+              bestDistance: 0,
+              records: []
+            });
+          }
+          const current = activityMap.get(key);
+          current.last = addon;
+          current.count += 1;
+          current.bestDuration = Math.max(current.bestDuration, numericValue(addon.duration));
+          current.bestDistance = Math.max(current.bestDistance, numericValue(addon.distance));
+          current.records.push({
+            date: record.date,
+            weekLabel: getWeekDisplayLabel(record),
+            sessionName: getSessionDisplayName(record),
+            ...addon
+          });
+        });
       });
 
       const exercises = [...exerciseMap.values()].sort((a, b) => a.name.localeCompare(b.name, "en"));
       const activities = [...activityMap.values()].sort((a, b) => a.name.localeCompare(b.name, "en"));
       return { exercises, activities, exerciseCount: exercises.length, activityCount: activities.length, bestVolume };
+    }
+
+    function getCardioProgressItems(activities) {
+      const activityMap = new Map(activities.map(item => [item.id, item]));
+      const expected = [
+        { id: "upperA-qualityRun", icon: "🏃", name: "Quality Run" },
+        { id: "swim50", icon: getSession("swim50")?.icon || "🏊", name: "Swimming" },
+        { id: "upperB-easyRun", icon: "🏃", name: "Easy Run" },
+        { id: "bike30", icon: getSession("bike30")?.icon || "🚴", name: "Cycling" }
+      ];
+      const expectedIds = new Set(expected.map(item => item.id));
+      const coreItems = expected.map(item => activityMap.get(item.id) || {
+        ...item,
+        first: {},
+        last: {},
+        count: 0,
+        bestDuration: 0,
+        bestDistance: 0,
+        records: []
+      });
+      const extraItems = activities.filter(item => !expectedIds.has(item.id));
+      return [...coreItems, ...extraItems];
     }
 
     function renderExerciseWeightChart(item) {
@@ -2003,7 +3315,7 @@
             <text x="${padding}" y="${padding - 8}" fill="#52645a" font-size="11">${formatDecimalComma(chartMax)} kg</text>
             <text x="${padding}" y="${chartHeight - 6}" fill="#52645a" font-size="11">${formatDecimalComma(chartMin)} kg</text>
           </svg>
-          <div class="summary">
+          <div class="summary compact-summary">
             <div class="stat"><small>First</small><strong>${escapeHtml(displayLoadWithUnit(first.weight))}</strong></div>
             <div class="stat"><small>Latest</small><strong>${escapeHtml(displayLoadWithUnit(latest.weight))}</strong></div>
             <div class="stat"><small>Best</small><strong>${formatDecimalComma(maxWeight)} kg</strong></div>
@@ -2088,22 +3400,139 @@
       `;
     }
 
-    function renderActivityProgress(item) {
+    function formatActivityMetricValue(value, unit) {
+      if (!Number.isFinite(value)) return "-";
+      if (unit === "km/h") return `${formatDecimalComma(value)} km/h`;
+      if (unit === "/min") return `${formatDecimalComma(value)} /min`;
+      if (unit === "min") return `${formatDecimalComma(value)} min`;
+      if (unit === "distance") return formatDecimalComma(value);
+      return `${formatDecimalComma(value)} ${unit}`.trim();
+    }
+
+    function getActivityMetric(item) {
+      const records = item.records || [];
+      const lowerName = String(item.name || "").toLowerCase();
+      const isSwimming = item.id === "swim50" || lowerName.includes("swim");
+      const isRunOrBike = lowerName.includes("run") || lowerName.includes("cycling") || item.id === "bike30" || item.id === "extraRun";
+      const primaryPoints = records.map(record => {
+        const duration = numericValue(record.duration);
+        const distance = numericValue(record.distance);
+        const loggedSpeed = numericWeight(record.speed);
+        let value = NaN;
+        if (duration > 0 && distance > 0) {
+          value = isSwimming ? distance / duration : distance / duration * 60;
+        } else if (isRunOrBike && loggedSpeed > 0) {
+          value = loggedSpeed;
+        }
+        return { date: record.date || "", value, record };
+      }).filter(point => Number.isFinite(point.value) && point.value > 0);
+
+      if (primaryPoints.length) {
+        return {
+          label: isSwimming ? "Distance/min" : "Avg speed",
+          unit: isSwimming ? "/min" : "km/h",
+          color: isSwimming ? "#2675a8" : lowerName.includes("cycling") ? "#8a6a1f" : "#157c65",
+          points: primaryPoints,
+          note: isSwimming
+            ? "Calculated from saved distance divided by duration. Keep the same distance unit over time."
+            : "Calculated from saved distance and duration, or from saved treadmill speed."
+        };
+      }
+
+      const distancePoints = records.map(record => ({
+        date: record.date || "",
+        value: numericValue(record.distance),
+        record
+      })).filter(point => point.value > 0);
+
+      if (distancePoints.length) {
+        return {
+          label: "Distance",
+          unit: isSwimming ? "distance" : "km",
+          color: isSwimming ? "#2675a8" : "#157c65",
+          points: distancePoints,
+          note: "Distance trend based on saved entries."
+        };
+      }
+
+      const durationPoints = records.map(record => ({
+        date: record.date || "",
+        value: numericValue(record.duration),
+        record
+      })).filter(point => point.value > 0);
+
+      return {
+        label: "Duration",
+        unit: "min",
+        color: "#157c65",
+        points: durationPoints,
+        note: "Duration trend based on saved entries."
+      };
+    }
+
+    function renderActivityMetricChart(metric, item) {
+      const points = metric.points || [];
+      if (!points.length) {
+        return `<div class="empty">Save duration and distance for ${escapeHtml(item.name)} to start this chart.</div>`;
+      }
+
+      const chartWidth = 340;
+      const chartHeight = 150;
+      const padding = 28;
+      const values = points.map(point => point.value);
+      const minValue = Math.min(...values);
+      const maxValue = Math.max(...values);
+      const flatRange = Math.max(1, maxValue * 0.08);
+      const chartMin = minValue === maxValue ? Math.max(0, minValue - flatRange) : minValue;
+      const chartMax = minValue === maxValue ? maxValue + flatRange : maxValue;
+      const span = chartMax - chartMin || 1;
+      const coordinates = points.map((point, index) => {
+        const x = points.length === 1
+          ? chartWidth / 2
+          : padding + (index / (points.length - 1)) * (chartWidth - padding * 2);
+        const y = chartHeight - padding - ((point.value - chartMin) / span) * (chartHeight - padding * 2);
+        return { ...point, x, y };
+      });
+      const linePath = coordinates.map((point, index) => `${index ? "L" : "M"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ");
+
       return `
-        <article class="card grid">
+        <svg class="chart-svg" viewBox="0 0 ${chartWidth} ${chartHeight}" role="img" aria-label="${escapeHtml(item.name)} ${escapeHtml(metric.label)} chart">
+          <line x1="${padding}" y1="${padding}" x2="${padding}" y2="${chartHeight - padding}" stroke="#d7ded8" stroke-width="1" />
+          <line x1="${padding}" y1="${chartHeight - padding}" x2="${chartWidth - padding}" y2="${chartHeight - padding}" stroke="#d7ded8" stroke-width="1" />
+          <line x1="${padding}" y1="${chartHeight / 2}" x2="${chartWidth - padding}" y2="${chartHeight / 2}" stroke="#edf1ee" stroke-width="1" />
+          <path d="${linePath}" fill="none" stroke="${metric.color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+          ${coordinates.map(point => `<circle cx="${point.x.toFixed(1)}" cy="${point.y.toFixed(1)}" r="4.5" fill="${metric.color}"><title>${escapeHtml(point.date)} - ${escapeHtml(formatActivityMetricValue(point.value, metric.unit))}</title></circle>`).join("")}
+          <text x="${padding}" y="${padding - 8}" fill="#52645a" font-size="11">${escapeHtml(formatActivityMetricValue(chartMax, metric.unit))}</text>
+          <text x="${padding}" y="${chartHeight - 6}" fill="#52645a" font-size="11">${escapeHtml(formatActivityMetricValue(chartMin, metric.unit))}</text>
+        </svg>
+      `;
+    }
+
+    function renderActivityProgress(item) {
+      const metric = getActivityMetric(item);
+      const latestPoint = metric.points[metric.points.length - 1];
+      const bestPoint = metric.points.reduce((best, point) => !best || point.value > best.value ? point : best, null);
+      const latest = item.last || {};
+
+      return `
+        <article class="card chart-card">
           <div class="progress-head">
             <div>
               <strong>${item.icon} ${item.name}</strong>
               <p class="fine">${item.count} session${item.count > 1 ? "s" : ""}</p>
             </div>
-            <span class="pill good">${escapeHtml(item.last.duration || "-")} min</span>
+            <span class="pill ${latestPoint ? "good" : ""}">${escapeHtml(metric.label)}</span>
           </div>
+          ${renderActivityMetricChart(metric, item)}
           <div class="summary">
-            <div class="stat"><small>Last duration</small><strong>${escapeHtml(item.last.duration || "-")}</strong></div>
-            <div class="stat"><small>Last distance</small><strong>${escapeHtml(item.last.distance || "-")}</strong></div>
-            <div class="stat"><small>${item.last.zone ? "Zone" : item.last.speed ? "Speed" : "Effort"}</small><strong>${item.last.zone ? escapeHtml(item.last.zone) : item.last.speed ? escapeHtml(displaySpeedWithUnit(item.last.speed)) : escapeHtml(item.last.effort || "-")}</strong></div>
+            <div class="stat"><small>Latest KPI</small><strong>${latestPoint ? escapeHtml(formatActivityMetricValue(latestPoint.value, metric.unit)) : "-"}</strong></div>
+            <div class="stat"><small>Best KPI</small><strong>${bestPoint ? escapeHtml(formatActivityMetricValue(bestPoint.value, metric.unit)) : "-"}</strong></div>
+            <div class="stat"><small>Last zone</small><strong>${escapeHtml(latest.zone || latest.effort || "-")}</strong></div>
           </div>
-          <div class="notice">Best logged duration: <strong>${item.bestDuration || "-"} min</strong>${item.bestDistance ? ` · max distance: <strong>${item.bestDistance}</strong>` : ""}.</div>
+          <div class="notice">
+            ${escapeHtml(metric.note)}
+            ${latest.duration || latest.distance ? `<br>Latest: <strong>${escapeHtml(latest.duration || "-")} min</strong>${latest.distance ? ` - distance: <strong>${escapeHtml(latest.distance)}</strong>` : ""}${latest.speed ? ` - speed: <strong>${escapeHtml(displaySpeedWithUnit(latest.speed))}</strong>` : ""}.` : ""}
+          </div>
         </article>
       `;
     }
@@ -2128,7 +3557,12 @@
                   <td>${record.date}</td>
                   <td>${escapeHtml(`${record.icon || ""} ${getSessionDisplayName(record)}`)}</td>
                   <td>${renderRecordDetail(record)}</td>
-                  <td><button class="btn danger" type="button" data-delete-record="${record.id}">Delete</button></td>
+                  <td>
+                    <div class="history-actions">
+                      <button class="btn secondary" type="button" data-edit-record="${record.id}">Edit</button>
+                      <button class="btn danger" type="button" data-delete-record="${record.id}">Delete</button>
+                    </div>
+                  </td>
                 </tr>
               `).join("")}
             </tbody>
@@ -2150,11 +3584,35 @@
       const run = record.running
         ? `<br><strong>🏃 ${escapeHtml(record.running.name || "Run")}</strong>: ${escapeHtml(record.running.duration || "-")} min · ${escapeHtml(displaySpeedWithUnit(record.running.speed))} · Distance: ${escapeHtml(record.running.distance || "-")} · Zone: ${escapeHtml(record.running.zone || "-")}`
         : "";
-      return `${strength}${run}`;
+      const addons = (record.addons || []).map(addon => {
+        const speed = addon.speed ? ` Â· ${escapeHtml(displaySpeedWithUnit(addon.speed))}` : "";
+        return `<br><strong>${escapeHtml(addon.icon || "")} ${escapeHtml(addon.name || "Cardio")}</strong>: ${escapeHtml(addon.duration || "-")} min${speed} Â· Distance: ${escapeHtml(addon.distance || "-")} Â· Zone: ${escapeHtml(addon.zone || "-")}`;
+      }).join("");
+      return `${strength}${run}${addons}`;
     }
 
     function bindProgressEvents() {
       document.querySelector("#exportData")?.addEventListener("click", exportDataByEmail);
+
+      document.querySelectorAll("[data-calendar-shift]").forEach(button => {
+        button.addEventListener("click", event => {
+          const shift = Number(event.currentTarget.dataset.calendarShift || 0);
+          calendarCursor = new Date(calendarCursor.getFullYear(), calendarCursor.getMonth() + shift, 1);
+          renderProgress();
+        });
+      });
+
+      document.querySelector("[data-calendar-today]")?.addEventListener("click", () => {
+        const now = new Date();
+        calendarCursor = new Date(now.getFullYear(), now.getMonth(), 1);
+        renderProgress();
+      });
+
+      document.querySelectorAll("[data-edit-record]").forEach(button => {
+        button.addEventListener("click", event => {
+          editHistoryRecord(event.currentTarget.dataset.editRecord);
+        });
+      });
 
       document.querySelectorAll("[data-delete-record]").forEach(button => {
         button.addEventListener("click", event => {
