@@ -409,6 +409,41 @@
       line-height: 1.45;
     }
 
+    .sync-panel {
+      position: fixed;
+      inset: 1rem 1rem auto;
+      z-index: 30;
+      display: grid;
+      justify-items: center;
+      pointer-events: none;
+    }
+
+    .sync-panel[hidden] {
+      display: none;
+    }
+
+    .sync-card {
+      width: min(440px, 100%);
+      display: grid;
+      gap: .75rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .98);
+      box-shadow: var(--shadow);
+      pointer-events: auto;
+    }
+
+    .sync-card h2 {
+      font-size: 1.05rem;
+    }
+
+    .sync-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .55rem;
+    }
+
     .progress-bar {
       position: relative;
       width: 100%;
@@ -768,6 +803,8 @@
     </main>
   </div>
 
+  <div class="sync-panel" id="syncPanel" hidden></div>
+
   <nav class="bottom-nav" aria-label="Navigation">
     <div class="bottom-nav-inner">
       <button class="nav-btn active" type="button" data-tab="overview">Overview</button>
@@ -779,6 +816,7 @@
 
   <script>
     const STORAGE_KEY = "programmeSportSimple.v2";
+    const SERVER_TOKEN_KEY = "programmeSportServerToken.v1";
     const PROGRAM_START = new Date(2026, 4, 25);
     const PROGRAM_LAST_WEEK_START = new Date(2026, 11, 28);
     const USER_PROFILE_NOTE = "Personalized for: 28-year-old woman, 1,54 m, about 55 kg, no current injury, average sleep around 7 h.";
@@ -1211,6 +1249,18 @@
       };
     }
 
+    const SERVER_SYNC_ENABLED = ["http:", "https:"].includes(window.location.protocol);
+    let serverSaveTimer = null;
+    let serverSyncReady = false;
+    let applyingServerData = false;
+    let serverSync = {
+      enabled: SERVER_SYNC_ENABLED,
+      token: localStorage.getItem(SERVER_TOKEN_KEY) || "",
+      status: SERVER_SYNC_ENABLED ? "checking" : "local",
+      message: "",
+      dismissed: false
+    };
+
     const weeks = generateWeeks();
     let data = loadData();
     hydrateCompletionFromHistory();
@@ -1229,6 +1279,227 @@
 
     function saveData() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      queueServerSave();
+    }
+
+    function hasMeaningfulData(snapshot) {
+      return Boolean(
+        snapshot?.history?.length ||
+        snapshot?.health?.length ||
+        Object.keys(snapshot?.completed || {}).length
+      );
+    }
+
+    function mergeById(primary = [], secondary = []) {
+      const map = new Map();
+      [...primary, ...secondary].forEach(item => {
+        const id = item?.id || makeId();
+        map.set(id, { ...item, id });
+      });
+      return [...map.values()].sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
+    }
+
+    function mergeCompleted(primary = {}, secondary = {}) {
+      const merged = { ...primary };
+      Object.entries(secondary || {}).forEach(([weekId, sessions]) => {
+        merged[weekId] = { ...(merged[weekId] || {}), ...(sessions || {}) };
+      });
+      return merged;
+    }
+
+    function mergeAppData(localSnapshot, serverSnapshot) {
+      if (!serverSnapshot) return { ...createDefaultData(), ...(localSnapshot || {}) };
+      const local = { ...createDefaultData(), ...(localSnapshot || {}) };
+      const remote = { ...createDefaultData(), ...(serverSnapshot || {}) };
+      return {
+        ...remote,
+        selectedWeekId: local.selectedWeekId || remote.selectedWeekId,
+        selectedSessionId: local.selectedSessionId || remote.selectedSessionId,
+        editingRecordId: local.editingRecordId || "",
+        editingHealthId: local.editingHealthId || "",
+        currentEntries: Object.keys(local.currentEntries || {}).length ? local.currentEntries : remote.currentEntries,
+        completed: mergeCompleted(remote.completed, local.completed),
+        history: mergeById(remote.history, local.history),
+        health: mergeById(remote.health, local.health),
+        healthDraft: local.healthDraft || remote.healthDraft,
+        lastSavedAt: [local.lastSavedAt, remote.lastSavedAt].filter(Boolean).sort().pop() || ""
+      };
+    }
+
+    function queueServerSave() {
+      if (!serverSyncReady || applyingServerData || !serverSync.enabled || !serverSync.token) return;
+      window.clearTimeout(serverSaveTimer);
+      serverSaveTimer = window.setTimeout(pushDataToServer, 700);
+    }
+
+    async function apiRequest(path, options = {}) {
+      const headers = {
+        ...(options.headers || {})
+      };
+      if (serverSync.token) headers.Authorization = `Bearer ${serverSync.token}`;
+      if (options.body && !headers["Content-Type"]) headers["Content-Type"] = "application/json";
+      const response = await fetch(path, { ...options, headers });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const error = new Error(payload.error || "Server request failed");
+        error.status = response.status;
+        throw error;
+      }
+      return payload;
+    }
+
+    function setServerStatus(status, message = "") {
+      serverSync.status = status;
+      serverSync.message = message;
+      renderSyncPanel();
+    }
+
+    async function pushDataToServer() {
+      if (!serverSync.enabled || !serverSync.token) return;
+      try {
+        setServerStatus("syncing", "Saving to server...");
+        const result = await apiRequest("/api/data", {
+          method: "PUT",
+          body: JSON.stringify({ data })
+        });
+        if (result.updatedAt) data.lastSavedAt = result.updatedAt;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        setServerStatus("saved", "Saved on server.");
+        window.setTimeout(() => {
+          if (serverSync.status === "saved") renderSyncPanel(true);
+        }, 1400);
+      } catch (error) {
+        if (error.status === 401) {
+          localStorage.removeItem(SERVER_TOKEN_KEY);
+          serverSync.token = "";
+          serverSyncReady = false;
+          setServerStatus("login", "Please sign in again to save on the server.");
+        } else {
+          setServerStatus("error", "Local data is saved. Server backup will retry when you are online.");
+        }
+      }
+    }
+
+    async function pullDataFromServer() {
+      try {
+        setServerStatus("syncing", "Loading server backup...");
+        const result = await apiRequest("/api/data");
+        const serverHasData = hasMeaningfulData(result.data);
+        const localHasData = hasMeaningfulData(data);
+        applyingServerData = true;
+        data = serverHasData ? mergeAppData(data, result.data) : data;
+        data.completionHydrated = false;
+        hydrateCompletionFromHistory();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        applyingServerData = false;
+        renderAll();
+        serverSyncReady = true;
+        if (!serverHasData && localHasData) {
+          await pushDataToServer();
+        } else {
+          setServerStatus("saved", "Server backup active.");
+          window.setTimeout(() => {
+            if (serverSync.status === "saved") renderSyncPanel(true);
+          }, 1400);
+        }
+      } catch (error) {
+        applyingServerData = false;
+        if (error.status === 401) {
+          localStorage.removeItem(SERVER_TOKEN_KEY);
+          serverSync.token = "";
+          serverSyncReady = false;
+          setServerStatus("login", "Enter your password to load the server backup.");
+        } else {
+          setServerStatus("error", "Server backup is unavailable. The app is still usable locally.");
+        }
+      }
+    }
+
+    async function loginToServer(password) {
+      try {
+        setServerStatus("syncing", "Connecting...");
+        const result = await apiRequest("/api/login", {
+          method: "POST",
+          body: JSON.stringify({ password })
+        });
+        serverSync.token = result.token;
+        localStorage.setItem(SERVER_TOKEN_KEY, result.token);
+        await pullDataFromServer();
+      } catch (error) {
+        setServerStatus("login", error.status === 401 ? "Wrong password." : "Could not connect to the server.");
+      }
+    }
+
+    async function initServerSync() {
+      if (!serverSync.enabled) return;
+      try {
+        await apiRequest("/api/health");
+        if (!serverSync.token) {
+          setServerStatus("login", "Enter your password to activate server backup.");
+          return;
+        }
+        await pullDataFromServer();
+      } catch (error) {
+        setServerStatus("error", "Server backup is not ready yet. Local saving is still active.");
+      }
+    }
+
+    function renderSyncPanel(forceHidden = false) {
+      const panel = document.querySelector("#syncPanel");
+      if (!panel || !serverSync.enabled || serverSync.dismissed || forceHidden) {
+        if (panel) panel.hidden = true;
+        return;
+      }
+
+      const needsLogin = serverSync.status === "login" || !serverSync.token;
+      const showStatus = ["syncing", "error"].includes(serverSync.status);
+      if (!needsLogin && !showStatus) {
+        panel.hidden = true;
+        return;
+      }
+
+      panel.hidden = false;
+      panel.innerHTML = `
+        <section class="sync-card" aria-live="polite">
+          <div>
+            <h2>${needsLogin ? "Server backup" : "Backup status"}</h2>
+            <p class="fine" style="margin-top:.25rem">${escapeHtml(serverSync.message || "Your local data stays available on this device.")}</p>
+          </div>
+          ${needsLogin ? `
+            <form class="grid" id="serverLoginForm">
+              <label>Password
+                <input type="password" id="serverPassword" autocomplete="current-password" placeholder="Render APP_PASSWORD">
+              </label>
+              <div class="sync-actions">
+                <button class="btn" type="submit">Connect</button>
+                <button class="btn secondary" type="button" id="dismissSync">Local only</button>
+              </div>
+            </form>
+          ` : `
+            <div class="sync-actions">
+              <button class="btn" type="button" id="retrySync">Retry</button>
+              <button class="btn secondary" type="button" id="dismissSync">Close</button>
+            </div>
+          `}
+        </section>
+      `;
+      bindSyncPanelEvents();
+    }
+
+    function bindSyncPanelEvents() {
+      document.querySelector("#serverLoginForm")?.addEventListener("submit", event => {
+        event.preventDefault();
+        const password = document.querySelector("#serverPassword")?.value || "";
+        loginToServer(password);
+      });
+      document.querySelector("#retrySync")?.addEventListener("click", () => {
+        serverSync.dismissed = false;
+        initServerSync();
+      });
+      document.querySelector("#dismissSync")?.addEventListener("click", () => {
+        serverSync.dismissed = true;
+        renderSyncPanel(true);
+      });
     }
 
     function addDays(date, amount) {
@@ -1474,6 +1745,25 @@
       const filename = `training-progress-${today()}.json`;
       downloadJson(payload, filename);
       window.setTimeout(() => openExportEmail(payload, filename), 150);
+    }
+
+    function importDataFile(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        try {
+          const imported = JSON.parse(String(reader.result || ""));
+          data = mergeAppData(data, imported);
+          data.completionHydrated = false;
+          hydrateCompletionFromHistory();
+          saveData();
+          renderAll();
+          alert("Data imported. It will be backed up on the server after you connect.");
+        } catch (error) {
+          alert("Could not import this JSON file.");
+        }
+      });
+      reader.readAsText(file);
     }
 
     function makeId() {
@@ -3019,6 +3309,8 @@
         <section class="card grid">
           ${data.history.length ? renderHistoryTable() : `<div class="empty">History will appear here after your first save.</div>`}
           <button class="btn secondary" type="button" id="exportData">Export data</button>
+          <button class="btn secondary" type="button" id="importData">Import data</button>
+          <input type="file" id="importDataFile" accept="application/json,.json" hidden>
           <button class="btn danger" type="button" id="resetData">Reset</button>
         </section>
       `;
@@ -3593,6 +3885,13 @@
 
     function bindProgressEvents() {
       document.querySelector("#exportData")?.addEventListener("click", exportDataByEmail);
+      document.querySelector("#importData")?.addEventListener("click", () => {
+        document.querySelector("#importDataFile")?.click();
+      });
+      document.querySelector("#importDataFile")?.addEventListener("change", event => {
+        importDataFile(event.currentTarget.files?.[0]);
+        event.currentTarget.value = "";
+      });
 
       document.querySelectorAll("[data-calendar-shift]").forEach(button => {
         button.addEventListener("click", event => {
@@ -3655,6 +3954,7 @@
     });
 
     renderAll();
+    initServerSync();
   </script>
 </body>
 </html>
